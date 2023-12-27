@@ -1,0 +1,95 @@
+.postBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  height: 100%;
+
+  @media (max-width: 1000px) {
+    width: 85%;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+  }
+
+  @media (max-width: 500px) {
+    justify-content: flex-start;
+    width: 65%;
+  }
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 300px;
+  background-color: var(--card-bg);
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: var(--card-box-shadow);
+  cursor: pointer;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+  }
+}
+
+.postHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border: 3px solid #e2e8f0;
+  border-radius: 100%;
+  margin: 0 10px 10px 0;
+}
+
+.postName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.postDate {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8c8c8d;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.postFollow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  background-color: var(--btn-follow-color);
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
