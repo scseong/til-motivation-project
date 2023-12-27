@@ -68,3 +68,7 @@ button {
   font-style: normal;
   src: url("/public/fonts/yeongdeoksea.woff2") format("woff2");
 }
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import './variables.css'
 import './globals.css';
 import { ChildrenProp } from '@/store/props';
 
