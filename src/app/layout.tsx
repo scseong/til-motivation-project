@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './variables.css'
+import './variables.css';
 import './globals.css';
-import { ChildrenProp } from '@/store/props';
+import { ChildrenProp } from '@/typing/props';
 
 const knu = localFont({ src: '../../public/fonts/knutruth.woff2' });
 
