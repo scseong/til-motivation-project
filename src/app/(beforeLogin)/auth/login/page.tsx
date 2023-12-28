@@ -17,11 +17,12 @@ export default function Page() {
     formState: { errors, dirtyFields, isValid }
   } = useForm<LoginFormInput>({ defaultValues: { email: '', password: '' } });
 
+  const { email: isDirtyEmail, password: isDirtyPassword } = dirtyFields;
+  const isValidBtn = isDirtyEmail && isDirtyPassword && isValid;
+  
   const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
     console.log(data);
   };
-  const { email: isDirtyEmail, password: isDirtyPassword } = dirtyFields;
-  const isValidBtn = isDirtyEmail && isDirtyPassword && isValid;
 
   return (
     <div className={styles.container}>
@@ -72,12 +73,12 @@ export default function Page() {
             <span>또는</span>
           </div>
           <div className={styles.btnBox}>
-            <button className={styles.google}>
+            <button className={styles.google} type="button">
               <FaGoogle size="14px" /> 구글 로그인
             </button>
           </div>
           <div className={styles.btnBox}>
-            <button className={styles.github}>
+            <button className={styles.github} type="button">
               <FaGithub size="14px" /> 깃허브 로그인
             </button>
           </div>
