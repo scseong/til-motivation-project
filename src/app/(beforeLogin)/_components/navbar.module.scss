@@ -1,14 +1,15 @@
-
-.navbarBox{
+.navbarBox {
   display: flex;
   align-items: center;
   padding: 0 70px;
   height: 80px;
   background-color: var(--primary-color);
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-direction: row;
   justify-content: space-between;
-
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .logoBox {
@@ -28,7 +29,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap:50px;
+  gap: 50px;
+}
+
+.icon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: white;
+  }
 }
 
 .menuItem {
@@ -42,7 +52,7 @@
     color: white;
   }
 
- @media (max-width:720px) {
+  @media (max-width: 720px) {
     display: none;
   }
 }

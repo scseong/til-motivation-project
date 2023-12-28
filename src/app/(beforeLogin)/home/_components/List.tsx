@@ -26,6 +26,9 @@ export default function List() {
           </div>
           <p>... 더 보기</p>
           <div className={styles.openGraphBox}>오픈그래프자리</div>
+          <div className={styles.tag}>
+            #react #next.js #til 쓰기싫어요 #프로젝트화이팅! #모르겟다
+          </div>
           <div className={styles.postFooter}>
             <div>
               <div className={styles.postLike}>

@@ -11,8 +11,7 @@ export default function NavBar() {
         </Link>
       </div>
       <div className={styles.menuBox}>
-        {/* <Link href={`/search`} className={styles.menuItem}>검색</Link> */}
-        <Link href={`/search`}>
+        <Link href={`/search`} className={styles.icon}>
           <BsSearchHeart size={20} />
         </Link>
         <Link href={`/auth/login`} className={styles.menuItem}>

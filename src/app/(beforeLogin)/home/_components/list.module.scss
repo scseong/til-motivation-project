@@ -3,22 +3,18 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  max-width: 1050px;
   flex-wrap: wrap;
   margin-top: 30px;
   height: 100%;
+  margin: auto;
 
-  @media (max-width: 1000px) {
-    width: 85%;
+  @media (max-width: 1400px) {
+    max-width: 700px;
   }
 
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-
-  @media (max-width: 500px) {
-    justify-content: flex-start;
-    width: 65%;
+  @media (max-width: 934px) {
+    width: 350px;
   }
 }
 
@@ -43,10 +39,6 @@
   p {
     color: #8c8c8d;
     font-size: 14px;
-  }
-
-  @media (max-width: 1000px) {
-    width: 100%;
   }
 }
 
@@ -113,12 +105,11 @@
   font-size: 15px;
   font-weight: 600;
   color: var(--text-color);
-  margin-top: 15px;
+  margin-top: 10px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: wrap;
-  margin-bottom: 10px;
   text-align: center;
   line-height: 1.5;
   word-break: break-all;
@@ -132,12 +123,12 @@
   font-size: 13px;
   font-weight: 400;
   color: var(--text-color);
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: wrap;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   text-align: center;
   line-height: 1.5;
   word-break: break-all;
@@ -156,6 +147,25 @@
   margin-top: 20px;
   height: 150px;
   padding: 10px;
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 400;
+  color: #59595a;
+  margin-top: 5px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  text-align: center;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  margin-bottom: 10px;
 }
 
 .postFooter {
