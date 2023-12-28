@@ -1,0 +1,32 @@
+.layout {
+  width: 50%;
+  margin: 0 auto 2rem auto;
+  padding: 1rem 1rem 0 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+  .nickname {
+    font-weight: 600;
+  }
+  .createdAt {
+    font-size: 0.8rem;
+  }
+}
+
+.content {
+  margin: 0 0 1rem 3rem;
+  padding: 0.5rem 0.7rem;
+  background-color: #e9ecef;
+  opacity: 0.7;
+  border-radius: 0.25rem;
+}
