@@ -1,0 +1,14 @@
+.container {
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: space-around;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+.right {
+  width: 75%;
+}
