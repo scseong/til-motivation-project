@@ -26,14 +26,24 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  width: 300px;
+  width: 310px;
+  height: 400px;
   background-color: var(--card-bg);
   border-radius: 5px;
   padding: 20px;
   margin: 20px;
   box-shadow: var(--card-box-shadow);
   cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
+
+  p {
+    color: #8c8c8d;
+    font-size: 14px;
+  }
 
   @media (max-width: 1000px) {
     width: 100%;
@@ -83,13 +93,145 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  text-align: center;
   width: 50px;
   height: 30px;
-  background-color: var(--btn-follow-color);
+  background-color: #4e6280;
   border-radius: 5px;
   font-size: 14px;
-  font-weight: 600;
   color: white;
   cursor: pointer;
   border: none;
+  letter-spacing: 1px;
+
+  &:hover {
+    background-color: #1e293b;
+  }
+}
+
+.postTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-top: 15px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.postContent {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-color);
+  margin-top: 20px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.openGraphBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 20px;
+  height: 150px;
+  padding: 10px;
+}
+
+.postFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 8px;
+  }
+}
+
+.postLike {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 8px;
+  cursor: pointer;
+
+  &:hover {
+    color: #f56565;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #8c8c8d;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
+
+.postLikeCount {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8c8c8d;
+  margin-left: 5px;
+}
+
+.postComment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 8px;
+  cursor: pointer;
+
+  &:hover {
+    color: #63b3ed;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #8c8c8d;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+}
+
+.postShare {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: 8px;
+  cursor: pointer;
+
+  &:hover {
+    color: #38a169;
+  }
 }

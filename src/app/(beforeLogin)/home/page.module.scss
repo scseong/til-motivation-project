@@ -5,8 +5,10 @@
   align-items: center;
   margin: 0 auto;
   justify-content: space-around;
+  min-height: 100vh;
+  align-items: flex-start;
 }
 
 .right {
-  width: 950px;
+  width: 75%;
 }
