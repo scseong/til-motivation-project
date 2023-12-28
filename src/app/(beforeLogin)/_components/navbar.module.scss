@@ -4,7 +4,6 @@
   padding: 0 70px;
   height: 80px;
   background-color: var(--primary-color);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex-direction: row;
   justify-content: space-between;
   position: sticky;
@@ -54,5 +53,38 @@
 
   @media (max-width: 720px) {
     display: none;
+  }
+}
+
+.searchBox {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.input {
+  width: 1400px;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  padding: 0 30px;
+  font-size: 35px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  background-color: inherit;
+
+  &:focus {
+    background-color: var(--primary-color);
+  }
+
+  @media (max-width: 1020px) {
+    width: 700px;
+    font-size: 20px;
+  }
+
+  @media (max-width: 550px) {
+    font-size: 20px;
+    width: 500px;
   }
 }
