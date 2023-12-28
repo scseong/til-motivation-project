@@ -13,10 +13,14 @@
   align-items: center;
   button {
     padding: 0.5rem 0.7rem;
-    background-color: var(--btn-disabled-color);
+    background-color: var(--primary-color);
     border-radius: 10%;
     color: var(--btn-default-text-color);
     cursor: pointer;
+  }
+  button:disabled {
+    background-color: var(--btn-disabled-color);
+    color: var(--btn-disabled-text-color);
   }
 }
 
