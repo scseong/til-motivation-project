@@ -2,6 +2,8 @@
   --max-width: 1400px;
   --primary-color: #d2e0fb;
   --bg-color: #fff;
+  --border-light-color: rgb(226 232 240);
+  --border-color: rgb(203 213 225);
   --text-color: #000;
   --text-placeholder-color: #888;
   --text-hover-color: #333;
@@ -13,7 +15,8 @@
   --btn-disabled-text-color: #64748b;
   --btn-active-color: #04aa6d;
   --btn-warn-color: #f44336;
-  --btn-follow-color: #1e293b;
+  --btn-follow-color: #4e6280;
+  /* --btn-follow-color: #1e293b; */
   --preview-bg-color: #f8fafc;
   --preview-border-color: #e2e8f0;
   --btn-border-color: #cbd5e1;
