@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styles from './login.module.scss';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
 
 interface LoginFormInput {
   email: string;
@@ -10,10 +11,17 @@ interface LoginFormInput {
 }
 
 export default function Page() {
-  const { register, handleSubmit } = useForm<LoginFormInput>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, dirtyFields, isValid }
+  } = useForm<LoginFormInput>({ defaultValues: { email: '', password: '' } });
+
   const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
     console.log(data);
   };
+  const { email: isDirtyEmail, password: isDirtyPassword } = dirtyFields;
+  const isValidBtn = isDirtyEmail && isDirtyPassword && isValid;
 
   return (
     <div className={styles.container}>
@@ -22,19 +30,43 @@ export default function Page() {
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputBox}>
             <label htmlFor="email">이메일</label>
-            <input {...register('email')} id="email" type="email" placeholder="이메일 입력" />
+            <input
+              {...register('email', {
+                required: '이메일을 입력해주세요',
+                pattern: {
+                  value: EMAIL_REGEX,
+                  message: '유요한 이메일 형식이 아닙니다.'
+                }
+              })}
+              id="email"
+              placeholder="이메일 입력"
+            />
+            <div className={styles.error}>
+              <p>{errors.email && errors.email.message}</p>
+            </div>
           </div>
           <div className={styles.inputBox}>
             <label htmlFor="password">비밀번호</label>
             <input
-              {...register('password')}
+              {...register('password', {
+                required: '비밀번호를 입력해주세요.',
+                pattern: {
+                  value: PASSWORD_REGEX,
+                  message: '영문, 숫자 포함 6자 이상 입력해주세요.'
+                }
+              })}
               id="password"
               type="password"
-              placeholder="비밀번호 입력"
+              placeholder="비밀번호 입력 (영문 숫자 포함 6자 이상)"
             />
+            <div className={styles.error}>
+              <p>{errors.password && errors.password.message}</p>
+            </div>
           </div>
           <div className={styles.btnBox}>
-            <button type="submit">이메일로 로그인</button>
+            <button className={isValidBtn ? styles.active : ''} type="submit">
+              이메일로 로그인
+            </button>
           </div>
           <div className={styles.divide}>
             <span>또는</span>

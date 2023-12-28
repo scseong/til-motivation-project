@@ -30,7 +30,7 @@
     width: 100%;
     border: 1px solid var(--btn-border-color);
     border-radius: 0.25rem;
-    transition: border 0.1s ease-in-out;
+    transition: border 0.2s ease-in-out;
 
     &:focus {
       border: 1px solid var(--btn-border-focus-color) !important;
@@ -45,8 +45,12 @@
     width: 100%;
     border: none;
     border-radius: 0.25rem;
+    transition: all 0.1s ease-in-out;
   }
-
+  .active {
+    background-color: var(--btn-active-color);
+    color: white;
+  }
   svg {
     transform: translateY(2px);
   }
@@ -83,7 +87,7 @@
 }
 
 .link {
-  margin: 8px 0;
+  margin: 1rem 0;
   text-align: center;
 }
 .google {
@@ -93,4 +97,9 @@
 .github {
   background-color: var(--github);
   color: white;
+}
+.error {
+  margin: 8px 0 16px;
+  font-size: 0.875rem;
+  color: #e01e5a;
 }
