@@ -3,20 +3,11 @@ import { UserName } from './User';
 export interface Post {
   psid: string;
   displayName: string;
-  photoURL: string;
+  photoUrl: string;
   title: string;
   content: string;
-  created_at: Date;
-  blog_url: string;
-  likes_user: UserName[];
+  createdAt: Date;
+  blogUrl: string;
+  likesUser: UserName[];
   tags: string[];
-  comments: [
-    {
-      cid: string;
-      displayName: string;
-      photoURL: string;
-      content: string;
-      created_at: Date;
-    }
-  ];
 }
