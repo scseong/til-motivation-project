@@ -1,4 +1,4 @@
-.link_preview_card {
+.linkPreviewCard {
   display: flex;
   max-width: 500px;
   height: 150px;
@@ -9,18 +9,19 @@
   background-color: white;
 }
 
-.image_container {
+.imageContainer {
   flex: 1;
   width: 25%;
+  padding: 15px;
 }
 
-.image_container img {
+.imageContainer img {
   width: 100%;
   height: auto;
   border-radius: 0;
 }
 
-.info_container {
+.infoContainer {
   flex: 3;
   padding: 16px;
   display: flex;

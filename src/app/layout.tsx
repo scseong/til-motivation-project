@@ -3,6 +3,8 @@ import localFont from 'next/font/local';
 import './variables.css';
 import './globals.css';
 import { ChildrenProp } from '@/typing/props';
+import NavBar from './_components/NavBar';
+import Footer from './_components/Footer';
 
 const knu = localFont({ src: '../../public/fonts/knutruth.woff2' });
 
@@ -15,7 +17,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ChildrenProp) {
   return (
     <html lang="ko">
-      <body className={knu.className}>{children}</body>
+      <body className={knu.className}>
+        <NavBar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

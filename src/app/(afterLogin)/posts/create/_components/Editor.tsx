@@ -45,7 +45,6 @@ export default function Editor() {
     'align',
     'size'
   ];
-  console.log(value);
 
   return (
     <ReactQuill
@@ -55,6 +54,7 @@ export default function Editor() {
       formats={formats}
       value={value}
       onChange={setValue}
+      placeholder="작성하신 TIL을 소개해 주세요!"
     />
   );
 }

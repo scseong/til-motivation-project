@@ -1,0 +1,49 @@
+.tagContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tagTitle {
+  font-size: 30px;
+}
+.tagBox {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  max-width: 900px;
+  min-height: 60px;
+}
+.tag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--google);
+  border-radius: 12px;
+  padding: 0 10px;
+  margin: 10px;
+  height: 40px;
+}
+.tagName {
+  margin-right: 10px;
+}
+.removeTagBtn {
+  border: none;
+  outline: 0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.addTag {
+  width: 500px;
+  border: none;
+  border-bottom: 1px solid black;
+  height: 30px;
+  font-size: 15px;
+  &:focus {
+    outline: none;
+  }
+}
