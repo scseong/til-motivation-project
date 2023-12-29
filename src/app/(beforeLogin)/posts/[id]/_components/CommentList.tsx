@@ -19,9 +19,11 @@ export default function CommnetList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
 
+  const sortedComments = comments?.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+
   return (
     <div className={styles.layout}>
-      {comments?.map((comment) => {
+      {sortedComments?.map((comment) => {
         const { displayName, content, photoUrl, createdAt } = comment;
         return (
           <>
