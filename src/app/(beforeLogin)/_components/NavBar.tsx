@@ -1,8 +1,12 @@
+'use client';
+import SearchModal from './Modal';
 import Link from 'next/link';
 import styles from './navbar.module.scss';
 import { BsSearchHeart } from 'react-icons/bs';
+import { useState } from 'react';
 
 export default function NavBar() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   return (
     <div className={styles.navbarBox}>
       <div className={styles.logoBox}>
@@ -11,9 +15,9 @@ export default function NavBar() {
         </Link>
       </div>
       <div className={styles.menuBox}>
-        <Link href={`/search`} className={styles.icon}>
+        <div className={styles.icon} onClick={() => setModalIsOpen((prev) => !prev)}>
           <BsSearchHeart size={20} />
-        </Link>
+        </div>
         <Link href={`/auth/login`} className={styles.menuItem}>
           로그인
         </Link>
@@ -21,6 +25,12 @@ export default function NavBar() {
           회원가입
         </Link>
       </div>
+      <SearchModal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} ariaHideApp={false}>
+        <div className={styles.searchBox}>
+          <BsSearchHeart size={40} />
+          <input className={styles.input} autoFocus />
+        </div>
+      </SearchModal>
     </div>
   );
 }
