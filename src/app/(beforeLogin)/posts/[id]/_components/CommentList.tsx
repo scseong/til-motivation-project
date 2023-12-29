@@ -37,7 +37,7 @@ export default function CommnetList() {
               </Link>
             </div>
             <div className={styles.content}>
-              <p>{content}</p>
+              <p>{content}!</p>
             </div>
           </>
         );
