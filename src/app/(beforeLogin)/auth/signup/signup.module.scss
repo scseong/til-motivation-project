@@ -2,7 +2,7 @@
   margin: 0 auto;
   max-width: var(--max-width);
 }
-.login {
+.signup {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -41,8 +41,17 @@
     border: none;
     border-radius: 0.25rem;
   }
+  .active {
+    background-color: var(--btn-active-color);
+    color: white;
+  }
 }
 .link {
   margin: 8px 0;
   text-align: center;
+}
+.error {
+  margin: 8px 0 16px;
+  font-size: 0.875rem;
+  color: #e01e5a;
 }
