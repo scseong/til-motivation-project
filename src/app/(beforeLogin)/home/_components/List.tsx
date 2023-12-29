@@ -7,6 +7,7 @@ import { getPosts } from '@/api/posts';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
 import Link from 'next/link';
+import { Fragment } from 'react';
 
 export default function List() {
   const { isLoading, data: posts } = useQuery<Post[]>({
@@ -22,30 +23,32 @@ export default function List() {
       <div className={styles.postBox}>
         <div className={styles.post}>
           {posts?.map((post, index) => (
-            <Link href={`/posts/${post.psid}`} key={index}>
-              <div className={styles.postHeader}>
-                <div className={styles.userBox}>
-                  <div className={styles.avatar}>
-                    <img src={post.photoURL} alt="아바타" />
-                  </div>
-                  <div>
-                    <div className={styles.postName}>{post.displayName}</div>
-                    <div className={styles.postDate}>
-                      {post.createdAt.toDate().toLocaleDateString('ko', {
-                        year: '2-digit',
-                        month: '2-digit',
-                        day: '2-digit'
-                      })}
+            <Fragment key={index}>
+              <Link href={`/posts/${post.psid}`}>
+                <div className={styles.postHeader}>
+                  <div className={styles.userBox}>
+                    <div className={styles.avatar}>
+                      <img src={post.photoURL} alt="아바타" />
+                    </div>
+                    <div>
+                      <div className={styles.postName}>{post.displayName}</div>
+                      <div className={styles.postDate}>
+                        {post.createdAt.toDate().toLocaleDateString('ko', {
+                          year: '2-digit',
+                          month: '2-digit',
+                          day: '2-digit'
+                        })}
+                      </div>
                     </div>
                   </div>
+                  <button className={styles.postFollow}>팔로우</button>
                 </div>
-                <button className={styles.postFollow}>팔로우</button>
-              </div>
-              <div className={styles.postTitle}>{post.title}</div>
-              <div className={styles.postContent}>{post.content}</div>
-              <p>... 더 보기</p>
-              <div className={styles.openGraphBox}>오픈그래프자리</div>
-              <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
+                <div className={styles.postTitle}>{post.title}</div>
+                <div className={styles.postContent}>{post.content}</div>
+                <p>... 더 보기</p>
+                <div className={styles.openGraphBox}>오픈그래프자리</div>
+                <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
+              </Link>
               <div className={styles.postFooter}>
                 <div>
                   <div className={styles.postLike}>
@@ -64,7 +67,7 @@ export default function List() {
                   <AiOutlineShareAlt size={18} />
                 </div>
               </div>
-            </Link>
+            </Fragment>
           ))}
         </div>
       </div>
