@@ -1,6 +1,7 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from './AddComment.module.scss';
+import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '@/shared/comment';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -27,7 +28,7 @@ export default function AddComment() {
   const onSubmit: SubmitHandler<Comment> = (data) => {
     reset();
     const newComment = {
-      cid: '1234',
+      cid: uuidv4(),
       psid: id,
       content: data.content,
       displayName: '코코볼',
