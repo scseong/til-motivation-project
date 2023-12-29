@@ -5,6 +5,7 @@ import './globals.css';
 import { ChildrenProp } from '@/typing/props';
 import NavBar from './_components/NavBar';
 import Footer from './_components/Footer';
+import ReactQueryProviders from '@/utils/ReactQueryProviders';
 
 const knu = localFont({ src: '../../public/fonts/knutruth.woff2' });
 
@@ -18,9 +19,11 @@ export default function RootLayout({ children }: ChildrenProp) {
   return (
     <html lang="ko">
       <body className={knu.className}>
-        <NavBar />
-        {children}
-        <Footer />
+        <ReactQueryProviders>
+          <NavBar />
+          {children}
+          <Footer />
+        </ReactQueryProviders>
       </body>
     </html>
   );

@@ -6,7 +6,7 @@ export interface Profile {
   blogURL: string;
   followers: UserName[];
   followings: UserName[];
-  continue_days: number;
+  continousDays: number;
   count: {
     Followers: number;
     Followings: number;

@@ -8,7 +8,7 @@ type ModalProps = {
   ariaHideApp: boolean;
 };
 
-const SearchModal = ({ isOpen, onClose, children, ariaHideApp }: ModalProps) => {
+const SearchModal = ({ isOpen, onClose, children }: ModalProps) => {
   return (
     <ReactModal
       isOpen={isOpen}
