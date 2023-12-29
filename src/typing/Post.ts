@@ -1,3 +1,4 @@
+import { Timestamp } from 'firebase/firestore';
 import { UserName } from './User';
 
 export interface Post {
@@ -6,7 +7,7 @@ export interface Post {
   photoURL: string;
   title: string;
   content: string;
-  createdAt: Date;
+  createdAt: Timestamp;
   blogURL: string;
   likesUser: UserName[];
   tags: string[];

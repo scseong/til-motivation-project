@@ -1,9 +1,22 @@
+'use client';
 import Image from 'next/image';
 import SideBar from '../home/_components/SideBar';
 import styles from './page.module.scss';
 import mockAvatar from '/public/images/logo.png';
+import { getPosts } from '@/api/posts';
+import Loader from '@/app/_components/Loader';
+import { useQuery } from '@tanstack/react-query';
+import { Post } from '@/typing/Post';
 
 export default function Page() {
+  const { isLoading, data: posts } = useQuery<Post[]>({
+    queryKey: ['posts'],
+    queryFn: getPosts
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className={styles.container}>
       <div className={styles.searchBox}>
