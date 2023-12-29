@@ -1,11 +1,11 @@
-import CommnetList from './_components/CommnetList';
+import CommentList from './_components/CommentList';
 import Post from './_components/Post';
 
 export default function Page() {
   return (
     <>
       <Post />
-      <CommnetList />
+      <CommentList/>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { UserName } from './User';
 export interface Post {
   psid: string;
   displayName: string;
-  photoURL: string;
+  photoUrl: string;
   title: string;
   content: string;
   createdAt: Timestamp;

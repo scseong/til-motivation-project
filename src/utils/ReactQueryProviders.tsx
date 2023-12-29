@@ -14,6 +14,5 @@ export default function ReactQueryProviders({ children }: React.PropsWithChildre
       }
     })
   );
-
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
 }
