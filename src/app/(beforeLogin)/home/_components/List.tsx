@@ -5,8 +5,8 @@ import { LiaCommentDots } from 'react-icons/lia';
 import { useQuery } from '@tanstack/react-query';
 import { getPosts } from '@/api/posts';
 import { Post } from '@/typing/Post';
-import { Fragment } from 'react';
 import Loader from '@/app/_components/Loader';
+import Link from 'next/link';
 
 export default function List() {
   const { isLoading, data: posts } = useQuery<Post[]>({
@@ -22,7 +22,7 @@ export default function List() {
       <div className={styles.postBox}>
         <div className={styles.post}>
           {posts?.map((post, index) => (
-            <Fragment key={index}>
+            <Link href={`/posts/${post.psid}`} key={index}>
               <div className={styles.postHeader}>
                 <div className={styles.userBox}>
                   <div className={styles.avatar}>
@@ -64,7 +64,7 @@ export default function List() {
                   <AiOutlineShareAlt size={18} />
                 </div>
               </div>
-            </Fragment>
+            </Link>
           ))}
         </div>
       </div>
