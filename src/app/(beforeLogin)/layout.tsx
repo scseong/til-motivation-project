@@ -1,11 +1,13 @@
 import { ChildrenProp } from '@/typing/props';
-import NavBar from './_components/NavBar';
 import Footer from './_components/Footer';
+import NavBar from './_components/NavBar';
 
 export default function Layout({ children }: ChildrenProp) {
-  return <div>
-    <NavBar />
-    {children}
-    <Footer />
-    </div>;
+  return (
+    <div>
+      <NavBar />
+      {children}
+      <Footer />
+    </div>
+  );
 }

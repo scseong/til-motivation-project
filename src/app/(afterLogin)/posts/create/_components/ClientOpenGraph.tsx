@@ -2,9 +2,11 @@
 import { useState, FormEvent } from 'react';
 import { OgObject } from 'open-graph-scraper/dist/lib/types';
 import { fetchOpengraphData } from './serverOpenGraph';
+import LinkPreviewCard from './LinkPreviewCard';
 
 export default function ClientOpenGraph() {
   const [url, setUrl] = useState('');
+  const [linkPreview, setLinkPreview] = useState(false);
   const [opengraphData, setOpengraphData] = useState<OgObject | null>();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -14,6 +16,7 @@ export default function ClientOpenGraph() {
     const data = await fetchOpengraphData(url);
     console.log(data);
     setOpengraphData(data); // 서버로부터 받은 데이터 처리
+    setLinkPreview(true);
   };
 
   return (
@@ -28,10 +31,11 @@ export default function ClientOpenGraph() {
         />
         <button type="submit">제출</button>
       </form>
-      <p>{opengraphData?.ogTitle}</p>
+      {/* <p>{opengraphData?.ogTitle}</p>
       <p>{opengraphData?.ogDescription}</p>
       <p>{opengraphData?.ogUrl}</p>
-      <p>{opengraphData?.ogImage?.[0].url}</p>
+      <p>{opengraphData?.ogImage?.[0].url}</p> */}
+      {linkPreview ? <LinkPreviewCard opengraphData={opengraphData} /> : ''}
     </>
   );
 }
