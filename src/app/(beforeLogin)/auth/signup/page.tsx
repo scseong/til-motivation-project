@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './signup.module.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
 import { checkDisplayNameExists, signUpWithEmailAndPassword } from '@/shared/auth';
 import { useRouter } from 'next/navigation';
 import { ERRORS } from '@/shared/error';

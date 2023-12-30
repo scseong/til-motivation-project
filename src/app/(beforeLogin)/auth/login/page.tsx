@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from './login.module.scss';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
 import { logInWithEmailAndPassword } from '@/shared/auth';
 import { ERRORS } from '@/shared/error';
 import { useRouter } from 'next/navigation';
