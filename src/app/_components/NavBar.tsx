@@ -14,6 +14,9 @@ export default function NavBar() {
           여러분 TIL 제출하러 갑시다~ 🚗💕
         </Link>
       </div>
+      <div>
+        <Link href={`/profile/aaa`}>프로필페이지</Link>
+      </div>
       <div className={styles.menuBox}>
         <div className={styles.icon} onClick={() => setModalIsOpen((prev) => !prev)}>
           <BsSearchHeart size={20} />
