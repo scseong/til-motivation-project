@@ -1,12 +1,12 @@
 'use client';
 import { useState } from 'react';
-import Button from './_components/Button';
-import ClientOpenGraph, { openGraph } from './_components/ClientOpenGraph';
-import Editor from './_components/Editor';
-import Tag from './_components/Tag';
 import styles from './postCreatePage.module.scss';
+import Editor from './_components/Editor';
+import ClientOpenGraph, { openGraph } from './_components/ClientOpenGraph';
+import Tag from './_components/Tag';
+import Button from './_components/Button';
 
-export default function PostCreatePage() {
+export default function Create() {
   const [title, setTitle] = useState('');
   const [editorContent, setEditorContent] = useState('');
   const [openGraphData, setClientOpenGraphData] = useState<openGraph>();

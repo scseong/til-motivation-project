@@ -1,8 +1,9 @@
 'use client';
-import React, { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import styles from '../postCreatePage.module.scss';
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 type Props = {
   setEditorContent: Dispatch<SetStateAction<string>>;
 };

@@ -1,6 +1,5 @@
 'use client';
-import { useState, FormEvent, Dispatch, SetStateAction } from 'react';
-import { OgObject } from 'open-graph-scraper/dist/lib/types';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { fetchOpengraphData } from './serverOpenGraph';
 import LinkPreviewCard from './LinkPreviewCard';
 import styles from './clientOpenGraph.module.scss';
