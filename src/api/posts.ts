@@ -14,5 +14,6 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const setPosts = async (post: Post) => {
-  await addDoc(collection(db, 'Post'), post);
+  const postsRef = collection(db, 'Post');
+  await addDoc(postsRef, post);
 };

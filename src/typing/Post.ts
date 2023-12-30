@@ -8,7 +8,7 @@ export interface Post {
   title: string;
   content: string;
   createdAt: Timestamp;
-  blogURL: string;
+  blogURL: string | undefined;
   likesUser: UserName[];
   tags: string[];
 }

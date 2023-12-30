@@ -25,10 +25,10 @@ export default function ClientOpenGraph({ setClientOpenGraphData }: Props) {
   const handleButtonClick = async () => {
     const data = await fetchOpengraphData(url);
     const openGraphData = {
-      title: data?.ogTitle,
-      description: data?.ogDescription,
-      url: data?.ogUrl,
-      image: data?.ogImage?.[0]?.url
+      title: data!.ogTitle,
+      description: data!.ogDescription,
+      url: data!.ogUrl,
+      image: data!.ogImage?.[0]?.url
     };
     setClientOpenGraphData(openGraphData);
     setOpengraphData(openGraphData);
