@@ -1,13 +1,13 @@
 'use client';
 import { useState } from 'react';
 import styles from './postCreatePage.module.scss';
-import Editor from './_components/Editor';
-import ClientOpenGraph, { openGraph } from './_components/ClientOpenGraph';
-import Tag from './_components/Tag';
-import Button from './_components/Button';
 import { setPosts } from '@/api/posts';
 import { Timestamp } from 'firebase/firestore';
 import { Post } from '@/typing/Post';
+import ClientOpenGraph, { openGraph } from './_components/ClientOpenGraph';
+import Editor from './_components/Editor';
+import Tag from './_components/Tag';
+import Button from './_components/Button';
 
 export default function Create() {
   const [title, setTitle] = useState('');
