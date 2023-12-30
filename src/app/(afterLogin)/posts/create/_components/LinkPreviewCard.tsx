@@ -1,21 +1,21 @@
-import { OgObject } from 'open-graph-scraper/dist/lib/types';
-import { ReactNode } from 'react';
+'use client';
 import styles from './linkPreviewCard.module.scss';
-import Link from 'next/link';
+import { openGraph } from './ClientOpenGraph';
 type Props = {
-  opengraphData: OgObject | null | undefined;
+  opengraphData: openGraph | null | undefined;
 };
+
 export default function LinkPreviewCard({ opengraphData }: Props) {
   return (
-    <a href={opengraphData?.ogUrl} target="_blank" className={styles.linkPreviewCard}>
+    <a href={opengraphData?.url} target="_blank" className={styles.linkPreviewCard}>
       <div className={styles.imageContainer}>
         {/**dfaultimage */}
-        <img src={opengraphData?.ogImage?.[0]?.url} alt="Link Preview" />
+        <img src={opengraphData?.image} alt="Link Preview" />
       </div>
       <div className={styles.infoContainer}>
-        <p className={styles.title}>{opengraphData?.ogTitle}</p>
-        <p className={styles.description}>{opengraphData?.ogDescription}</p>
-        <p className={styles.url}>{opengraphData?.ogUrl}</p>
+        <p className={styles.title}>{opengraphData?.title}</p>
+        <p className={styles.description}>{opengraphData?.description}</p>
+        <p className={styles.url}>{opengraphData?.url}</p>
       </div>
     </a>
   );

@@ -1,0 +1,142 @@
+.container {
+  max-width: var(--max-width);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: space-around;
+  min-height: 100vh;
+  align-items: flex-start;
+}
+
+.searchBox {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchTitle {
+  font-size: 30px;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 20px;
+  margin-top: 80px;
+}
+
+.searchSubTitle {
+  font-size: 20px;
+  font-weight: 500;
+  color: gray;
+}
+
+.board {
+  margin-top: 50px;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  padding: 20px;
+  width: 1000px;
+  height: 200px;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.01);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 1400px) {
+    width: 700px;
+  }
+
+  @media (max-width: 934px) {
+    width: 400px;
+  }
+}
+
+.imageBox {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.images {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  margin-left: 7px;
+}
+
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 85%;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 20px;
+}
+
+.content {
+  font-size: 15px;
+  font-weight: 500;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  margin-bottom: 5px;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.tag {
+  font-size: 13px;
+  font-weight: 400;
+  color: #59595a;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: wrap;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 0 20px;
+
+  @media (max-width: 480px) {
+    padding: 5px 10px 0 10px;
+  }
+}
+
+.nickname {
+  font-size: 15px;
+  font-weight: 700;
+  color: black;
+  letter-spacing: 2px;
+}
+
+.date {
+  font-size: 13px;
+  font-weight: 400;
+  color: gray;
+}

@@ -1,7 +1,10 @@
 'use client';
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
+import React, { useState, ChangeEvent, KeyboardEvent, Dispatch, SetStateAction } from 'react';
 import styles from './tag.module.scss';
-function Tag() {
+type Props = {
+  setTagData: Dispatch<SetStateAction<string[]>>;
+};
+function Tag({ setTagData }: Props) {
   const [tags, setTags] = useState<string[]>([]);
   const [tag, setTag] = useState<string>('');
 
@@ -9,6 +12,7 @@ function Tag() {
     const clonetags = tags.slice();
     clonetags.splice(i, 1);
     setTags(clonetags);
+    setTagData(clonetags);
   };
 
   const addTag = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -16,6 +20,7 @@ function Tag() {
   };
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>): void => {
+    e.preventDefault();
     if (e.key === 'Enter') {
       handleClick();
     }
@@ -23,6 +28,7 @@ function Tag() {
 
   const handleClick = (): void => {
     setTags([...tags, tag]);
+    setTagData([...tags, tag]);
     setTag('');
   };
 
@@ -53,6 +59,7 @@ function Tag() {
 }
 
 export default Tag;
+
 //에디터박스에 맞춰라
 /**
  * 저거 태그 적당ㅎ,ㅣ길어지다가 스크롤써라=>한줄 더?

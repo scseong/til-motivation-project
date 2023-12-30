@@ -1,11 +1,17 @@
 'use client';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from '../postCreatePage.module.scss';
-
-export default function Editor() {
+type Props = {
+  setEditorContent: Dispatch<SetStateAction<string>>;
+};
+export default function Editor({ setEditorContent }: Props) {
   const [value, setValue] = useState('');
+  const handleChange = (content: string) => {
+    setValue(content);
+    setEditorContent(content);
+  };
   const modules = {
     toolbar: [
       [{ size: ['small', false, 'large', 'huge'] }],
@@ -53,7 +59,7 @@ export default function Editor() {
       modules={modules}
       formats={formats}
       value={value}
-      onChange={setValue}
+      onChange={handleChange}
       placeholder="작성하신 TIL을 소개해 주세요!"
     />
   );
