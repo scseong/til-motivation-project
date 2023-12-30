@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import styles from './signup.module.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
 import { useEffect } from 'react';
 
 interface SignUpInput {

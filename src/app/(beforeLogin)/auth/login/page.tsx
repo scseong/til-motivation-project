@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styles from './login.module.scss';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
 
 interface LoginFormInput {
   email: string;
@@ -19,7 +19,7 @@ export default function Page() {
 
   const { email: isDirtyEmail, password: isDirtyPassword } = dirtyFields;
   const isValidBtn = isDirtyEmail && isDirtyPassword && isValid;
-  
+
   const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
     console.log(data);
   };
