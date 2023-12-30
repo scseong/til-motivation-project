@@ -1,7 +1,4 @@
 'use client';
-import { getPosts } from '@/api/posts';
-import { Post } from '@/typing/Post';
-import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

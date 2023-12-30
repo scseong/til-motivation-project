@@ -3,12 +3,10 @@ import { getPosts } from '@/api/posts';
 import Loader from '@/app/_components/Loader';
 import { Post } from '@/typing/Post';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import SideBar from '../home/_components/SideBar';
 import styles from './page.module.scss';
-import mockAvatar from '/public/images/logo.png';
 
 export default function Page() {
   const keyword = useSearchParams().get('keyword');
@@ -22,11 +20,12 @@ export default function Page() {
   useEffect(() => {
     if (!keyword || !posts) return;
     const filteredPosts =
-      posts?.filter((post) => post.title.includes(keyword) || post.tags.includes(keyword)) ?? [];
+      posts?.filter(
+        (post) =>
+          post.title.toLowerCase().includes(keyword.toLowerCase()) || post.tags.includes(keyword)
+      ) ?? [];
     setAllPosts(filteredPosts);
   }, [keyword, posts]);
-
-  console.log(allPosts);
 
   if (isLoading) {
     return <Loader />;
@@ -34,33 +33,32 @@ export default function Page() {
   return (
     <div className={styles.container}>
       <div className={styles.searchBox}>
-        <div className={styles.searchTitle}>검색결과 : react</div>
-        <div className={styles.searchSubTitle}>6건의 TIL을 찾았습니다.</div>
-        <div className={styles.board}>
-          <div className={styles.imageBox}>
-            <Image className={styles.images} src={mockAvatar} alt="avatar" />
-            <div className={styles.contentBox}>
-              <div className={styles.title}>정들어버렸어 서취.. 너...☆</div>
-              <div className={styles.content}>
-                내용정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취..
-                너...☆정들어버렸어 서취.. 너...☆정들어버렸어 서취.. 너...☆
+        <div className={styles.searchTitle}>검색결과 : {keyword}</div>
+        <div className={styles.searchSubTitle}>{allPosts.length}건의 TIL을 찾았습니다.</div>
+        {allPosts.map((post, index) => (
+          <div className={styles.board} key={index}>
+            <div className={styles.imageBox}>
+              <img className={styles.images} src={post.photoUrl} alt="아바타" />
+              <div className={styles.contentBox}>
+                <div className={styles.title}>{post.title}</div>
+                <div className={styles.content}>{post.content}</div>
+                <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
               </div>
-              <div className={styles.tag}>
-                #react #next.js #til #next #에스파 #에스파는 나야 누구도 될 수 없어
+            </div>
+            <div className={styles.userBox}>
+              <div className={styles.nickname}>{post.displayName}</div>
+              <div className={styles.date}>
+                {post.createdAt.toDate().toLocaleDateString('ko', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
               </div>
             </div>
           </div>
-          <div className={styles.userBox}>
-            <div className={styles.nickname}>서치짱짱맨</div>
-            <div className={styles.date}>2023년 12월 25일</div>
-          </div>
-        </div>
+        ))}
       </div>
+
       <SideBar />
     </div>
   );
