@@ -1,9 +1,12 @@
 'use client';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import styles from './signup.module.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
-import { useEffect } from 'react';
+import { BLOG_REGEX, EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { checkDisplayNameExists, signUpWithEmailAndPassword } from '@/shared/auth';
+import { useRouter } from 'next/navigation';
+import { ERRORS } from '@/shared/error';
 
 interface SignUpInput {
   email: string;
@@ -26,29 +29,62 @@ export default function Page() {
     watch,
     register,
     handleSubmit,
-    formState: { errors, dirtyFields, isValid },
+    formState: { errors, isValid },
     setError,
     clearErrors
   } = useForm<SignUpInput>({
     defaultValues
   });
+  const router = useRouter();
+  const { password, passwordCheck } = watch();
+  const [signUpError, setSignUpError] = useState('');
+  const isValidBtn = !Object.keys(errors).length && isValid && !signUpError;
 
-  const { email, password, nickname, passwordCheck, blogUrl } = dirtyFields;
-  const isValidBtn = email && password && nickname && passwordCheck && blogUrl && isValid;
+  const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
+    setSignUpError('');
+    const result = await signUpWithEmailAndPassword(data.email, data.password, data.nickname);
+    if ('errors' in result) {
+      const { errors } = result;
+      if (errors.includes('email')) {
+        return setError('email', { message: '사용중인 이메일입니다.' }, { shouldFocus: true });
+      }
+      return setSignUpError(ERRORS[errors]);
+    }
+    result && router.push('/auth/login');
+  };
 
-  const onSubmit: SubmitHandler<SignUpInput> = (data) => {
-    console.log(data);
+  // const debounceFn = useMemo(
+  //   () =>
+  //     debounce(async (value: string) => {
+  //       const result = await checkDisplayNameExists(value);
+  //       if (result) {
+  //         setError('nickname', { message: '사용중인 닉네임입니다.' });
+  //         setIsValidForm(false);
+  //       } else {
+  //         clearErrors('nickname');
+  //         setIsValidForm(true);
+  //       }
+  //     }, 1000),
+  //   [setError, clearErrors]
+  // );
+
+  // TODO: Debounce
+  const isExistsDisplayName = async (displayName: string) => {
+    const result = await checkDisplayNameExists(displayName);
+    if (result) {
+      setError('nickname', { message: '사용중인 닉네임입니다.' });
+    } else clearErrors('nickname');
+    return !result;
   };
 
   useEffect(() => {
-    if (watch('password') !== watch('passwordCheck') && watch('passwordCheck')) {
+    if (password !== passwordCheck && passwordCheck) {
       setError('passwordCheck', {
         type: 'password-mismatch',
         message: '비밀번호가 일치하지 않습니다.'
       });
     } else clearErrors('passwordCheck');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setError, watch, watch('password'), watch('passwordCheck')]);
+  }, [setError, clearErrors, password, passwordCheck]);
 
   return (
     <div className={styles.container}>
@@ -62,7 +98,7 @@ export default function Page() {
                 required: '이메일을 입력해주세요',
                 pattern: {
                   value: EMAIL_REGEX,
-                  message: '유요한 이메일 형식이 아닙니다.'
+                  message: '유효한 이메일 형식이 아닙니다.'
                 }
               })}
               id="email"
@@ -75,7 +111,10 @@ export default function Page() {
           <div className={styles.inputBox}>
             <label htmlFor="nickname">닉네임</label>
             <input
-              {...register('nickname', { required: '닉네임을 입력해주세요.' })}
+              {...register('nickname', {
+                required: '닉네임을 입력해주세요.',
+                validate: (value) => isExistsDisplayName(value)
+              })}
               id="nickname"
               placeholder="닉네임 입력"
             />
@@ -95,7 +134,7 @@ export default function Page() {
               })}
               id="password"
               type="password"
-              placeholder="비밀번호 입력"
+              placeholder="비밀번호 입력 (영문 숫자 포함 6자 이상)"
             />
             <div className={styles.error}>
               <p>{errors.password && errors.password.message}</p>
@@ -138,10 +177,15 @@ export default function Page() {
             </div>
           </div>
           <div className={styles.btnBox}>
-            <button className={isValidBtn ? styles.active : ''} type="submit">
+            <button className={isValidBtn ? styles.active : ''} disabled={!isValidBtn}>
               회원가입
             </button>
           </div>
+          {signUpError && (
+            <div className={styles.error}>
+              <p>{signUpError}</p>
+            </div>
+          )}
           <div className={styles.link}>
             <p>
               이미 회원이신가요? <Link href="/auth/login">로그인하기</Link>

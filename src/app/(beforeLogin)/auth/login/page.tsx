@@ -3,7 +3,11 @@ import Link from 'next/link';
 import styles from './login.module.scss';
 import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '@/utils/regex';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '@/util/regex';
+import { logInWithEmailAndPassword } from '@/shared/auth';
+import { ERRORS } from '@/shared/error';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface LoginFormInput {
   email: string;
@@ -16,12 +20,17 @@ export default function Page() {
     handleSubmit,
     formState: { errors, dirtyFields, isValid }
   } = useForm<LoginFormInput>({ defaultValues: { email: '', password: '' } });
-
   const { email: isDirtyEmail, password: isDirtyPassword } = dirtyFields;
   const isValidBtn = isDirtyEmail && isDirtyPassword && isValid;
+  const [logInError, setLogInError] = useState('');
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<LoginFormInput> = async (data) => {
+    const result = await logInWithEmailAndPassword(data.email, data.password);
+    if ('errors' in result) {
+      const { errors } = result;
+      setLogInError(ERRORS[errors]);
+    } else router.push('/');
   };
 
   return (
@@ -36,7 +45,7 @@ export default function Page() {
                 required: '이메일을 입력해주세요',
                 pattern: {
                   value: EMAIL_REGEX,
-                  message: '유요한 이메일 형식이 아닙니다.'
+                  message: '유효한 이메일 형식이 아닙니다.'
                 }
               })}
               id="email"
@@ -69,6 +78,11 @@ export default function Page() {
               이메일로 로그인
             </button>
           </div>
+          {logInError && (
+            <div className={styles.error}>
+              <p>{logInError}</p>
+            </div>
+          )}
           <div className={styles.divide}>
             <span>또는</span>
           </div>

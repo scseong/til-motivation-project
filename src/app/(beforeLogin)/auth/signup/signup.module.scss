@@ -16,6 +16,7 @@
 }
 .inputBox {
   margin-bottom: 1rem;
+  user-select: none;
   label {
     display: inline-block;
     margin-bottom: 0.5rem;
@@ -28,6 +29,7 @@
     border: 1px solid var(--btn-border-color);
     border-radius: 0.25rem;
     transition: border 0.1s ease-in-out;
+    user-select: none;
     &:focus {
       border: 1px solid var(--btn-border-focus-color) !important;
     }
@@ -47,7 +49,7 @@
   }
 }
 .link {
-  margin: 8px 0;
+  margin: 1rem 0;
   text-align: center;
 }
 .error {
