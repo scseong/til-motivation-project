@@ -28,7 +28,7 @@ export default function List() {
                 <div className={styles.postHeader}>
                   <div className={styles.userBox}>
                     <div className={styles.avatar}>
-                      <img src={post.photoURL} alt="아바타" />
+                      <img src={post.photoUrl} alt="아바타" />
                     </div>
                     <div>
                       <div className={styles.postName}>{post.displayName}</div>

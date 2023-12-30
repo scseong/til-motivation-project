@@ -1,0 +1,17 @@
+.submitBtn {
+  width: 90px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--preview-border-color);
+  user-select: none;
+}
+
+.disabledButton {
+  cursor: no-drop;
+}
+.ableButton {
+  &:hover {
+    background-color: var(--primary-color);
+  }
+}
