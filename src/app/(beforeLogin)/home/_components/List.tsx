@@ -7,7 +7,6 @@ import { getPosts } from '@/api/posts';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
 import Link from 'next/link';
-import { Fragment } from 'react';
 
 export default function List() {
   const { isLoading, data: posts } = useQuery<Post[]>({

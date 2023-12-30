@@ -1,18 +1,32 @@
 'use client';
+import { getPosts } from '@/api/posts';
+import Loader from '@/app/_components/Loader';
+import { Post } from '@/typing/Post';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import SideBar from '../home/_components/SideBar';
 import styles from './page.module.scss';
 import mockAvatar from '/public/images/logo.png';
-import { getPosts } from '@/api/posts';
-import Loader from '@/app/_components/Loader';
-import { useQuery } from '@tanstack/react-query';
-import { Post } from '@/typing/Post';
 
 export default function Page() {
+  const keyword = useSearchParams().get('keyword');
+
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
   const { isLoading, data: posts } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: getPosts
   });
+
+  useEffect(() => {
+    if (!keyword || !posts) return;
+    const filteredPosts =
+      posts?.filter((post) => post.title.includes(keyword) || post.tags.includes(keyword)) ?? [];
+    setAllPosts(filteredPosts);
+  }, [keyword, posts]);
+
+  console.log(allPosts);
 
   if (isLoading) {
     return <Loader />;

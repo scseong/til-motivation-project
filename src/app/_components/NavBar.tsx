@@ -1,12 +1,27 @@
 'use client';
-import SearchModal from './Modal';
+import { getPosts } from '@/api/posts';
+import { Post } from '@/typing/Post';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import styles from './navbar.module.scss';
-import { BsSearchHeart } from 'react-icons/bs';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { BsSearchHeart } from 'react-icons/bs';
+import SearchModal from './Modal';
+import styles from './navbar.module.scss';
 
 export default function NavBar() {
+  const router = useRouter();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const handleSearch = () => {
+    if (searchKeyword === '') return;
+    else {
+      router.push(`/search?keyword=${searchKeyword}`);
+    }
+  };
+
   return (
     <div className={styles.navbarBox}>
       <div className={styles.logoBox}>
@@ -28,7 +43,17 @@ export default function NavBar() {
       <SearchModal isOpen={modalIsOpen} onClose={() => setModalIsOpen(false)} ariaHideApp={false}>
         <div className={styles.searchBox}>
           <BsSearchHeart size={40} />
-          <input className={styles.input} autoFocus />
+          <input
+            className={styles.input}
+            autoFocus
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSearch();
+            }}
+          />
         </div>
       </SearchModal>
     </div>
