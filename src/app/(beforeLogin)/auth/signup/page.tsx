@@ -31,7 +31,7 @@ export default function Page() {
     watch,
     register,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     setError,
     clearErrors
   } = useForm<SignUpInput>({
@@ -72,19 +72,19 @@ export default function Page() {
   const checkDisplayName = useMemo(
     () =>
       debounce(async (nickname) => {
-        console.log('실행?????????');
         const res = await checkDisplayNameExists(nickname);
-        console.log('res: ', res);
         if (res) {
           setError('nickname', {
             type: 'checkNickname',
             message: '이미 존재하는 닉네임입니다.'
           });
           setIsExist(true);
-        } else setIsExist(false);
-        return isExists;
+        } else {
+          clearErrors('nickname');
+          setIsExist(false);
+        }
       }, 350),
-    [isExists, setError]
+    [setError, clearErrors]
   );
 
   return (
@@ -115,7 +115,10 @@ export default function Page() {
               {...register('nickname', {
                 required: '닉네임을 입력해주세요.',
                 validate: {
-                  checkNickname: (value) => checkDisplayName(value)
+                  checkNickname: async (value) => {
+                    const res = await checkDisplayName(value);
+                    if (res) return '이미 존재하는 닉네임입니다!';
+                  }
                 }
               })}
               id="nickname"
@@ -180,7 +183,7 @@ export default function Page() {
             </div>
           </div>
           <div className={styles.btnBox}>
-            <button className={isValidBtn ? styles.active : ''} disabled={isSubmitting}>
+            <button className={isValidBtn ? styles.active : ''} disabled={!isValidBtn}>
               회원가입
             </button>
           </div>
