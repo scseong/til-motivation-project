@@ -1,5 +1,5 @@
 import { Post } from '@/typing/Post';
-import { collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 
 const postsRef = collection(db, 'posts');
@@ -11,4 +11,8 @@ export const getPosts = async (): Promise<Post[]> => {
     ...(doc.data() as Omit<Post, 'psid'>)
   }));
   return posts;
+};
+
+export const setPosts = async (post: Post) => {
+  await addDoc(postsRef, post);
 };
