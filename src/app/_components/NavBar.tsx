@@ -15,6 +15,8 @@ export default function NavBar() {
   const handleSearch = () => {
     if (searchKeyword === '') return;
     else {
+      setSearchKeyword('');
+      setModalIsOpen(false);
       router.push(`/search?keyword=${searchKeyword}`);
     }
   };
