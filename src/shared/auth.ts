@@ -32,16 +32,24 @@ export const logInWithEmailAndPassword = async (
     });
 };
 
-export const signUpWithEmailAndPassword = async (
-  email: string,
-  password: string,
-  displayName: string
-): Promise<User | ErrorResponse> => {
+interface SignupProp {
+  email: string;
+  password: string;
+  nickname: string;
+  blogURL: string;
+}
+
+export const signUpWithEmailAndPassword = async ({
+  email,
+  nickname,
+  password,
+  blogURL
+}: SignupProp): Promise<User | ErrorResponse> => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    await updateProfile(user, { displayName: displayName });
-    createUserCollection(user);
+    await updateProfile(user, { displayName: nickname });
+    createUserDoc({ ...user, blogURL });
     return user;
   } catch (error: any) {
     return { errors: error.code };
@@ -84,14 +92,14 @@ export const userStateChange = (callback: (user: User | null) => void) => {
   });
 };
 
-const createUserCollection = async (user: User) => {
-  const { uid, email, displayName, photoURL } = user;
+const createUserDoc = async (user: User & { blogURL: string }) => {
+  const { uid, email, displayName, photoURL, blogURL } = user;
   const userInfo = {
     uid,
     email,
     displayName,
     photoURL,
-    blogURL: '',
+    blogURL,
     followers: [],
     followings: [],
     continueDays: 0,

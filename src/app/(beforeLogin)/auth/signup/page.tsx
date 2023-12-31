@@ -15,7 +15,7 @@ interface SignUpInput {
   nickname: string;
   password: string;
   passwordCheck: string;
-  blogUrl: string;
+  blogURL: string;
 }
 
 const defaultValues = {
@@ -23,7 +23,7 @@ const defaultValues = {
   nickname: '',
   password: '',
   passwordCheck: '',
-  blogUrl: ''
+  blogURL: ''
 };
 
 export default function Page() {
@@ -48,7 +48,7 @@ export default function Page() {
     if (isExists) return;
 
     setSignUpError('');
-    const result = await signUpWithEmailAndPassword(data.email, data.password, data.nickname);
+    const result = await signUpWithEmailAndPassword(data);
     if ('errors' in result) {
       const { errors } = result;
       if (errors.includes('email')) {
@@ -168,7 +168,7 @@ export default function Page() {
           <div className={styles.inputBox}>
             <label htmlFor="blog-url">블로그 주소</label>
             <input
-              {...register('blogUrl', {
+              {...register('blogURL', {
                 required: 'TIL 블로그를 입력해주세요.',
                 pattern: {
                   value: BLOG_REGEX,
@@ -179,7 +179,7 @@ export default function Page() {
               placeholder="TIL 블로그 주소"
             />
             <div className={styles.error}>
-              <p>{errors.blogUrl && errors.blogUrl.message}</p>
+              <p>{errors.blogURL && errors.blogURL.message}</p>
             </div>
           </div>
           <div className={styles.btnBox}>
