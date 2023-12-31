@@ -43,11 +43,11 @@ export default function List() {
                   </div>
                   <button className={styles.postFollow}>팔로우</button>
                 </div>
+                <div className={styles.postTitle}>{post.title}</div>
                 <div
-                  className={styles.postTitle}
+                  className={styles.postContent}
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
-                <div className={styles.postContent}>{post.content}</div>
                 <p>... 더 보기</p>
                 <div className={styles.openGraphBox}>오픈그래프자리</div>
                 <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
