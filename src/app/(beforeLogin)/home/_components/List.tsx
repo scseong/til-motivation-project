@@ -7,13 +7,20 @@ import { getPosts } from '@/api/posts';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
 import Link from 'next/link';
-import { getComments } from '@/shared/comment';
+import { useEffect, useState } from 'react';
 
 export default function List() {
   const { isLoading, data: posts } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: getPosts
   });
+  const [postsData, setPostsData] = useState<Post[]>([]);
+
+  useEffect(() => {
+    if (posts) {
+      setPostsData([...posts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
+    }
+  }, [posts]);
 
   if (isLoading) {
     return <Loader />;
@@ -21,7 +28,7 @@ export default function List() {
   return (
     <>
       <div className={styles.postBox}>
-        {posts?.map((post, index) => (
+        {postsData?.map((post, index) => (
           <div className={styles.post} key={index}>
             <Link href={`/posts/${post.psid}`}>
               <div className={styles.postHeader}>
