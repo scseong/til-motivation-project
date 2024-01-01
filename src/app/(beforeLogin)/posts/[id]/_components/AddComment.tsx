@@ -6,6 +6,7 @@ import { addComment } from '@/shared/comment';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Timestamp } from 'firebase/firestore';
+import { getPosts } from '@/api/posts';
 
 type Comment = { content: string };
 
@@ -22,10 +23,10 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
 
   const addCommentMutation = useMutation({
     mutationFn: addComment,
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
       queryClient.invalidateQueries({ queryKey: ['post'] });
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
   });
 

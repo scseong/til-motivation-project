@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useState } from 'react';
 import { Comment } from '@/typing/Post';
+import { getPosts } from '@/api/posts';
 
 export default function CommnetList() {
   const { id }: { id: string } = useParams();
@@ -25,10 +26,10 @@ export default function CommnetList() {
 
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
       queryClient.invalidateQueries({ queryKey: ['post'] });
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
   });
   const handleDelete = (comment: Comment) => {
@@ -41,7 +42,6 @@ export default function CommnetList() {
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
-      // queryClient.invalidateQueries({ queryKey: ['post'] });
     }
   });
 
