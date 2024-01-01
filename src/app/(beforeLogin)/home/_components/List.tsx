@@ -121,8 +121,18 @@ export default function List() {
                 className={styles.postContent}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
-              <p>... 더 보기</p>
-              <div className={styles.openGraphBox}>오픈그래프자리</div>
+              <p className={styles.more}>... 더 보기</p>
+              <div className={styles.openGraphBox}>
+                <div className={styles.imageContainer}>
+                  {/**dfaultimage */}
+                  <img src={post.openGraph?.image} alt="Link Preview" />
+                </div>
+                <div className={styles.infoContainer}>
+                  <p className={styles.title}>{post.openGraph?.title}</p>
+                  <p className={styles.description}>{post.openGraph?.description}</p>
+                  <p className={styles.url}>{post.openGraph?.url}</p>
+                </div>
+              </div>
               <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
             </Link>
             <div className={styles.postFooter}>
@@ -130,18 +140,12 @@ export default function List() {
                 {/* // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
                   {post.likesUser.includes('내닉네임' as unknown as UserName) ? (
-                    <AiFillLike size={18} color="#4279e9"/>
+                    <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />
                   )}
                   <span>좋아요 </span>
                   <div className={styles.postLikeCount}>{post.likesUser.length}</div>
-                </div>
-                <div className={styles.postComment}>
-                  <LiaCommentDots size={18} />
-                  {/* 댓글 구현시 댓글 수 표시 예정 */}
-                  <span>댓글 </span>
-                  <div className={styles.postLikeCount}>2</div>
                 </div>
                 <Link href={`/posts/${post.psid}`}>
                   <div className={styles.postComment}>
