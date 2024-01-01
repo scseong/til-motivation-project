@@ -3,7 +3,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
   top: 0;
   left: 0;
@@ -15,68 +15,88 @@
 .modal {
   background: #ffffff;
   position: relative;
-  top: 5%;
-  max-width: 80vw;
-  min-width: 600px;
+  top: 15%;
+  width: 550px;
+  height: 800px;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  height: 450px;
 }
 
 .modalHeader {
   padding: 36px 80px 20px;
-  font-size: 31px;
+  font-size: 30px;
   font-weight: bold;
+  text-align: center;
 }
 
-.modal form {
+.editBox {
+  height: 620px;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  align-items: center;
+  padding: 0 70px;
+  .inputBox {
+    width: 100%;
+    margin: 5px;
+  }
+  label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+  input {
+    padding: 0.875rem;
+    display: block;
+    width: 100%;
+    border: 1px solid var(--btn-border-color);
+    border-radius: 0.25rem;
+    transition: border 0.1s ease-in-out;
+    &:focus {
+      border: 1px solid var(--btn-border-focus-color) !important;
+    }
+  }
+  .comment {
+    height: 150px;
+  }
 }
 
-.modalBody {
-  flex: 1;
-  padding: 0 80px;
-}
-
-.inputDiv {
-  display: flex;
-  flex-direction: column;
-  height: 56px;
+.profileImage {
   position: relative;
-  margin: 12px 0;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background-color: beige;
 }
-.inputLabel {
-  width: 100%;
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  border: 1px solid rgb(207, 217, 222);
-  border-radius: 4px;
-  font-size: 13px;
-  height: 56px;
-  padding: 8px 8px 0;
-  color: rgb(83, 100, 113);
+.commentBox {
+  width: 280px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    font-size: 20px;
+    text-align: center;
+    overflow-wrap: break-word;
+  }
 }
-.inputLabel:focus-within {
-  color: red;
+.email {
+  font-size: 8px;
 }
-.input {
-  width: 100%;
-  border: none;
-  font-size: 17px;
-  margin-top: 16px;
-  padding: 12px 8px 8px;
-  outline: none;
-}
+/**/
 
-.modalFooter {
-  padding: 24px 80px;
+.eidtBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-
-.actionButton {
+.editBtnWrapper {
+  padding: 30px 80px;
+}
+.editBox {
+  height: 100%;
+}
+.editBtn {
   width: 100%;
   height: 50px;
   border-radius: 25px;
@@ -86,14 +106,14 @@
   cursor: pointer;
   border: none;
 }
-.actionButton:disabled {
+.editBtn:disabled {
   opacity: 0.5;
 }
-.actionButton:hover {
+.editBtn:hover {
   background-color: rgb(39, 44, 48);
 }
 
-.closeButton {
+.closeBtn {
   width: 34px;
   height: 34px;
   border-radius: 17px;
@@ -101,12 +121,12 @@
   cursor: pointer;
   background-color: #fff;
   position: absolute;
-  left: 16px;
+  right: 16px;
   top: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.closeButton:hover {
+.closeBtn:hover {
   background-color: rgba(15, 20, 25, 0.1);
 }

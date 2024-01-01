@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './variables.css';
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { ChildrenProp } from '@/typing/props';
 import NavBar from './_components/NavBar';
 import Footer from './_components/Footer';
 import ReactQueryProviders from '@/utils/ReactQueryProviders';
+import { ToastContainer } from 'react-toastify';
 
 const knu = localFont({ src: '../../public/fonts/knutruth.woff2' });
 
@@ -23,6 +25,7 @@ export default function RootLayout({ children }: ChildrenProp) {
           <NavBar />
           {children}
           <Footer />
+          <ToastContainer />
         </ReactQueryProviders>
       </body>
     </html>

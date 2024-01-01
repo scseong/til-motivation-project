@@ -1,24 +1,31 @@
 'use client';
 
-import style from './UpdateModal.module.scss';
+import Spacer from '@/app/_components/Spacer';
+import styles from './UpdateModal.module.scss';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import editImage from '/public/images/profileEdit.png';
+import Image from 'next/image';
 
 export default function UpdateModal() {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [nickname, setNickname] = useState('우주최고 코딩개발자');
+  const [comment, setComment] = useState('안녕하세요! 프론트엔드 개발자를 꿈꾸는 코린이 입니다!');
+  const [email, setEmail] = useState('https://velog.io/@minseok0920/posts');
   const router = useRouter();
   const onHandleCloseBtn = () => {
     router.replace('http://localhost:3000/profile/aaa');
   };
+  const onHandleStateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+  const onHandleProfileEditSubmit = () => {};
   return (
     // <div className={style.modalBackground} onClick={onHandleCloseBtn}>
     //바깥누르면 닫게 해놓고 버블링
-    <div className={style.modalBackground}>
-      <div className={style.modal}>
-        <div className={style.modalHeader}>
-          <button className={style.closeButton} onClick={onHandleCloseBtn}>
+    <div className={styles.modalBackground}>
+      <div className={styles.modal}>
+        <div className={styles.modalHeader}>
+          <button className={styles.closeBtn} onClick={onHandleCloseBtn}>
             <svg
               width={24}
               viewBox="0 0 24 24"
@@ -30,33 +37,38 @@ export default function UpdateModal() {
               </g>
             </svg>
           </button>
-          <div>로그인하세요.</div>
+          <div>프로필 수정</div>
         </div>
-        <form>
-          <div className={style.modalBody}>
-            <div className={style.inputDiv}>
-              <label className={style.inputLabel} htmlFor="id">
-                아이디
-              </label>
-              <input id="id" className={style.input} value={id} type="text" placeholder="" />
+
+        <form className={styles.eidtBoxWrapper} onSubmit={(e) => e.preventDefault()}>
+          <div className={styles.editBox}>
+            <div className={styles.profileImage}>
+              {/**input으로 받아서 바로 바꾸고싶긴함 */}
+              <Image src={editImage} alt="" fill={true} />
             </div>
-            <div className={style.inputDiv}>
-              <label className={style.inputLabel} htmlFor="password">
-                비밀번호
-              </label>
+            <div className={styles.inputBox}>
+              <label htmlFor="nickname">닉네임</label>
+              <input id="nickname" value={nickname} onChange={(e) => onHandleStateChange(e)} />
+            </div>
+            <div className={styles.inputBox}>
+              <label htmlFor="comment">소개</label>
               <input
-                id="password"
-                className={style.input}
-                value={password}
-                type="password"
-                placeholder=""
+                className={styles.comment}
+                id="comment"
+                value={comment}
+                onChange={(e) => onHandleStateChange(e)}
               />
             </div>
+            <div className={styles.inputBox}>
+              <label htmlFor="email">블로그 주소</label>
+              <input id="email" value={email} onChange={(e) => onHandleStateChange(e)} />
+            </div>
+
+            {/* </div> */}
           </div>
-          <div className={style.message}>{message}</div>
-          <div className={style.modalFooter}>
-            <button className={style.actionButton} disabled={!id && !password}>
-              로그인하기
+          <div className={styles.editBtnWrapper}>
+            <button className={styles.editBtn} onClick={onHandleProfileEditSubmit}>
+              수정완료
             </button>
           </div>
         </form>

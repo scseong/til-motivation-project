@@ -1,8 +1,8 @@
 'use client';
+import { openGraph } from '@/typing/Post';
 import styles from './linkPreviewCard.module.scss';
-import { openGraph } from './ClientOpenGraph';
 type Props = {
-  opengraphData: openGraph | null | undefined;
+  opengraphData: openGraph;
 };
 
 export default function LinkPreviewCard({ opengraphData }: Props) {
