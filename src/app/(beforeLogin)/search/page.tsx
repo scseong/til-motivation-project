@@ -24,7 +24,7 @@ export default function Page() {
         (post) =>
           post.title.toLowerCase().includes(keyword.toLowerCase()) || post.tags.includes(keyword)
       ) ?? [];
-    setAllPosts(filteredPosts);
+    setAllPosts([...filteredPosts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
   }, [keyword, posts]);
 
   if (isLoading) {
@@ -41,7 +41,7 @@ export default function Page() {
               <img className={styles.images} src={post.photoUrl} alt="아바타" />
               <div className={styles.contentBox}>
                 <div className={styles.title}>{post.title}</div>
-                <div className={styles.content}>{post.content}</div>
+                <div className={styles.content} dangerouslySetInnerHTML={{ __html: post.content }} />
                 <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
               </div>
             </div>
