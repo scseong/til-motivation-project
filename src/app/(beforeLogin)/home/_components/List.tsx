@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from 'react-icons/ai';
 import { LiaCommentDots } from 'react-icons/lia';
 import styles from './list.module.scss';
+import copy from 'clipboard-copy';
+import { toast } from 'react-toastify';
 
 export default function List() {
   const queryClient = useQueryClient();
@@ -81,6 +83,11 @@ export default function List() {
     } else {
       likeMutation.mutate({ psid, displayName: '내닉네임' as unknown as UserName });
     }
+  };
+
+  const onClickShare = (post: Post) => {
+    copy(post.blogURL);
+    toast.success('클립보드에 복사되었습니다.');
   };
 
   useEffect(() => {
@@ -157,7 +164,7 @@ export default function List() {
                 </Link>
               </div>
               <div className={styles.postShare}>
-                <AiOutlineShareAlt size={18} />
+                <AiOutlineShareAlt size={18} onClick={() => onClickShare(post)} />
               </div>
             </div>
           </div>
