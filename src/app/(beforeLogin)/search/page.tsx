@@ -24,7 +24,7 @@ export default function Page() {
         (post) =>
           post.title.toLowerCase().includes(keyword.toLowerCase()) || post.tags.includes(keyword)
       ) ?? [];
-    setAllPosts(filteredPosts);
+    setAllPosts([...filteredPosts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
   }, [keyword, posts]);
 
   if (isLoading) {
