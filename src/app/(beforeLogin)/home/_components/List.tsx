@@ -9,6 +9,9 @@ import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from 'react-icons/ai';
 import { LiaCommentDots } from 'react-icons/lia';
 import styles from './list.module.scss';
+import copy from 'clipboard-copy';
+import { toast } from 'react-toastify';
+import { getTimeAgo } from './getTimeAgo';
 
 export default function List() {
   const queryClient = useQueryClient();
@@ -83,6 +86,11 @@ export default function List() {
     }
   };
 
+  const onClickShare = (post: Post) => {
+    copy(post.blogURL);
+    toast.success('클립보드에 복사되었습니다.');
+  };
+
   useEffect(() => {
     if (posts) {
       setPostsData([...posts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
@@ -95,7 +103,7 @@ export default function List() {
   return (
     <>
       <div className={styles.postBox}>
-        {postsData?.map((post, index) => (
+        {postsData.map((post, index) => (
           <div className={styles.post} key={index}>
             <Link href={`/posts/${post.psid}`}>
               <div className={styles.postHeader}>
@@ -105,13 +113,7 @@ export default function List() {
                   </div>
                   <div>
                     <div className={styles.postName}>{post.displayName}</div>
-                    <div className={styles.postDate}>
-                      {post.createdAt.toDate().toLocaleDateString('ko', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </div>
+                    <div className={styles.postDate}>{getTimeAgo(post)}</div>
                   </div>
                 </div>
                 <button className={styles.postFollow}>팔로우</button>
@@ -157,7 +159,7 @@ export default function List() {
                 </Link>
               </div>
               <div className={styles.postShare}>
-                <AiOutlineShareAlt size={18} />
+                <AiOutlineShareAlt size={18} onClick={() => onClickShare(post)} />
               </div>
             </div>
           </div>
