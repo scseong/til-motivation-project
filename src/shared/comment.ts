@@ -1,23 +1,38 @@
+import { Post } from '@/typing/Post';
 import { db } from './firebase';
-import { addDoc, getDocs, collection, query, where } from 'firebase/firestore';
-import { Comment } from '@/typing/Comment';
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  deleteDoc,
+  arrayUnion
+} from 'firebase/firestore';
+import { Comment } from '@/typing/Post';
 
 export const getComments = async (postId: string) => {
-  const data: Comment[] = [];
-  const q = query(collection(db, 'comments'), where('psid', '==', postId));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    const createdAt = doc.data().createdAt;
-    const formatCreatedAt = createdAt.toDate();
-    data.push({
-      ...doc.data(),
-      createdAt: formatCreatedAt
-    } as Comment);
-  });
-  console.log('data', data);
-  return data;
+  const docRef = doc(db, 'posts', postId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const comments = docSnap.data().comments as Comment[];
+    console.log('comments', comments);
+    return comments.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+  }
+};
+
+export const deleteComment = async (commentId: string) => {
+  const deleted = query(collection(db, 'comments'), where('cid', '==', commentId));
+  const data = await getDocs(deleted);
+  return await deleteDoc(data.docs[0].ref);
 };
 
 export const addComment = async (comment: Comment) => {
-  return await addDoc(collection(db, 'comments'), comment);
+  // const commentRef = doc(db, 'posts', comment.psid, 'comments', comment.cid);
+  // await setDoc(commentRef, comment);
+  await updateDoc(doc(db, 'posts', comment.psid), {
+    comments: arrayUnion(comment)
+  });
 };

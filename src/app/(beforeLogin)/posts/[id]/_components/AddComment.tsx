@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '@/shared/comment';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Timestamp } from 'firebase/firestore';
 
 type Comment = { content: string };
 
@@ -34,7 +35,7 @@ export default function AddComment() {
       displayName: '코코볼',
       photoUrl:
         'https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png',
-      createdAt: new Date()
+      createdAt: Timestamp.now()
     };
     addCommentMutation.mutate(newComment);
   };
