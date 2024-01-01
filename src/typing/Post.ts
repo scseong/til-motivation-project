@@ -8,11 +8,19 @@ export interface Post {
   title: string;
   content: string;
   createdAt: Timestamp;
-  blogURL: string | undefined;
+  blogURL: string;
   likesUser: UserName[];
   tags: string[];
+  openGraph: openGraph | undefined;
   comments: Comment[];
 }
+
+export type openGraph = {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+};
 
 export interface Comment {
   cid: string;

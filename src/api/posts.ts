@@ -1,6 +1,16 @@
 import { Post } from '@/typing/Post';
-import { setDoc, addDoc, doc, collection, getDocs, getDoc, onSnapshot } from 'firebase/firestore';
+import {
+  addDoc,
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  updateDoc
+} from 'firebase/firestore';
 import { db } from '../shared/firebase';
+import { UserName } from '@/typing/User';
 
 const postsRef = collection(db, 'posts');
 
@@ -13,8 +23,23 @@ export const getPosts = async (): Promise<Post[]> => {
   return posts;
 };
 
-export const setPosts = async (post: Post) => {
-  await addDoc(postsRef, post);
+export const addPosts = async (post: Omit<Post, 'psid'>) => {
+  const result = await addDoc(postsRef, post);
+  return result.id;
+};
+
+export const addPostLikeUser = async (psid: string, displayName: UserName) => {
+  const postRef = doc(db, 'posts', psid);
+  return updateDoc(postRef, {
+    likesUser: arrayUnion(displayName)
+  });
+};
+
+export const removePostLikeUser = async (psid: string, displayName: UserName) => {
+  const postRef = doc(db, 'posts', psid);
+  return updateDoc(postRef, {
+    likesUser: arrayRemove(displayName)
+  });
 };
 
 export const getPostDetail = async (postId: string) => {
