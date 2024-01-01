@@ -130,7 +130,7 @@ export default function List() {
                 {/* // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
                   {post.likesUser.includes('내닉네임' as unknown as UserName) ? (
-                    <AiFillLike size={18} />
+                    <AiFillLike size={18} color="#4279e9"/>
                   ) : (
                     <AiOutlineLike size={18} />
                   )}
