@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import styles from './UserProfile.module.scss';
 import editImage from '../../../../../../public/images/profileEdit.png';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function OpenProfileEdit() {

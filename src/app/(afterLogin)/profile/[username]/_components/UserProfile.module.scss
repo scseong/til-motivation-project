@@ -1,14 +1,14 @@
 .userProfileContainer {
   width: 1000px;
   height: 450px;
-  background-color: rgb(170, 231, 170);
+  // background-color: rgb(170, 231, 170);
   display: flex;
   flex-direction: row;
 }
 .userInfoLeft {
   display: flex;
   flex-direction: column;
-  background-color: aqua;
+  // background-color: aqua;
   flex: 1;
   align-items: center;
 }
@@ -17,7 +17,7 @@
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background-color: beige;
+  // background-color: beige;
 }
 .commentBox {
   width: 280px;
@@ -51,7 +51,8 @@
   width: 50px;
   height: 50px;
   position: absolute;
-  right: 0;
+  right: -13px;
+  top: 44px;
   border: 1px solid rgb(221, 219, 219);
   border-radius: 15px;
   cursor: pointer;
@@ -60,9 +61,10 @@
   color: var(--google);
 }
 .tilCalendar {
-  width: 600px;
-  height: 300px;
-  background-color: beige;
+  width: 700px;
+  height: 270px;
+  // background-color: beige;
+  display: flex;
 }
 .record {
   font-size: 35px;

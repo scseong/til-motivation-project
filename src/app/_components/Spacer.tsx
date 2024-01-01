@@ -1,7 +1,6 @@
 type Props = {
   y: number;
 };
-//공간창출용!!
 const Spacer = ({ y }: Props) => {
   return (
     <div

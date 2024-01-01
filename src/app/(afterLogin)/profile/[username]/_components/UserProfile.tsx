@@ -4,7 +4,7 @@ import Spacer from '@/app/_components/Spacer';
 
 import editImage from '/public/images/profileEdit.png';
 import Image from 'next/image';
-import OpenProfileEdit from './openProfileEdit';
+import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
 
 export default function UserProfile() {
@@ -34,11 +34,10 @@ export default function UserProfile() {
       </div>
       <div className={styles.userInfoRight}>
         <OpenProfileEdit />
-        <Spacer y={70} />
+        <Spacer y={100} />
         <div className={styles.tilCalendar}>
           <Calendar />
         </div>
-        <Spacer y={30} />
         <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
       </div>
     </main>
