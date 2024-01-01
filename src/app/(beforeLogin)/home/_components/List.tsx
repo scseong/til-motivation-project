@@ -11,6 +11,7 @@ import { LiaCommentDots } from 'react-icons/lia';
 import styles from './list.module.scss';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
+import { getTimeAgo } from './getTimeAgo';
 
 export default function List() {
   const queryClient = useQueryClient();
@@ -102,7 +103,7 @@ export default function List() {
   return (
     <>
       <div className={styles.postBox}>
-        {postsData?.map((post, index) => (
+        {postsData.map((post, index) => (
           <div className={styles.post} key={index}>
             <Link href={`/posts/${post.psid}`}>
               <div className={styles.postHeader}>
@@ -112,13 +113,7 @@ export default function List() {
                   </div>
                   <div>
                     <div className={styles.postName}>{post.displayName}</div>
-                    <div className={styles.postDate}>
-                      {post.createdAt.toDate().toLocaleDateString('ko', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </div>
+                    <div className={styles.postDate}>{getTimeAgo(post)}</div>
                   </div>
                 </div>
                 <button className={styles.postFollow}>팔로우</button>
