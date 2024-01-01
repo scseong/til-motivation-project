@@ -9,8 +9,9 @@ import { Timestamp } from 'firebase/firestore';
 
 type Comment = { content: string };
 
-export default function AddComment() {
+export default function AddComment({ commentCount }: { commentCount: number }) {
   const { id }: { id: string } = useParams();
+
   const queryClient = useQueryClient();
   const {
     register,
@@ -23,6 +24,8 @@ export default function AddComment() {
     mutationFn: addComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     }
   });
 
@@ -42,6 +45,10 @@ export default function AddComment() {
 
   return (
     <>
+      <h3 className={styles.h3}>
+        댓글
+        <span> {commentCount}</span>
+      </h3>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.commentBox}>
           <div className={styles.userComment}>
