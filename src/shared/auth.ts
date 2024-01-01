@@ -13,8 +13,8 @@ import { auth, db } from './firebase';
 import { ErrorResponse } from './error';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 
-const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
+export const googleProvider = new GoogleAuthProvider();
+export const githubProvider = new GithubAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 githubProvider.setCustomParameters({ prompt: 'select_account' });
 
@@ -49,7 +49,7 @@ export const signUpWithEmailAndPassword = async ({
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     await updateProfile(user, { displayName: nickname });
-    createUserDoc({ ...user, blogURL });
+    createUserDoc({ ...user });
     return user;
   } catch (error: any) {
     return { errors: error.code };
@@ -92,20 +92,20 @@ export const userStateChange = (callback: (user: User | null) => void) => {
   });
 };
 
-const createUserDoc = async (user: User & { blogURL: string }) => {
-  const { uid, email, displayName, photoURL, blogURL } = user;
+export const createUserDoc = async (user: User) => {
+  const { uid, email, displayName, photoURL } = user;
   const userInfo = {
     uid,
     email,
     displayName,
     photoURL,
-    blogURL,
+    blogURL: '',
     followers: [],
     followings: [],
     continueDays: 0,
     count: {
-      Followers: 0,
-      Followings: 0
+      followers: 0,
+      followings: 0
     }
   };
   const docRef = doc(db, 'users', uid);
