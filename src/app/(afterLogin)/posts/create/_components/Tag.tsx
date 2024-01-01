@@ -50,7 +50,7 @@ function Tag({ setTagData }: Props) {
           className={styles.addTag}
           placeholder="태그 입력 후 Enter를 누르세요."
           onChange={(e) => addTag(e)}
-          onKeyPress={(e) => handleKeyPress(e)}
+          onKeyDown={(e) => handleKeyPress(e)}
           value={tag}
         />
       </div>
