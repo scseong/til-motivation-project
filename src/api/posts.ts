@@ -22,7 +22,7 @@ export const getPosts = async (): Promise<Post[]> => {
   return posts;
 };
 
-export const setPosts = async (post: Post) => {
+export const addPosts = async (post: Post) => {
   await addDoc(postsRef, post);
 };
 
