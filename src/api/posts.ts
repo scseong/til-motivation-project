@@ -1,5 +1,5 @@
 import { Post } from '@/typing/Post';
-import { setDoc, addDoc, doc, collection, getDocs, getDoc } from 'firebase/firestore';
+import { setDoc, addDoc, doc, collection, getDocs, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 
 const postsRef = collection(db, 'posts');
@@ -14,7 +14,7 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const setPosts = async (post: Post) => {
-  await setDoc(doc(db, 'posts', post.psid), post);
+  await addDoc(postsRef, post);
 };
 
 export const getPostDetail = async (postId: string) => {
