@@ -7,8 +7,9 @@ export interface Profile {
   followers: UserName[];
   followings: UserName[];
   continousDays: number;
+  comment: string;
   count: {
-    Followers: number;
-    Followings: number;
+    followers: number;
+    followings: number;
   };
 }
