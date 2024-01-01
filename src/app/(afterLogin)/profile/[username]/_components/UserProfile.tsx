@@ -1,10 +1,11 @@
 import React from 'react';
 import styles from './UserProfile.module.scss';
 import Spacer from '@/app/_components/Spacer';
-import OpenProfileEdit from './OpenProfileEdit';
 
 import editImage from '/public/images/profileEdit.png';
 import Image from 'next/image';
+import OpenProfileEdit from './openProfileEdit';
+import Calendar from './Calendar';
 
 export default function UserProfile() {
   const email = 'https://velog.io/@minseok0920/posts';
@@ -32,10 +33,19 @@ export default function UserProfile() {
       <div className={styles.userInfoRight}>
         <OpenProfileEdit />
         <Spacer y={70} />
-        <div className={styles.tilCalender}>잔디</div>
+        <div className={styles.tilCalendar}>
+          <Calendar />
+        </div>
         <Spacer y={30} />
         <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
       </div>
     </main>
   );
 }
+//react-d3-calendar-heatmap 잔디밭
+//두개만들기...?
+/**
+ * 팔롱우 팔로워 ?
+ * 프로필설정 => 패러럴+인터셉터 / 모달?
+ * 메인페이지 완성에 따라 TIL보여주기
+ */

@@ -21,9 +21,3 @@ export default function ProfileTIL() {
     </div>
   );
 }
-//react-calendar-heatmap 잔디밭
-/**
- * 팔롱우 팔로워 ?
- * 프로필설정 => 패러럴+인터셉터 / 모달?
- * 메인페이지 완성에 따라 TIL보여주기
- */
