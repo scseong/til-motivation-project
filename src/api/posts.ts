@@ -7,7 +7,8 @@ import {
   doc,
   getDocs,
   getDoc,
-  updateDoc
+  updateDoc,
+  deleteDoc
 } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { UserName } from '@/typing/User';
@@ -46,4 +47,8 @@ export const getPostDetail = async (postId: string): Promise<Post> => {
   const docRef = doc(db, 'posts', postId);
   const docSnap = await getDoc(docRef);
   return docSnap.data() as Post;
+};
+
+export const deletePost = async (postId: string) => {
+  await deleteDoc(doc(db, 'posts', postId));
 };

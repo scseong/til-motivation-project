@@ -3,16 +3,19 @@ import { AiOutlineLike, AiOutlineShareAlt } from 'react-icons/ai';
 import { useParams } from 'next/navigation';
 import styles from './Post.module.scss';
 import AddComment from './AddComment';
-import { useQuery } from '@tanstack/react-query';
-import { getPostDetail } from '@/api/posts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deletePost, getPostDetail } from '@/api/posts';
 import Link from 'next/link';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
 import { useAuth } from '@/app/_components/AuthSession';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export default function Post() {
   const { id }: { id: string } = useParams();
-  console.log('id', id);
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     isLoading,
     error,
@@ -22,6 +25,31 @@ export default function Post() {
     queryFn: () => getPostDetail(id)
   });
   const { user } = useAuth();
+
+  const deletePostMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    }
+  });
+
+  const handleDelete = (postId: string) => {
+    Swal.fire({
+      title: '게시물을 삭제하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePostMutation.mutate(postId);
+        router.push('/');
+        Swal.fire({ icon: 'success', title: '게시물을 삭제했습니다' });
+      }
+    });
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
@@ -49,7 +77,12 @@ export default function Post() {
             </div>
           </Link>
           <button>팔로우</button>
-          {user?.displayName === displayName && <button>수정</button>}
+          {user?.displayName === displayName && (
+            <button onClick={() => router.push('/posts/update')}>수정</button>
+          )}
+          {user?.displayName === displayName && (
+            <button onClick={() => handleDelete(id)}>삭제</button>
+          )}
         </div>
         <div className={styles.content}>
           <h1>{title}</h1>
