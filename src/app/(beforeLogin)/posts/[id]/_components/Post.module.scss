@@ -74,6 +74,7 @@
 .buttons {
   display: flex;
   justify-content: space-between;
+  margin-top: 3rem;
   button {
     padding: 0.8rem;
     background-color: transparent;
@@ -85,4 +86,82 @@
 .div {
   width: 50%;
   margin: auto;
+}
+.openGraphBox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 20px;
+  height: 130px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.imageContainer {
+  flex: 1;
+  padding: 5px;
+}
+
+.imageContainer img {
+  width: 80px;
+  height: 80px;
+  border-radius: 0;
+}
+
+.infoContainer {
+  flex: 3;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 150px;
+}
+
+.title {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.description {
+  width: 180px;
+  height: 28px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  font-size: 0.9em;
+}
+
+.url {
+  margin-top: 13px;
+  font-size: 10px;
+  color: #909090;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.tags {
+  font-size: 12px;
+  font-weight: 400;
+  color: #59595a;
+  margin: 10px 0;
+  padding: 0px 10px;
+  text-align: center;
+  line-height: 1.5;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  height: 15px;
 }
