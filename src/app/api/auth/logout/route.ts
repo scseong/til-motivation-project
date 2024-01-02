@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { APIResponse } from '@/typing/API';
 
-export async function GET() {
+export async function POST() {
   const sessionCookie = cookies().get('session')?.value;
 
   if (!sessionCookie)

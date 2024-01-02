@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ERRORS } from '@/shared/error';
 import { debounce } from 'lodash';
 import { toast } from 'react-toastify';
+import { useAuth } from '@/app/_components/AuthSession';
 
 interface SignUpInput {
   email: string;
@@ -43,6 +44,7 @@ export default function Page() {
   const [signUpError, setSignUpError] = useState('');
   const [isExists, setIsExist] = useState(false);
   const isValidBtn = !Object.keys(errors).length && isValid && !signUpError;
+  const { user } = useAuth();
 
   const onSubmit: SubmitHandler<SignUpInput> = async (data) => {
     if (isExists) return;
@@ -86,6 +88,8 @@ export default function Page() {
       }, 350),
     [setError, clearErrors]
   );
+
+  if (user) return router.replace('/home')
 
   return (
     <div className={styles.container}>
