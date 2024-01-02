@@ -80,6 +80,10 @@
     background-color: transparent;
     color: var(--btn-default-text-color);
     border: none;
+
+    &:hover {
+      color: #38a169;
+    }
   }
 }
 

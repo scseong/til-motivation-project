@@ -8,22 +8,41 @@ import { getPostDetail } from '@/api/posts';
 import Link from 'next/link';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
+import copy from 'clipboard-copy';
+import { toast } from 'react-toastify';
 
-export default function Post() {
+export default function PostDetail() {
   const { id }: { id: string } = useParams();
   const {
     isLoading,
     error,
     data: post
   } = useQuery<Post>({
-    queryKey: ['post'],
+    queryKey: ['post', id],
     queryFn: () => getPostDetail(id)
   });
 
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
 
-  const { title, content, tags, displayName, photoUrl, openGraph, comments, createdAt } = post!;
+  const {
+    title,
+    content,
+    tags,
+    displayName,
+    photoUrl,
+    openGraph,
+    comments,
+    createdAt,
+    likesUser,
+    blogURL
+  } = post!;
+
+  console.log(title);
+  const onClickShare = (post: string) => {
+    copy(blogURL);
+    toast.success('클립보드에 복사되었습니다.');
+  };
 
   return (
     <div className={styles.container}>
@@ -66,11 +85,11 @@ export default function Post() {
           <div>
             <button>
               <AiOutlineLike />
-              <span> 좋아요 3</span>
+              <span> 좋아요 {likesUser.length}</span>
             </button>
           </div>
           <button>
-            <AiOutlineShareAlt size="20" />
+            <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
           </button>
         </div>
       </div>

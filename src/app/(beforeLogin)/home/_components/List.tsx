@@ -60,6 +60,7 @@ export default function List() {
         const copiedPosts = [...posts];
         copiedPosts[index].likesUser = [...copiedPosts[index].likesUser, displayName];
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
       }
     }
   };
@@ -74,6 +75,7 @@ export default function List() {
           (likeUser) => likeUser !== displayName
         );
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
       }
     }
   };
