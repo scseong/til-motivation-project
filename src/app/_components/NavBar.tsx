@@ -6,8 +6,8 @@ import { BsSearchHeart } from 'react-icons/bs';
 import SearchModal from './Modal';
 import styles from './navbar.module.scss';
 import { useAuth } from '@/app/_components/AuthSession';
-import { auth } from '@/shared/firebase';
 import Swal from 'sweetalert2';
+import { logout } from '@/shared/auth';
 
 export default function NavBar() {
   const router = useRouter();
@@ -35,7 +35,7 @@ export default function NavBar() {
       cancelButtonText: '취소'
     }).then((result) => {
       if (result.isConfirmed) {
-        auth.signOut();
+        logout();
         Swal.fire({ icon: 'success', title: '로그아웃 되었습니다' });
       }
     });

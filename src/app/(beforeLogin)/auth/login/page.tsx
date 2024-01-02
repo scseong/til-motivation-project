@@ -13,7 +13,7 @@ import {
 import { ERRORS } from '@/shared/error';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getRedirectResult, signInWithRedirect } from 'firebase/auth';
+import { getRedirectResult, signInWithPopup, signInWithRedirect } from 'firebase/auth';
 import { auth } from '@/shared/firebase';
 
 interface LoginFormInput {
@@ -34,34 +34,49 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<LoginFormInput> = async (data) => {
     const result = await logInWithEmailAndPassword(data.email, data.password);
-    if ('errors' in result) {
+    if (typeof result !== 'boolean') {
       const { errors } = result;
       setLogInError(ERRORS[errors]);
-    } else router.push('/');
+    } else {
+      router.push('/');
+    }
   };
 
-  // TODO: Refactor
-  useEffect(() => {
-    getRedirectResult(auth).then(async (userCredential) => {
-      if (!userCredential) return;
-      const metadata = userCredential.user.metadata;
-      if (metadata.creationTime === metadata.lastSignInTime) {
-        createUserDoc(userCredential.user);
-      }
-      fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${await userCredential.user.getIdToken()}`
-        }
-      }).then((res) => {
-        if (res.status === 200) router.push('/');
-      });
-    });
-  }, [router]);
+  const signInWithGithub = async () => {
+    const { user } = await signInWithPopup(auth, githubProvider);
 
-  // TODO: popup
-  const signInWithGoogle = () => signInWithRedirect(auth, googleProvider);
-  const signInWithGithub = () => signInWithRedirect(auth, githubProvider);
+    if (!user) return;
+
+    const metadata = user.metadata;
+    if (metadata.creationTime === metadata.lastSignInTime) {
+      createUserDoc(user);
+    }
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${await user.getIdToken()}`
+      }
+    });
+    if (res.status === 200) router.push('/');
+  }
+
+  const signInWithGoogle = async () => {
+    const { user } = await signInWithPopup(auth, googleProvider);
+
+    if (!user) return;
+
+    const metadata = user.metadata;
+    if (metadata.creationTime === metadata.lastSignInTime) {
+      createUserDoc(user);
+    }
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${await user.getIdToken()}`
+      }
+    });
+    if (res.status === 200) router.push('/');
+  };
 
   return (
     <div className={styles.container}>
