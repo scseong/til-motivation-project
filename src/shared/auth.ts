@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from './firebase';
 import { ErrorResponse } from './error';
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { APIResponse } from '@/typing/API';
 
 export const googleProvider = new GoogleAuthProvider();
@@ -93,7 +93,13 @@ export const logout = async () => {
     return success;
   } catch (error) {
     return false;
-  } 
+  }
+};
+
+const getRandomPosition = () => {
+  const position = ['프론트엔드', '서버', '안드로이드', '백엔드'];
+  const randomPosition = position[Math.floor(Math.random() * position.length)];
+  return `안녕하세요! ${randomPosition} 개발자를 꿈꾸는 코린이 입니다!`;
 };
 
 export const createUserDoc = async (user: User) => {
@@ -102,7 +108,8 @@ export const createUserDoc = async (user: User) => {
     uid,
     email,
     displayName,
-    photoURL,
+    comments: getRandomPosition(),
+    photoURL: photoURL || '',
     blogURL: '',
     followers: [],
     followings: [],
@@ -120,4 +127,13 @@ export const checkDisplayNameExists = async (displayName: string) => {
   const q = query(collection(db, 'users'), where('displayName', '==', displayName));
   const querySnapshot = await getDocs(q);
   return !querySnapshot.empty;
+};
+
+export const getUser = async (uid: string) => {
+  const userRef = doc(db, 'users', uid);
+  const querySnapshot = await getDoc(userRef);
+
+  if (querySnapshot.exists()) {
+    return querySnapshot.data();
+  }
 };
