@@ -36,11 +36,14 @@
     border-radius: 50%;
   }
   textarea {
-    width: 80%;
+    width: 100%;
     padding: 0.4rem 0;
     color: var(--text-placeholder-color);
     border: none;
     outline: none;
     resize: none;
+  }
+  button {
+    margin-left: 1.5rem;
   }
 }
