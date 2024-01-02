@@ -11,10 +11,6 @@ type Props = {
 
 export default function ClientOpenGraph({ setClientOpenGraphData }: Props) {
   const [url, setUrl] = useState('');
-  // const [blogChecker, setBlogChecker] = useState(false);
-  //로그인된 유저의 정보를 가지고 firebase에 접근
-  //접근 후 유저의 email과 제출 url의 email일치여부 확인하여
-  //btn disable해제
   const [linkPreview, setLinkPreview] = useState(false);
   const [opengraphData, setOpengraphData] = useState<openGraph>({
     title: '',

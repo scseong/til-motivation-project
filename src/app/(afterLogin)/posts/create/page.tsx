@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './postCreatePage.module.scss';
-import { addPosts } from '@/api/posts';
+import { addPosts, getPosts } from '@/api/posts';
 import { Timestamp } from 'firebase/firestore';
 import { Post, openGraph } from '@/typing/Post';
 import ClientOpenGraph from './_components/ClientOpenGraph';
@@ -12,6 +12,8 @@ import Spacer from '@/app/_components/Spacer';
 import { useAuth } from '@/app/_components/AuthSession';
 import { increaseUserContinueDays, updateUserLastPostCreatedAt } from '@/api/users';
 import moment from 'moment';
+import { useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function Create() {
   const [title, setTitle] = useState('');
@@ -19,10 +21,20 @@ export default function Create() {
   const [openGraphData, setClientOpenGraphData] = useState<openGraph | undefined>();
   const [tagData, setTagData] = useState<string[]>([]);
   const { user } = useAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
+  const mutation = useMutation({
+    mutationFn: addPosts,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['myPosts', 0] });
+    }
+  });
   const handleSubmit = async () => {
     if (user) {
       const formData: Omit<Post, 'psid'> = {
+        uid: user.uid,
         displayName: user.displayName as string,
         photoUrl: user.photoURL as string,
         title,
@@ -34,7 +46,9 @@ export default function Create() {
         openGraph: openGraphData || undefined,
         comments: []
       };
-      addPosts(formData);
+      mutation.mutate(formData);
+
+      router.push('/home');
 
       if (
         user.lastPostCreatedAt === undefined ||

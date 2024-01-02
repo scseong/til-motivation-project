@@ -1,21 +1,20 @@
 'use client';
-import React, { useState } from 'react';
 import styles from './UserProfile.module.scss';
 import Spacer from '@/app/_components/Spacer';
 
-import editImage from '/public/images/profileEdit.png';
 import Image from 'next/image';
 import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
 import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
+import { Timestamp } from 'firebase/firestore';
 type Props = {
   userProfile: UserProfile;
+  heatMapData: Timestamp[];
 };
 
-export default function UserProfile({ userProfile }: Props) {
+export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
   const { comment, displayName, blogURL, photoURL } = userProfile;
-  console.log(userProfile);
   if (!userProfile) return <Loader />;
 
   return (
@@ -46,17 +45,10 @@ export default function UserProfile({ userProfile }: Props) {
         <OpenProfileEdit />
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
-          <Calendar />
+          <Calendar heatMapData={heatMapData} />
         </div>
         <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
       </div>
     </main>
   );
 }
-//react-d3-calendar-heatmap 잔디밭
-//두개만들기...?
-/**
- * 팔롱우 팔로워 ?
- * 프로필설정 => 패러럴+인터셉터 / 모달?
- * 메인페이지 완성에 따라 TIL보여주기
- */

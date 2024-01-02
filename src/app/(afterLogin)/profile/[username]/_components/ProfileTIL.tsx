@@ -2,18 +2,17 @@
 import styles from './profileTIL.module.scss';
 import { useState } from 'react';
 import Spacer from '@/app/_components/Spacer';
-import { useLikePostsQuery, useProfilePostsQuery } from '@/api/posts';
+import { useLikePostsQuery } from '@/api/posts';
 import ProfilePosts from './ProfilePosts';
-import { useAuth } from '@/app/_components/AuthSession';
-import Loader from '@/app/_components/Loader';
-import { useParams } from 'next/navigation';
+import { Post } from '@/typing/Post';
 type Props = {
+  myPosts: Post[] | undefined;
+  isLoading: boolean;
   displayName: string;
 };
-export default function ProfileTIL({ displayName }: Props) {
+export default function ProfileTIL({ myPosts, isLoading, displayName }: Props) {
   const [switchBtn, setSwitchBtn] = useState('my');
 
-  const { isLoading, data: myPosts } = useProfilePostsQuery(displayName);
   const { data: likePosts } = useLikePostsQuery(displayName);
 
   return (
@@ -26,9 +25,9 @@ export default function ProfileTIL({ displayName }: Props) {
       <div className={styles.tilBox}>
         <div className={styles.tilList}>
           {switchBtn === 'my' ? (
-            <ProfilePosts postsData={myPosts} isLoading={isLoading} />
+            <ProfilePosts postsData={myPosts} isLoading={isLoading} displayName={displayName} />
           ) : (
-            <ProfilePosts postsData={likePosts} isLoading={isLoading} />
+            <ProfilePosts postsData={likePosts} isLoading={isLoading} displayName={displayName} />
           )}
         </div>
       </div>
