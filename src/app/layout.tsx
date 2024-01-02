@@ -8,6 +8,7 @@ import NavBar from './_components/NavBar';
 import Footer from './_components/Footer';
 import ReactQueryProviders from '@/utils/ReactQueryProviders';
 import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from './_components/AuthSession';
 
 const knu = localFont({ src: '../../public/fonts/knutruth.woff2' });
 
@@ -22,9 +23,11 @@ export default function RootLayout({ children }: ChildrenProp) {
     <html lang="ko">
       <body className={knu.className}>
         <ReactQueryProviders>
-          <NavBar />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <NavBar />
+            {children}
+            <Footer />
+          </AuthProvider>
           <ToastContainer />
         </ReactQueryProviders>
       </body>
