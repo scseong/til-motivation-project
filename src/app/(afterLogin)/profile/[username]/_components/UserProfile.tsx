@@ -20,11 +20,15 @@ export default function UserProfile() {
         </div>
         <Spacer y={20} />
         <div className={styles.commentBox}>
+          {/**displayname */}
           <p className={styles.comment}>우주최고 코딩개발자</p>
           <Spacer y={5} />
+          {/**comment */}
           <p className={styles.comment}>안녕하세요! 프론트엔드 개발자를 꿈꾸는 코린이 입니다!</p>
         </div>
         <Spacer y={10} />
+        {/**blogURL */}
+
         <a href={email} className={styles.email} target="_blank">
           {email}
         </a>
