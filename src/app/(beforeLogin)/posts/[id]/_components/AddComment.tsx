@@ -26,7 +26,7 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
     mutationFn: addComment,
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts', id] });
       await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
   });
