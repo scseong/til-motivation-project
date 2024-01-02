@@ -85,7 +85,7 @@ export default function CommnetList() {
       {comments?.map((comment) => {
         const { cid, psid, displayName, content, photoUrl, createdAt } = comment;
         return (
-          <>
+          <div key={cid}>
             <div>
               <Link href="/profile/1" className={styles.userInfo}>
                 <img src={photoUrl} alt="avatar" />
@@ -127,13 +127,16 @@ export default function CommnetList() {
                   </button>
                 )}
                 {editCommentId === cid && (
-                  <button onClick={() => handleUpdate(comment, text)}>
+                  <button
+                    disabled={!text || text === content}
+                    onClick={() => handleUpdate(comment, text)}
+                  >
                     <FaCheck />
                   </button>
                 )}
               </div>
             </div>
-          </>
+          </div>
         );
       })}
     </div>
