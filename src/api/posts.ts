@@ -8,6 +8,7 @@ import {
   getDocs,
   getDoc,
   updateDoc,
+  deleteDoc,
   query,
   where
 } from 'firebase/firestore';
@@ -49,6 +50,20 @@ export const getPostDetail = async (postId: string): Promise<Post> => {
   return docSnap.data() as Post;
 };
 
+export const deletePost = async (postId: string) => {
+  await deleteDoc(doc(db, 'posts', postId));
+};
+
+export const updatePost = async ({
+  postId,
+  formData
+}: {
+  postId: string;
+  formData: Omit<Post, 'psid'>;
+}) => {
+  const postRef = doc(db, 'posts', postId);
+  return updateDoc(postRef, formData);
+};
 const getMyPosts = async (displayName: string): Promise<Post[]> => {
   const q = query(postsRef, where('displayName', '==', displayName));
   //orderBy('createdAt', 'desc')) 적용시 에러발생
