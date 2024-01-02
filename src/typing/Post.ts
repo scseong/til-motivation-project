@@ -1,5 +1,4 @@
 import { Timestamp } from 'firebase/firestore';
-import { UserName } from './User';
 
 export interface Post {
   psid: string;
@@ -9,7 +8,7 @@ export interface Post {
   content: string;
   createdAt: Timestamp;
   blogURL: string;
-  likesUser: UserName[];
+  likesUser: string[];
   tags: string[];
   openGraph: openGraph | undefined;
   comments: Comment[];

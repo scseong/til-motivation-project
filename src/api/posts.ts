@@ -12,7 +12,6 @@ import {
   where
 } from 'firebase/firestore';
 import { db } from '../shared/firebase';
-import { UserName } from '@/typing/User';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 const postsRef = collection(db, 'posts');
@@ -31,14 +30,14 @@ export const addPosts = async (post: Omit<Post, 'psid'>) => {
   return result.id;
 };
 
-export const addPostLikeUser = async (psid: string, displayName: UserName) => {
+export const addPostLikeUser = async (psid: string, displayName: string) => {
   const postRef = doc(db, 'posts', psid);
   return updateDoc(postRef, {
     likesUser: arrayUnion(displayName)
   });
 };
 
-export const removePostLikeUser = async (psid: string, displayName: UserName) => {
+export const removePostLikeUser = async (psid: string, displayName: string) => {
   const postRef = doc(db, 'posts', psid);
   return updateDoc(postRef, {
     likesUser: arrayRemove(displayName)
