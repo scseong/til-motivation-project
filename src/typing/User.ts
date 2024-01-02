@@ -18,7 +18,7 @@ const user: UserProfile = {
   comment: '',
   followers: [],
   followings: [],
-  continousDays: 0,
+  continueDays: 0,
   count: {
     followers: 0,
     followings: 0
