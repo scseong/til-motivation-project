@@ -84,6 +84,22 @@
   }
 }
 
+.btnWriter {
+  display: flex;
+  align-items: center;
+  gap:1rem;
+  color: #59595a;
+}
+
+.btnDelete {
+  padding:0;
+  background-color: transparent;
+}
+
+.bthShare{
+  padding:0;
+}
+
 .div {
   width: 50%;
   margin: auto;

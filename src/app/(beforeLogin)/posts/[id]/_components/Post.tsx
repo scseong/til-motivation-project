@@ -10,6 +10,7 @@ import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
 import { useAuth } from '@/app/_components/AuthSession';
 import { useRouter } from 'next/navigation';
+import { FaPencilAlt, FaRegTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
 export default function Post() {
@@ -77,13 +78,6 @@ export default function Post() {
             </div>
           </Link>
           <button>팔로우</button>
-          {user?.displayName === displayName && (
-            <Link href={`update/${id}`}>수정</Link>
-            // <button onClick={()=> router.push({pathname:'/posts/update',query:{title,content}})}>수정 </button>
-          )}
-          {user?.displayName === displayName && (
-            <button onClick={() => handleDelete(id)}>삭제</button>
-          )}
         </div>
         <div className={styles.content}>
           <h1>{title}</h1>
@@ -107,9 +101,23 @@ export default function Post() {
               <span> 좋아요 3</span>
             </button>
           </div>
-          <button>
-            <AiOutlineShareAlt size="20" />
-          </button>
+          {user?.displayName === displayName ? (
+            <div className={styles.btnWriter}>
+              <Link href={`update/${id}`}>
+                <FaPencilAlt size="16" />
+              </Link>
+              <button className={styles.btnDelete} onClick={() => handleDelete(id)}>
+                <FaRegTrashAlt size="16" />
+              </button>
+              <button className={styles.btnShare}>
+                <AiOutlineShareAlt size="20" />
+              </button>
+            </div>
+          ) : (
+            <button className={styles.btnShare}>
+              <AiOutlineShareAlt size="20" />
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.div}>
