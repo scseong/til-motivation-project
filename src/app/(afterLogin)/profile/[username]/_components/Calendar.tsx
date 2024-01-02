@@ -8,15 +8,17 @@ interface HeatmapData {
   date: Date;
   count: number;
 }
-
-export default function Calendar() {
+type Props = {
+  displayName: string;
+};
+export default function Calendar({ displayName }: Props) {
   //오늘 기준 -6개월 데이터 동적 생성필요
   const startDate = new Date(2023, 6, 3);
   const endDate = new Date(2024, 0, 3);
 
   const convertDate = formatFirebaseTimestamp({ seconds: 1704164645, nanoseconds: 788000000 });
   const importantDates: Date[] = [
-    new Date(1704164645 * 1000), // 7월 5일
+    new Date(1704164645 * 1000),
     new Date(convertDate.year, convertDate.month, convertDate.day) // 12월 11일
   ];
 

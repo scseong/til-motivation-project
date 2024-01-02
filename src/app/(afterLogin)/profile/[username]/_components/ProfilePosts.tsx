@@ -1,15 +1,9 @@
 'use client';
-import { addPostLikeUser, getPosts, removePostLikeUser } from '@/api/posts';
+import { addPostLikeUser, removePostLikeUser } from '@/api/posts';
 import Loader from '@/app/_components/Loader';
 import { Post } from '@/typing/Post';
 import { UserName } from '@/typing/User';
-import {
-  QueryFunction,
-  QueryKey,
-  useMutation,
-  useQuery,
-  useQueryClient
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from 'react-icons/ai';
 import { LiaCommentDots } from 'react-icons/lia';
@@ -20,9 +14,11 @@ import { getTimeAgo } from '@/app/(beforeLogin)/home/_components/getTimeAgo';
 type Props = {
   postsData: Post[] | undefined;
   isLoading: boolean;
+  displayName: string;
 };
-export default function ProfilePosts({ postsData, isLoading }: Props) {
+export default function ProfilePosts({ postsData, isLoading, displayName }: Props) {
   const queryClient = useQueryClient();
+  console.log('2222222222222222222222222', displayName);
 
   const likeMutation = useMutation({
     mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>
@@ -78,14 +74,14 @@ export default function ProfilePosts({ postsData, isLoading }: Props) {
     }
   };
 
-  // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정
+  // 로그인 구현시 displayName 부분 displayName으로 변경 예정
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
     const { psid } = post;
-    if (post.likesUser.includes('내닉네임' as unknown as UserName)) {
-      unLikeMutation.mutate({ psid, displayName: '내닉네임' as unknown as UserName });
+    if (post.likesUser.includes(displayName as unknown as UserName)) {
+      unLikeMutation.mutate({ psid, displayName: displayName as unknown as UserName });
     } else {
-      likeMutation.mutate({ psid, displayName: '내닉네임' as unknown as UserName });
+      likeMutation.mutate({ psid, displayName: displayName as unknown as UserName });
     }
   };
 
@@ -93,12 +89,6 @@ export default function ProfilePosts({ postsData, isLoading }: Props) {
     copy(post.blogURL);
     toast.success('클립보드에 복사되었습니다.');
   };
-  //   //이거 orderby로
-  //   useEffect(() => {
-  //     if (posts) {
-  //       setPostsData([...posts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
-  //     }
-  //   }, [posts]);
 
   if (isLoading) {
     return <Loader />;
@@ -143,9 +133,9 @@ export default function ProfilePosts({ postsData, isLoading }: Props) {
             </Link>
             <div className={styles.postFooter}>
               <div>
-                {/* // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정 */}
+                {/* // 로그인 구현시 displayName 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
-                  {post.likesUser.includes('내닉네임' as unknown as UserName) ? (
+                  {post.likesUser.includes(displayName as unknown as UserName) ? (
                     <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />

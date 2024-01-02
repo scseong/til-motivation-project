@@ -9,7 +9,6 @@ export default function LinkPreviewCard({ opengraphData }: Props) {
   return (
     <a href={opengraphData?.url} target="_blank" className={styles.linkPreviewCard}>
       <div className={styles.imageContainer}>
-        {/**dfaultimage */}
         <img src={opengraphData?.image} alt="Link Preview" />
       </div>
       <div className={styles.infoContainer}>

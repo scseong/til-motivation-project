@@ -20,9 +20,6 @@ export default function List() {
     queryFn: getPosts
   });
   const [postsData, setPostsData] = useState<Post[]>([]);
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
 
   const likeMutation = useMutation({
     mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>

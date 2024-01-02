@@ -27,8 +27,7 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const addPosts = async (post: Omit<Post, 'psid'>) => {
-  const result = await addDoc(postsRef, post);
-  return result.id;
+  await addDoc(postsRef, post);
 };
 
 export const addPostLikeUser = async (psid: string, displayName: UserName) => {

@@ -3,6 +3,7 @@ import { UserName } from './User';
 
 export interface Post {
   psid: string;
+  uid: string;
   displayName: string;
   photoUrl: string;
   title: string;
