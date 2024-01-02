@@ -15,12 +15,13 @@
 .userInfo {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1rem;
   gap: 0.7rem;
 
   a {
     display: flex;
-    align-items: center;
+    gap: 1rem;
   }
 
   div {
@@ -134,10 +135,13 @@
 }
 
 .description {
-  width: 180px;
+  width: 220px;
   height: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: 0.9em;
 }
 
