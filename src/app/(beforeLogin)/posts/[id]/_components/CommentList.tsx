@@ -21,7 +21,7 @@ export default function CommnetList() {
     error,
     data: comments
   } = useQuery({
-    queryKey: ['comments'],
+    queryKey: ['comments', id],
     queryFn: () => getComments(id)
   });
 
@@ -53,7 +53,7 @@ export default function CommnetList() {
   const updateCommentMutation = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
+      queryClient.invalidateQueries({ queryKey: ['comments', id] });
     }
   });
 
