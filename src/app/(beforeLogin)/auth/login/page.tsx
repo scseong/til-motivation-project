@@ -46,7 +46,7 @@ export default function Page() {
       if (!userCredential) return;
       const metadata = userCredential.user.metadata;
       if (metadata.creationTime === metadata.lastSignInTime) {
-        const result = await createUserDoc(userCredential.user);
+        createUserDoc(userCredential.user);
       }
       fetch('/api/auth/login', {
         method: 'POST',

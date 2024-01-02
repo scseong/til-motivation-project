@@ -12,6 +12,7 @@ import {
 import { auth, db } from './firebase';
 import { ErrorResponse } from './error';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { APIResponse } from '@/typing/API';
 
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
@@ -81,15 +82,18 @@ export const signInWithGithub = async () => {
 };
 
 export const logout = async () => {
-  return signOut(auth)
-    .then(() => null)
-    .catch(console.error);
-};
-
-export const userStateChange = (callback: (user: User | null) => void) => {
-  onAuthStateChanged(auth, (user) => {
-    callback(user);
-  });
+  try {
+    await signOut(auth);
+    const res = await fetch('/api/auth/logout', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const { success } = (await res.json()) as APIResponse<string>;
+    return success;
+  } catch (error) {
+    return false;
+  } 
 };
 
 export const createUserDoc = async (user: User) => {
