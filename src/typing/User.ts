@@ -7,8 +7,6 @@ export interface User {
   photoURL: string;
 }
 
-export type UserName = Pick<User, 'displayName'>;
-
 export type UserProfile = Omit<User & Profile, 'pfid'>;
 
 export const user: UserProfile = {
@@ -20,7 +18,7 @@ export const user: UserProfile = {
   comment: '',
   followers: [],
   followings: [],
-  continousDays: 0,
+  continueDays: 0,
   count: {
     followers: 0,
     followings: 0

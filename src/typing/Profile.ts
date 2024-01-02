@@ -1,12 +1,10 @@
-import { UserName } from './User';
-
 export interface Profile {
   pfid: string;
   uid: string;
   blogURL: string;
-  followers: UserName[];
-  followings: UserName[];
-  continousDays: number;
+  followers: string[];
+  followings: string[];
+  continueDays: number;
   comment: string;
   count: {
     followers: number;

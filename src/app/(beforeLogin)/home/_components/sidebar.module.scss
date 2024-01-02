@@ -5,12 +5,12 @@
   align-items: center;
   margin: 0 auto;
   justify-content: flex-start;
-  margin-top: 20px;
+  margin-bottom: 20px;
   background-color: var(--primary-color);
-  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 100px;
+  padding: 30px 0;
 
   @media (max-width: 1200px) {
     width: 30%;
@@ -44,9 +44,8 @@
   align-items: center;
   justify-content: flex-start;
   background-color: var(--card-bg);
-  margin-bottom: 40px;
   width: 80%;
-  padding-top: 30px;
+  padding: 10px 0;
 }
 
 .rank {
@@ -75,7 +74,7 @@
   justify-content: center;
 }
 
-.avatar {
+.avatar img {
   width: 55px;
   height: 55px;
   border: 3px solid #e2e8f0;

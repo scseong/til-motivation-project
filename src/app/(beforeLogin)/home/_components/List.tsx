@@ -2,7 +2,6 @@
 import { addPostLikeUser, getPosts, removePostLikeUser } from '@/api/posts';
 import Loader from '@/app/_components/Loader';
 import { Post } from '@/typing/Post';
-import { UserName } from '@/typing/User';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -12,9 +11,11 @@ import styles from './list.module.scss';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
 import { getTimeAgo } from './getTimeAgo';
+import { useAuth } from '@/app/_components/AuthSession';
 
 export default function List() {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   const { isLoading, data: posts } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: getPosts
@@ -22,12 +23,12 @@ export default function List() {
   const [postsData, setPostsData] = useState<Post[]>([]);
 
   const likeMutation = useMutation({
-    mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>
+    mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
       addPostLikeUser(psid, displayName),
-    onMutate({ psid, displayName }: { psid: string; displayName: UserName }) {
+    onMutate({ psid, displayName }: { psid: string; displayName: string }) {
       updateLikeClient(psid, displayName);
     },
-    onError(error, { psid, displayName }: { psid: string; displayName: UserName }) {
+    onError(error, { psid, displayName }: { psid: string; displayName: string }) {
       updateUnLikeClient(psid, displayName);
     },
     onSettled() {
@@ -36,12 +37,12 @@ export default function List() {
   });
 
   const unLikeMutation = useMutation({
-    mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>
+    mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
       removePostLikeUser(psid, displayName),
-    onMutate({ psid, displayName }: { psid: string; displayName: UserName }) {
+    onMutate({ psid, displayName }: { psid: string; displayName: string }) {
       updateUnLikeClient(psid, displayName);
     },
-    onError(error, { psid, displayName }: { psid: string; displayName: UserName }) {
+    onError(error, { psid, displayName }: { psid: string; displayName: string }) {
       updateLikeClient(psid, displayName);
     },
     onSettled() {
@@ -49,7 +50,7 @@ export default function List() {
     }
   });
 
-  const updateLikeClient = (psid: string, displayName: UserName) => {
+  const updateLikeClient = (psid: string, displayName: string) => {
     const posts: Post[] | undefined = queryClient.getQueryData(['posts']);
     if (Array.isArray(posts)) {
       const index = posts.findIndex((post) => post.psid === psid);
@@ -57,11 +58,12 @@ export default function List() {
         const copiedPosts = [...posts];
         copiedPosts[index].likesUser = [...copiedPosts[index].likesUser, displayName];
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
       }
     }
   };
 
-  const updateUnLikeClient = (psid: string, displayName: UserName) => {
+  const updateUnLikeClient = (psid: string, displayName: string) => {
     const posts: Post[] | undefined = queryClient.getQueryData(['posts']);
     if (Array.isArray(posts)) {
       const index = posts.findIndex((post) => post.psid === psid);
@@ -71,18 +73,19 @@ export default function List() {
           (likeUser) => likeUser !== displayName
         );
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
       }
     }
   };
 
-  // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
+    if (!user) return;
     const { psid } = post;
-    if (post.likesUser.includes('내닉네임' as unknown as UserName)) {
-      unLikeMutation.mutate({ psid, displayName: '내닉네임' as unknown as UserName });
+    if (post.likesUser.includes(user.displayName)) {
+      unLikeMutation.mutate({ psid, displayName: user.displayName });
     } else {
-      likeMutation.mutate({ psid, displayName: '내닉네임' as unknown as UserName });
+      likeMutation.mutate({ psid, displayName: user.displayName });
     }
   };
 
@@ -126,7 +129,6 @@ export default function List() {
               <p className={styles.more}>... 더 보기</p>
               <div className={styles.openGraphBox}>
                 <div className={styles.imageContainer}>
-                  {/**dfaultimage */}
                   <img src={post.openGraph?.image} alt="Link Preview" />
                 </div>
                 <div className={styles.infoContainer}>
@@ -139,9 +141,8 @@ export default function List() {
             </Link>
             <div className={styles.postFooter}>
               <div>
-                {/* // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
-                  {post.likesUser.includes('내닉네임' as unknown as UserName) ? (
+                  {user && post.likesUser.includes(user?.displayName) ? (
                     <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />
