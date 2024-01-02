@@ -20,8 +20,6 @@ export default function UpdateModal() {
   };
   const onHandleProfileEditSubmit = () => {};
   return (
-    // <div className={style.modalBackground} onClick={onHandleCloseBtn}>
-    //바깥누르면 닫게 해놓고 버블링
     <div className={styles.modalBackground}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
@@ -63,8 +61,6 @@ export default function UpdateModal() {
               <label htmlFor="email">블로그 주소</label>
               <input id="email" value={email} onChange={(e) => onHandleStateChange(e)} />
             </div>
-
-            {/* </div> */}
           </div>
           <div className={styles.editBtnWrapper}>
             <button className={styles.editBtn} onClick={onHandleProfileEditSubmit}>

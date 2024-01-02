@@ -1,5 +1,5 @@
-import Profile from '../_components/Profile';
+import PageCompoent from '../_components/PageCompoent';
 
 export default function page() {
-  return <Profile />;
+  return <PageCompoent />;
 }

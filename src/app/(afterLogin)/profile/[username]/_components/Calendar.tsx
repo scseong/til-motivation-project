@@ -3,22 +3,24 @@ import { useState } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
 import { formatFirebaseTimestamp } from './converter';
+import { Timestamp } from 'firebase/firestore';
 
 interface HeatmapData {
   date: Date;
   count: number;
 }
-
-export default function Calendar() {
+type Props = {
+  heatMapData: Timestamp[];
+};
+export default function Calendar({ heatMapData }: Props) {
   //오늘 기준 -6개월 데이터 동적 생성필요
   const startDate = new Date(2023, 6, 3);
   const endDate = new Date(2024, 0, 3);
 
-  const convertDate = formatFirebaseTimestamp({ seconds: 1704164645, nanoseconds: 788000000 });
-  const importantDates: Date[] = [
-    new Date(1704164645 * 1000), // 7월 5일
-    new Date(convertDate.year, convertDate.month, convertDate.day) // 12월 11일
-  ];
+  const importantDates: Date[] = [];
+  heatMapData
+    .map((date) => formatFirebaseTimestamp(date))
+    .forEach((date) => importantDates.push(new Date(date.year, date.month, date.day)));
 
   const heatmapData: HeatmapData[] = Array.from({ length: 365 }, (_, index) => {
     const date = new Date(startDate);
@@ -47,13 +49,8 @@ export default function Calendar() {
           return 'color-empty';
         }}
         showWeekdayLabels={true}
-        onClick={(value) => alert(`Clicked on value with count: ${value.count}`)}
+        // onClick={(value) => alert(`Clicked on value with count: ${value.count}`)}
       />
     </>
   );
 }
-// /**user의 post를 가져와서 timestamp를 뽑는다.
-//  * timestamp를 yyyy-mm-dd로 변환하고
-//  * day에 넣기 value는 그냥 1?
-//  * projects?
-// */

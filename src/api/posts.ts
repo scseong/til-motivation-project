@@ -26,8 +26,7 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const addPosts = async (post: Omit<Post, 'psid'>) => {
-  const result = await addDoc(postsRef, post);
-  return result.id;
+  await addDoc(postsRef, post);
 };
 
 export const addPostLikeUser = async (psid: string, displayName: string) => {
@@ -64,7 +63,7 @@ const getMyPosts = async (displayName: string): Promise<Post[]> => {
 };
 export const useProfilePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
   return useQuery<Post[], Error>({
-    queryKey: ['myPosts', displayName],
+    queryKey: ['myPosts', 0],
     queryFn: () => getMyPosts(displayName)
   });
 };
@@ -82,7 +81,7 @@ const getLikePosts = async (displayName: string): Promise<Post[]> => {
 };
 export const useLikePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
   return useQuery<Post[], Error>({
-    queryKey: ['likePosts', displayName],
+    queryKey: ['likePosts', 'profilePosts'],
     queryFn: () => getLikePosts(displayName)
   });
 };

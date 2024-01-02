@@ -1,4 +1,3 @@
-// firebaseUtils.ts
 interface FirebaseTimestamp {
   seconds: number;
   nanoseconds: number;
@@ -21,7 +20,6 @@ export const formatFirebaseTimestamp = (firebaseTimestamp: FirebaseTimestamp): f
     const month = date.getMonth(); // 월은 0부터 시작하므로 1을 더함
     const day = date.getDate();
 
-    // 2023, 4, 8 형식으로 포맷팅
     return { year, month, day };
   };
 

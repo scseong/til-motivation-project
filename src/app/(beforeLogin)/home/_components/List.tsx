@@ -21,9 +21,6 @@ export default function List() {
     queryFn: getPosts
   });
   const [postsData, setPostsData] = useState<Post[]>([]);
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
 
   const likeMutation = useMutation({
     mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
@@ -62,6 +59,8 @@ export default function List() {
         copiedPosts[index].likesUser = [...copiedPosts[index].likesUser, displayName];
         queryClient.setQueryData(['posts'], copiedPosts);
         queryClient.setQueryData(['post', psid], copiedPosts[index]);
+        queryClient.invalidateQueries({ queryKey: ['likePosts', 'profilePosts'] });
+        queryClient.invalidateQueries({ queryKey: ['myPosts', 'profilePosts'] });
       }
     }
   };
@@ -77,6 +76,8 @@ export default function List() {
         );
         queryClient.setQueryData(['posts'], copiedPosts);
         queryClient.setQueryData(['post', psid], copiedPosts[index]);
+        queryClient.invalidateQueries({ queryKey: ['likePosts', 'profilePosts'] });
+        queryClient.invalidateQueries({ queryKey: ['myPosts', 'profilePosts'] });
       }
     }
   };
