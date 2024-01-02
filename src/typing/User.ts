@@ -7,8 +7,6 @@ export interface User {
   photoURL: string;
 }
 
-export type UserName = Pick<User, 'displayName'>;
-
 export type UserProfile = Omit<User & Profile, 'pfid'>;
 
 const user: UserProfile = {
