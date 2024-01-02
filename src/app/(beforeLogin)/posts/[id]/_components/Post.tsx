@@ -51,7 +51,7 @@ export default function Post() {
           <h1>{title}</h1>
           <p dangerouslySetInnerHTML={{ __html: content }} />
         </div>
-        <div className={styles.openGraphBox}>
+        <div className={styles.openGraphBox} onClick={() => window.open(openGraph?.url)}>
           <div className={styles.imageContainer}>
             <img src={openGraph?.image} alt="Link Preview" />
           </div>
