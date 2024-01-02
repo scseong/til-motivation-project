@@ -17,10 +17,8 @@ export default function Create() {
   const [openGraphData, setClientOpenGraphData] = useState<openGraph | undefined>();
   const [tagData, setTagData] = useState<string[]>([]);
   const { user } = useAuth();
-  console.log(user);
 
   const handleSubmit = async () => {
-    //들어갈 유저정보  displayname:
     if (user) {
       const formData: Omit<Post, 'psid'> = {
         displayName: user.displayName as string,
