@@ -11,7 +11,7 @@ export type UserName = Pick<User, 'displayName'>;
 
 export type UserProfile = Omit<User & Profile, 'pfid'>;
 
-const user: UserProfile = {
+export const user: UserProfile = {
   uid: '',
   displayName: '',
   email: '',
