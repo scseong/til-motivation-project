@@ -18,6 +18,7 @@ export const user: UserProfile = {
   comment: '',
   followers: [],
   followings: [],
+  lastPostCreatedAt: undefined,
   continueDays: 0,
   count: {
     followers: 0,

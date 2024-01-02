@@ -10,6 +10,8 @@ import Tag from './_components/Tag';
 import Button from './_components/Button';
 import Spacer from '@/app/_components/Spacer';
 import { useAuth } from '@/app/_components/AuthSession';
+import { increaseUserContinueDays, updateUserLastPostCreatedAt } from '@/api/users';
+import moment from 'moment';
 
 export default function Create() {
   const [title, setTitle] = useState('');
@@ -33,6 +35,15 @@ export default function Create() {
         comments: []
       };
       addPosts(formData);
+
+      if (
+        user.lastPostCreatedAt === undefined ||
+        moment(user.lastPostCreatedAt.seconds * 1000).format('YYYY-MM-DD') !==
+          moment().format('YYYY-MM-DD')
+      ) {
+        increaseUserContinueDays(user.uid);
+      }
+      updateUserLastPostCreatedAt(user.uid);
     }
   };
   return (

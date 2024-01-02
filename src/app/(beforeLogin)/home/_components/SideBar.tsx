@@ -1,8 +1,7 @@
 'use client';
 
 import styles from './sidebar.module.scss';
-import mockAvatar from '/public/images/logo.png';
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { getUsers } from '@/api/users';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/_components/Loader';
