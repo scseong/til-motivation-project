@@ -7,20 +7,22 @@ import Button from './Button';
 import { openGraph } from '@/typing/Post';
 type Props = {
   setClientOpenGraphData: Dispatch<SetStateAction<openGraph | undefined>>;
+  openGraphData?: openGraph;
 };
 
-export default function ClientOpenGraph({ setClientOpenGraphData }: Props) {
-  const [url, setUrl] = useState('');
+export default function ClientOpenGraph({ setClientOpenGraphData, openGraphData }: Props) {
+  console.log(openGraphData);
+  const [url, setUrl] = useState(openGraphData?.url ? openGraphData.url : '');
   // const [blogChecker, setBlogChecker] = useState(false);
   //로그인된 유저의 정보를 가지고 firebase에 접근
   //접근 후 유저의 email과 제출 url의 email일치여부 확인하여
   //btn disable해제
-  const [linkPreview, setLinkPreview] = useState(false);
+  const [linkPreview, setLinkPreview] = useState(openGraphData ? true : false);
   const [opengraphData, setOpengraphData] = useState<openGraph>({
-    title: '',
-    description: '',
-    url: '',
-    image: ''
+    title: openGraphData?.title ? openGraphData.title : '',
+    description: openGraphData?.description ? openGraphData.description : '',
+    url: openGraphData?.url ? openGraphData.url : '',
+    image: openGraphData?.image ? openGraphData.image : ''
   });
 
   const handleButtonClick = async () => {

@@ -3,9 +3,11 @@ import React, { useState, ChangeEvent, KeyboardEvent, Dispatch, SetStateAction }
 import styles from './tag.module.scss';
 type Props = {
   setTagData: Dispatch<SetStateAction<string[]>>;
+  tagData?: string[];
 };
-function Tag({ setTagData }: Props) {
-  const [tags, setTags] = useState<string[]>([]);
+
+function Tag({ setTagData, tagData }: Props) {
+  const [tags, setTags] = useState<string[]>(tagData ? tagData : []);
   const [tag, setTag] = useState<string>('');
 
   const removeTag = (i: number): void => {

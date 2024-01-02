@@ -52,3 +52,8 @@ export const getPostDetail = async (postId: string): Promise<Post> => {
 export const deletePost = async (postId: string) => {
   await deleteDoc(doc(db, 'posts', postId));
 };
+
+export const updatePost = async ({postId, formData}:{postId: string,formData: Omit<Post, 'psid'>}) => {
+  const postRef = doc(db, 'posts', postId);
+  return updateDoc(postRef, formData);
+};

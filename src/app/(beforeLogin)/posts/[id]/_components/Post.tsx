@@ -78,7 +78,8 @@ export default function Post() {
           </Link>
           <button>팔로우</button>
           {user?.displayName === displayName && (
-            <button onClick={() => router.push('/posts/update')}>수정</button>
+            <Link href={`update/${id}`}>수정</Link>
+            // <button onClick={()=> router.push({pathname:'/posts/update',query:{title,content}})}>수정 </button>
           )}
           {user?.displayName === displayName && (
             <button onClick={() => handleDelete(id)}>삭제</button>

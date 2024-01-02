@@ -21,7 +21,7 @@ export default function CommnetList() {
     error,
     data: comments
   } = useQuery({
-    queryKey: ['comments'],
+    queryKey: ['comments', id],
     queryFn: () => getComments(id)
   });
 
