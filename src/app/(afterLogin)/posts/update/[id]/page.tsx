@@ -12,12 +12,14 @@ import { useParams } from 'next/navigation';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { getPostDetail } from '@/api/posts';
 import Spacer from '@/app/_components/Spacer';
+import { getPosts } from '@/api/posts';
 import { useAuth } from '@/app/_components/AuthSession';
-import LinkPreviewCard from '../../create/_components/LinkPreviewCard';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 export default function Update() {
   const { id }: { id: string } = useParams();
-
+  const router = useRouter();
   const { data: post } = useQuery<Post>({
     queryKey: ['posts', id],
     queryFn: () => getPostDetail(id)
@@ -34,29 +36,43 @@ export default function Update() {
 
   const updatePostMutation = useMutation({
     mutationFn: updatePost,
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['posts', id] });
+      await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
   });
 
   const handleUpdate = async (postId: string) => {
     //들어갈 유저정보  displayname:
-    if (user) {
-      const formData: Omit<Post, 'psid'> = {
-        displayName: user.displayName as string,
-        photoUrl: user.photoURL as string,
-        title,
-        content: editorContent,
-        createdAt: Timestamp.now(),
-        blogURL: openGraphData!.url,
-        likesUser: [],
-        tags: tagData,
-        openGraph: openGraphData || undefined,
-        comments: []
-      };
-      console.log(formData);
-      updatePostMutation.mutate({ postId, formData });
-    }
+    Swal.fire({
+      title: '게시물을 수정하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (user) {
+          const formData: Omit<Post, 'psid'> = {
+            displayName: user.displayName as string,
+            photoUrl: user.photoURL as string,
+            title,
+            content: editorContent,
+            createdAt: Timestamp.now(),
+            blogURL: openGraphData!.url,
+            likesUser: [],
+            tags: tagData,
+            openGraph: openGraphData || undefined,
+            comments: []
+          };
+          updatePostMutation.mutate({ postId, formData });
+          router.push(`/posts/${id}`);
+          Swal.fire({ icon: 'success', title: '게시물을 수정했습니다' });
+        }
+      }
+    });
   };
   return (
     <>
