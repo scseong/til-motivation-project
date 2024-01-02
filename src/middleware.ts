@@ -22,4 +22,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ['/posts/create', '/posts/update', '/profile/update'] };
+export const config = {
+  // matcher: ['/posts/create', '/posts/update', '/profile/update']
+  matcher: ['/posts/create', '/posts/update', '/profile/update', '/profile/:username*']
+};

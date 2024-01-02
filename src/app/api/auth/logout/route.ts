@@ -1,4 +1,4 @@
-import { deleteSession } from '@/shared/firebase-admin';
+import { revokeAllSessions } from '@/shared/firebase-admin';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { APIResponse } from '@/typing/API';
@@ -13,7 +13,7 @@ export async function POST() {
     );
 
   cookies().delete('session');
-  await deleteSession(sessionCookie);
+  await revokeAllSessions(sessionCookie);
 
   return NextResponse.json<APIResponse<string>>({
     success: true,
