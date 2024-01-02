@@ -45,12 +45,10 @@ export const removePostLikeUser = async (psid: string, displayName: UserName) =>
   });
 };
 
-export const getPostDetail = async (postId: string) => {
+export const getPostDetail = async (postId: string): Promise<Post> => {
   const docRef = doc(db, 'posts', postId);
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    return docSnap.data();
-  }
+  return docSnap.data() as Post;
 };
 
 export const getMyPost = async (displayName: string): Promise<Post[]> => {

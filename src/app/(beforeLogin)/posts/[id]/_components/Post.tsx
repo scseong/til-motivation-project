@@ -6,6 +6,8 @@ import AddComment from './AddComment';
 import { useQuery } from '@tanstack/react-query';
 import { getPostDetail } from '@/api/posts';
 import Link from 'next/link';
+import { Post } from '@/typing/Post';
+import Loader from '@/app/_components/Loader';
 
 export default function Post() {
   const { id }: { id: string } = useParams();
@@ -13,15 +15,15 @@ export default function Post() {
     isLoading,
     error,
     data: post
-  } = useQuery({
+  } = useQuery<Post>({
     queryKey: ['post'],
     queryFn: () => getPostDetail(id)
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
 
-  const { title, content, tags, displayName, photoUrl, comments, createdAt } = post!;
+  const { title, content, tags, displayName, photoUrl, openGraph, comments, createdAt } = post!;
 
   return (
     <div className={styles.container}>
@@ -49,6 +51,17 @@ export default function Post() {
           <h1>{title}</h1>
           <p dangerouslySetInnerHTML={{ __html: content }} />
         </div>
+        <div className={styles.openGraphBox} onClick={() => window.open(openGraph?.url)}>
+          <div className={styles.imageContainer}>
+            <img src={openGraph?.image} alt="Link Preview" />
+          </div>
+          <div className={styles.infoContainer}>
+            <p className={styles.title}>{openGraph?.title}</p>
+            <p className={styles.description}>{openGraph?.description}</p>
+            <p className={styles.url}>{openGraph?.url}</p>
+          </div>
+        </div>
+        <div className={styles.tags}>{tags.map((tag) => `#${tag} `)}</div>
         <div className={styles.buttons}>
           <div>
             <button>
