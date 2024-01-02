@@ -5,10 +5,11 @@ import Loader from '@/app/_components/Loader';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteComment, getComments, updateComment } from '@/shared/comment';
 import { useParams } from 'next/navigation';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaTrashAlt, FaPencilAlt, FaCheck, FaUndo } from 'react-icons/fa';
 import { useState } from 'react';
 import { Comment } from '@/typing/Post';
 import { getPosts } from '@/api/posts';
+import Swal from 'sweetalert2';
 
 export default function CommnetList() {
   const { id }: { id: string } = useParams();
@@ -33,9 +34,20 @@ export default function CommnetList() {
     }
   });
   const handleDelete = (comment: Comment) => {
-    if (window.confirm('댓글을 삭제하겠습니까?')) {
-      deleteCommentMutation.mutate(comment);
-    }
+    Swal.fire({
+      title: '댓글을 삭제하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCommentMutation.mutate(comment);
+        Swal.fire({ icon: 'success', title: '댓글을 삭제했습니다' });
+      }
+    });
   };
 
   const updateCommentMutation = useMutation({
@@ -46,10 +58,21 @@ export default function CommnetList() {
   });
 
   const handleUpdate = (comment: Comment, text: string) => {
-    if (window.confirm('수정하시겠습니까?')) {
-      setEditCommentId(null);
-      updateCommentMutation.mutate({ comment, text });
-    }
+    Swal.fire({
+      title: '댓글을 수정하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setEditCommentId(null);
+        updateCommentMutation.mutate({ comment, text });
+        Swal.fire({ icon: 'success', title: '댓글을 수정했습니다' });
+      }
+    });
   };
 
   if (isLoading) return <Loader />;
@@ -80,6 +103,16 @@ export default function CommnetList() {
                   </p>
                 </div>
               </Link>
+              <div className={styles.buttons}>
+                <button onClick={() => handleDelete(comment)}>
+                  <FaTrashAlt />
+                </button>
+                {editCommentId !== cid && (
+                  <button onClick={() => setEditCommentId(cid)}>
+                    <FaPencilAlt />
+                  </button>
+                )}
+              </div>
             </div>
             <div className={styles.content}>
               {editCommentId === cid ? (
@@ -87,16 +120,18 @@ export default function CommnetList() {
               ) : (
                 <p>{content}</p>
               )}
-              <button onClick={() => handleDelete(comment)}>
-                <FaTrashAlt />
-              </button>
-              {editCommentId !== cid && <button onClick={() => setEditCommentId(cid)}>수정</button>}
-              {editCommentId === cid && (
-                <button onClick={() => setEditCommentId(null)}>취소</button>
-              )}
-              {editCommentId === cid && (
-                <button onClick={() => handleUpdate(comment, text)}>수정 완료</button>
-              )}
+              <div className={styles.buttons}>
+                {editCommentId === cid && (
+                  <button onClick={() => setEditCommentId(null)}>
+                    <FaUndo />
+                  </button>
+                )}
+                {editCommentId === cid && (
+                  <button onClick={() => handleUpdate(comment, text)}>
+                    <FaCheck />
+                  </button>
+                )}
+              </div>
             </div>
           </>
         );

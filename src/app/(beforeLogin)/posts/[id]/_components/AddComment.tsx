@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Timestamp } from 'firebase/firestore';
 import { getPosts } from '@/api/posts';
+import Swal from 'sweetalert2';
 
 type Comment = { content: string };
 
@@ -32,6 +33,7 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
 
   const onSubmit: SubmitHandler<Comment> = (data) => {
     reset();
+    Swal.fire({ icon: 'success', title: '댓글 등록이 완료되었습니다' });
     const newComment = {
       cid: uuidv4(),
       psid: id,
