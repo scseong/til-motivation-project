@@ -10,6 +10,8 @@ import Tag from './_components/Tag';
 import Button from './_components/Button';
 import Spacer from '@/app/_components/Spacer';
 import { useAuth } from '@/app/_components/AuthSession';
+import { increaseUserContinueDays, updateUserLastPostCreatedAt } from '@/api/users';
+import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -45,11 +47,17 @@ export default function Create() {
         comments: []
       };
       mutation.mutate(formData);
-      // await addPosts(formData);
-      // await queryClient.invalidateQueries({ queryKey: ['posts'] });
 
       router.push('/home');
-      console.log('hi');
+
+      if (
+        user.lastPostCreatedAt === undefined ||
+        moment(user.lastPostCreatedAt.seconds * 1000).format('YYYY-MM-DD') !==
+          moment().format('YYYY-MM-DD')
+      ) {
+        increaseUserContinueDays(user.uid);
+      }
+      updateUserLastPostCreatedAt(user.uid);
     }
   };
   return (

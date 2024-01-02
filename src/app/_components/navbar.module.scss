@@ -9,6 +9,14 @@
   position: sticky;
   top: 0;
   z-index: 1;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    height: fit-content;
+  }
 }
 
 .logoBox {
@@ -23,6 +31,11 @@
   font-weight: 500;
   color: var(--text-color);
   margin-left: 10px;
+
+  @media (max-width: 720px) {
+    padding: 20px 0;
+    margin-left: 50px;
+  }
 }
 .menuBox {
   display: flex;
@@ -54,7 +67,7 @@
   }
 
   @media (max-width: 720px) {
-    display: none;
+    padding: 20px 0;
   }
 }
 

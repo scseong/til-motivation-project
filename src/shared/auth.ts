@@ -49,7 +49,10 @@ export const signUpWithEmailAndPassword = async ({
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    await updateProfile(user, { displayName: nickname });
+    await updateProfile(user, {
+      displayName: nickname,
+      photoURL: process.env.NEXT_PUBLIC_DEFAULT_IMG
+    });
     createUserDoc({ ...user });
     return user;
   } catch (error: any) {
