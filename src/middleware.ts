@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  console.log('MIDDLEWARE');
   const session = request.cookies.get('session');
 
   if (!session) {
@@ -21,4 +22,7 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ['/posts/create', '/posts/update', '/profile/update'] };
+export const config = {
+  // matcher: ['/posts/create', '/posts/update', '/profile/update']
+  matcher: ['/posts/create', '/posts/update', '/profile/update', '/profile/:username*']
+};
