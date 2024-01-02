@@ -7,10 +7,13 @@ import {
   doc,
   getDocs,
   getDoc,
-  updateDoc
+  updateDoc,
+  query,
+  where
 } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { UserName } from '@/typing/User';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 const postsRef = collection(db, 'posts');
 
@@ -46,4 +49,41 @@ export const getPostDetail = async (postId: string): Promise<Post> => {
   const docRef = doc(db, 'posts', postId);
   const docSnap = await getDoc(docRef);
   return docSnap.data() as Post;
+};
+
+const getMyPosts = async (displayName: string): Promise<Post[]> => {
+  const q = query(postsRef, where('displayName', '==', displayName));
+  //orderBy('createdAt', 'desc')) 적용시 에러발생
+  const querySnapshot = await getDocs(q);
+  const myPosts = querySnapshot.docs
+    .map((doc) => ({
+      psid: doc.id,
+      ...(doc.data() as Omit<Post, 'psid'>)
+    }))
+    .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+  return myPosts;
+};
+export const useProfilePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
+  return useQuery<Post[], Error>({
+    queryKey: ['myPosts', displayName],
+    queryFn: () => getMyPosts(displayName)
+  });
+};
+
+const getLikePosts = async (displayName: string): Promise<Post[]> => {
+  const q = query(postsRef, where('likesUser', 'array-contains', displayName));
+  const querySnapshot = await getDocs(q);
+  const myPosts = querySnapshot.docs
+    .map((doc) => ({
+      psid: doc.id,
+      ...(doc.data() as Omit<Post, 'psid'>)
+    }))
+    .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+  return myPosts;
+};
+export const useLikePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
+  return useQuery<Post[], Error>({
+    queryKey: ['likePosts', displayName],
+    queryFn: () => getLikePosts(displayName)
+  });
 };

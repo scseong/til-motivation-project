@@ -7,26 +7,34 @@ import editImage from '/public/images/profileEdit.png';
 import Image from 'next/image';
 import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
+import { UserProfile } from '@/typing/User';
+import Loader from '@/app/_components/Loader';
+type Props = {
+  userProfile: UserProfile;
+};
 
-export default function UserProfile() {
-  const email = 'https://velog.io/@minseok0920/posts';
+export default function UserProfile({ userProfile }: Props) {
+  const { comment, displayName, blogURL, photoURL } = userProfile;
+  console.log(userProfile);
+  if (!userProfile) return <Loader />;
 
   return (
     <main className={styles.userProfileContainer}>
       <div className={styles.userInfoLeft}>
         <Spacer y={30} />
         <div className={styles.profileImage}>
-          <Image src={editImage} alt="" fill={true} />
+          <Image src={photoURL} alt="" fill={true} />
         </div>
         <Spacer y={20} />
         <div className={styles.commentBox}>
-          <p className={styles.comment}>우주최고 코딩개발자</p>
+          <p className={styles.comment}>{displayName}</p>
           <Spacer y={5} />
-          <p className={styles.comment}>안녕하세요! 프론트엔드 개발자를 꿈꾸는 코린이 입니다!</p>
+          <p className={styles.comment}>{comment}</p>
         </div>
         <Spacer y={10} />
-        <a href={email} className={styles.email} target="_blank">
-          {email}
+
+        <a href={blogURL} className={styles.email} target="_blank">
+          {blogURL}
         </a>
         <Spacer y={20} />
         <div className={styles.follow}>
