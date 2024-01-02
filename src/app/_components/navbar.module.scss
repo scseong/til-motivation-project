@@ -46,6 +46,8 @@
   color: var(--text-color);
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 0;
+  background-color: inherit;
 
   &:hover {
     color: white;

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import styles from './sidebar.module.scss';
 import Image from 'next/image';
@@ -6,12 +6,6 @@ import mockAvatar from '/public/images/logo.png';
 import { useEffect } from 'react';
 
 export default function SideBar() {
-
-  // useEffect(() => {
-  //   if (itemsData) {
-  //     setHotItems([...itemsData].sort((a, b) => b.sales - a.sales).slice(0, 5));
-  //   }
-  // }, [itemsData]);
   return (
     <div className={styles.container}>
       <div className={styles.header}>

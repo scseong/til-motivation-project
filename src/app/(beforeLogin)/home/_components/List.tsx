@@ -12,7 +12,6 @@ import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
 import { getTimeAgo } from './getTimeAgo';
 import { useAuth } from '@/app/_components/AuthSession';
-import { displayName } from 'react-quill';
 
 export default function List() {
   const queryClient = useQueryClient();
@@ -25,8 +24,6 @@ export default function List() {
   useEffect(() => {
     console.log(posts);
   }, [posts]);
-
-  console.log(user);
 
   const likeMutation = useMutation({
     mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
@@ -83,7 +80,6 @@ export default function List() {
       }
     }
   };
-
 
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
@@ -148,9 +144,8 @@ export default function List() {
             </Link>
             <div className={styles.postFooter}>
               <div>
-                {/* // 로그인 구현시 '내닉네임' 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
-                  {post.likesUser.includes(displayName) ? (
+                  {user && post.likesUser.includes(user?.displayName) ? (
                     <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />
