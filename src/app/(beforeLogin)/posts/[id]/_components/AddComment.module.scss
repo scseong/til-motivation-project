@@ -1,6 +1,6 @@
 .h3 {
-  font-size: 1.5rem;
-  padding: 1.5rem;
+  font-size: 1.2rem;
+  padding: 1.5rem 0;
 }
 .form {
   padding: 1rem;
@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   button {
+    margin-left:1.5rem;
     padding: 0.5rem 0.7rem;
     background-color: var(--primary-color);
     border-radius: 10%;
@@ -36,11 +37,12 @@
     border-radius: 50%;
   }
   textarea {
-    width: 80%;
+    width: 100%;
     padding: 0.4rem 0;
     color: var(--text-placeholder-color);
     border: none;
     outline: none;
     resize: none;
   }
+
 }

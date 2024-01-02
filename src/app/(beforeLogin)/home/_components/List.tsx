@@ -152,9 +152,8 @@ export default function List() {
                 <Link href={`/posts/${post.psid}`}>
                   <div className={styles.postComment}>
                     <LiaCommentDots size={18} />
-                    {/* 댓글 구현시 댓글 수 표시 예정 */}
-                    <span>댓글 </span>
-                    <div className={styles.postLikeCount}>2</div>
+                    <span>댓글</span>
+                    <div className={styles.postLikeCount}>{post.comments.length}</div>
                   </div>
                 </Link>
               </div>

@@ -23,10 +23,27 @@
   }
 }
 
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+
+  button {
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+}
+
 .content {
   margin: 0 0 1rem 3rem;
   padding: 0.5rem 0.7rem;
   background-color: #e9ecef;
   opacity: 0.7;
   border-radius: 0.25rem;
+
+  textarea {
+    width: 100%;
+    resize: none;
+  }
 }
