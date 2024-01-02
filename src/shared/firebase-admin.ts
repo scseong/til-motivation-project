@@ -1,4 +1,5 @@
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { initializeApp, getApps, cert, getApp } from 'firebase-admin/app';
+import { SessionCookieOptions, getAuth } from 'firebase-admin/auth';
 
 const firebaseAdminConfig = {
   credential: cert({
@@ -10,8 +11,14 @@ const firebaseAdminConfig = {
   })
 };
 
-export function customInitApp() {
-  if (getApps().length <= 0) {
-    initializeApp(firebaseAdminConfig);
-  }
-}
+const app = !getApps().length ? initializeApp(firebaseAdminConfig) : getApp();
+export const authAdmin = getAuth(app);
+
+export const createSession = (idToken: string, options: SessionCookieOptions) => {
+  return authAdmin.createSessionCookie(idToken, options);
+};
+
+export const deleteSession = async (session: string) => {
+  const token = await authAdmin.verifySessionCookie(session);
+  return await authAdmin.revokeRefreshTokens(token.sub);
+};
