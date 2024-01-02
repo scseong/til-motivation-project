@@ -7,13 +7,14 @@ import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
 import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
+import { Timestamp } from 'firebase/firestore';
 type Props = {
   userProfile: UserProfile;
+  heatMapData: Timestamp[];
 };
 
-export default function UserProfile({ userProfile }: Props) {
+export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
   const { comment, displayName, blogURL, photoURL } = userProfile;
-  console.log(userProfile);
   if (!userProfile) return <Loader />;
 
   return (
@@ -44,7 +45,7 @@ export default function UserProfile({ userProfile }: Props) {
         <OpenProfileEdit />
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
-          <Calendar displayName={displayName} />
+          <Calendar heatMapData={heatMapData} />
         </div>
         <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
       </div>

@@ -4,13 +4,15 @@ import { useState } from 'react';
 import Spacer from '@/app/_components/Spacer';
 import { useLikePostsQuery, useProfilePostsQuery } from '@/api/posts';
 import ProfilePosts from './ProfilePosts';
+import { Post } from '@/typing/Post';
 type Props = {
+  myPosts: Post[] | undefined;
+  isLoading: boolean;
   displayName: string;
 };
-export default function ProfileTIL({ displayName }: Props) {
+export default function ProfileTIL({ myPosts, isLoading, displayName }: Props) {
   const [switchBtn, setSwitchBtn] = useState('my');
 
-  const { isLoading, data: myPosts } = useProfilePostsQuery(displayName);
   const { data: likePosts } = useLikePostsQuery(displayName);
 
   return (

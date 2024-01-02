@@ -1,34 +1,25 @@
-'use client';
-import { useParams } from 'next/navigation';
 import ProfileTIL from './ProfileTIL';
-import UserProfile from './UserProfile';
 import styles from './profile.module.scss';
 import Spacer from '@/app/_components/Spacer';
-import { useQuery } from '@tanstack/react-query';
-import { getUserProfile } from '@/api/users';
+import { useProfilePostsQuery } from '@/api/posts';
+import { UserProfile } from '@/typing/User';
+import TargetUserProfile from './UserProfile';
 import Loader from '@/app/_components/Loader';
-export default function Profile() {
-  const params = useParams();
-  const userRef = params.username;
-  const {
-    isLoading,
-    error,
-    data: userProfile
-  } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: () => getUserProfile(userRef as string)
-  });
-  console.log(userProfile);
+type Props = {
+  userProfile: UserProfile;
+};
+export default function Profile({ userProfile }: Props) {
+  const displayName = userProfile.displayName;
+  console.log(displayName);
+  const { isLoading, data: myPosts } = useProfilePostsQuery(displayName);
   if (isLoading) return <Loader />;
-  if (!userProfile) {
-    return <div>User profile not found.</div>;
-  }
+  const heatMapData = myPosts!.map((post) => post.createdAt);
   return (
     <div className={styles.container}>
       <Spacer y={50} />
-      <UserProfile userProfile={userProfile} />
+      <TargetUserProfile userProfile={userProfile} heatMapData={heatMapData} />
       <Spacer y={50} />
-      <ProfileTIL displayName={userProfile!.displayName} />
+      <ProfileTIL myPosts={myPosts} isLoading={isLoading} displayName={displayName} />
     </div>
   );
 }

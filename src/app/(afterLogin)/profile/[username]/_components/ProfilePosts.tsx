@@ -2,7 +2,6 @@
 import { addPostLikeUser, removePostLikeUser } from '@/api/posts';
 import Loader from '@/app/_components/Loader';
 import { Post } from '@/typing/Post';
-import { UserName } from '@/typing/User';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from 'react-icons/ai';
@@ -18,15 +17,14 @@ type Props = {
 };
 export default function ProfilePosts({ postsData, isLoading, displayName }: Props) {
   const queryClient = useQueryClient();
-  console.log('2222222222222222222222222', displayName);
 
   const likeMutation = useMutation({
-    mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>
+    mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
       addPostLikeUser(psid, displayName),
-    onMutate({ psid, displayName }: { psid: string; displayName: UserName }) {
+    onMutate({ psid, displayName }: { psid: string; displayName: string }) {
       updateLikeClient(psid, displayName);
     },
-    onError(error, { psid, displayName }: { psid: string; displayName: UserName }) {
+    onError(error, { psid, displayName }: { psid: string; displayName: string }) {
       updateUnLikeClient(psid, displayName);
     },
     onSettled() {
@@ -35,12 +33,12 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
   });
 
   const unLikeMutation = useMutation({
-    mutationFn: ({ psid, displayName }: { psid: string; displayName: UserName }) =>
+    mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
       removePostLikeUser(psid, displayName),
-    onMutate({ psid, displayName }: { psid: string; displayName: UserName }) {
+    onMutate({ psid, displayName }: { psid: string; displayName: string }) {
       updateUnLikeClient(psid, displayName);
     },
-    onError(error, { psid, displayName }: { psid: string; displayName: UserName }) {
+    onError(error, { psid, displayName }: { psid: string; displayName: string }) {
       updateLikeClient(psid, displayName);
     },
     onSettled() {
@@ -48,7 +46,7 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
     }
   });
 
-  const updateLikeClient = (psid: string, displayName: UserName) => {
+  const updateLikeClient = (psid: string, displayName: string) => {
     const posts: Post[] | undefined = queryClient.getQueryData(['posts']);
     if (Array.isArray(posts)) {
       const index = posts.findIndex((post) => post.psid === psid);
@@ -60,7 +58,7 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
     }
   };
 
-  const updateUnLikeClient = (psid: string, displayName: UserName) => {
+  const updateUnLikeClient = (psid: string, displayName: string) => {
     const posts: Post[] | undefined = queryClient.getQueryData(['posts']);
     if (Array.isArray(posts)) {
       const index = posts.findIndex((post) => post.psid === psid);
@@ -78,10 +76,10 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
     const { psid } = post;
-    if (post.likesUser.includes(displayName as unknown as UserName)) {
-      unLikeMutation.mutate({ psid, displayName: displayName as unknown as UserName });
+    if (post.likesUser.includes(displayName as unknown as string)) {
+      unLikeMutation.mutate({ psid, displayName: displayName as unknown as string });
     } else {
-      likeMutation.mutate({ psid, displayName: displayName as unknown as UserName });
+      likeMutation.mutate({ psid, displayName: displayName as unknown as string });
     }
   };
 
@@ -135,7 +133,7 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
               <div>
                 {/* // 로그인 구현시 displayName 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
-                  {post.likesUser.includes(displayName as unknown as UserName) ? (
+                  {post.likesUser.includes(displayName as unknown as string) ? (
                     <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />
