@@ -8,17 +8,20 @@ import { getPostDetail } from '@/api/posts';
 import Link from 'next/link';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
+import { useAuth } from '@/app/_components/AuthSession';
 
 export default function Post() {
   const { id }: { id: string } = useParams();
+  console.log('id', id);
   const {
     isLoading,
     error,
     data: post
   } = useQuery<Post>({
-    queryKey: ['post'],
+    queryKey: ['posts', id],
     queryFn: () => getPostDetail(id)
   });
+  const { user } = useAuth();
 
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
@@ -46,6 +49,7 @@ export default function Post() {
             </div>
           </Link>
           <button>팔로우</button>
+          {user?.displayName === displayName && <button>수정</button>}
         </div>
         <div className={styles.content}>
           <h1>{title}</h1>
