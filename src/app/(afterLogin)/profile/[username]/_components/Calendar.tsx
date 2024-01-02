@@ -26,8 +26,8 @@ export default function Calendar() {
   // const endDate = new Date(2023, 11, 31); // 2023년 12월 31일
   const endDate = new Date(Date.now());
 
-  console.log(startDate);
-  console.log(endDate);
+  console.log('시작', startDate);
+  console.log('끝', endDate);
 
   // console.log(new Date(endDate.setMonth(endDate.getMonth() - 6)));
   const importantDates: Date[] = [

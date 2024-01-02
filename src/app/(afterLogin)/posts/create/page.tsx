@@ -24,6 +24,7 @@ export default function Create() {
       createdAt: Timestamp.now(),
       blogURL: openGraphData!.url,
       likesUser: [],
+      comments: [],
       tags: tagData,
       openGraph: openGraphData || undefined
     };
