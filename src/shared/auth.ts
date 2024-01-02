@@ -1,8 +1,6 @@
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
   User,
   signOut,
   createUserWithEmailAndPassword,
@@ -13,6 +11,7 @@ import { auth, db } from './firebase';
 import { ErrorResponse } from './error';
 import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { APIResponse } from '@/typing/API';
+import { UserProfile } from './../typing/User';
 
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
@@ -22,15 +21,21 @@ githubProvider.setCustomParameters({ prompt: 'select_account' });
 export const logInWithEmailAndPassword = async (
   email: string,
   password: string
-): Promise<User | ErrorResponse> => {
-  return signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      return user;
-    })
-    .catch((error) => {
-      return { errors: error.code };
+): Promise<boolean | ErrorResponse> => {
+  try {
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    const idToken = await user.getIdToken();
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${idToken}`
+      }
     });
+    if (response.status === 200) return true;
+    return false;
+  } catch (error: any) {
+    return { errors: error.code };
+  }
 };
 
 interface SignupProp {
@@ -53,44 +58,18 @@ export const signUpWithEmailAndPassword = async ({
       displayName: nickname,
       photoURL: process.env.NEXT_PUBLIC_DEFAULT_IMG
     });
-    createUserDoc({ ...user });
+    createUserDoc({ ...user, blogURL: blogURL });
     return user;
   } catch (error: any) {
     return { errors: error.code };
   }
 };
 
-export const signInWithGoogle = async () => {
-  return signInWithPopup(auth, googleProvider)
-    .then((result) => {
-      const user = result.user;
-      return user;
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.error(errorMessage);
-    });
-};
-
-export const signInWithGithub = async () => {
-  return signInWithPopup(auth, githubProvider)
-    .then((result) => {
-      const user = result.user;
-      return user;
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.error(errorMessage);
-    });
-};
-
 export const logout = async () => {
   try {
     await signOut(auth);
     const res = await fetch('/api/auth/logout', {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      method: 'POST'
     });
     const { success } = (await res.json()) as APIResponse<string>;
     return success;
@@ -105,15 +84,17 @@ const getRandomPosition = () => {
   return `안녕하세요! ${randomPosition} 개발자를 꿈꾸는 코린이 입니다!`;
 };
 
-export const createUserDoc = async (user: User) => {
+export const createUserDoc = async (user: User | UserProfile) => {
   const { uid, email, displayName, photoURL } = user;
+  let blogURL = '';
+  if ('blogURL' in user) blogURL = user.blogURL;
   const userInfo = {
     uid,
     email,
     displayName,
     comments: getRandomPosition(),
     photoURL: photoURL || '',
-    blogURL: '',
+    blogURL,
     followers: [],
     followings: [],
     continueDays: 0,

@@ -1,10 +1,14 @@
 import { auth } from 'firebase-admin';
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies, headers } from 'next/headers';
-import { APIResponse } from '@/typing/API';
 import { createSession } from '@/shared/firebase-admin';
 
+export type APIResponse<T = object> =
+  | { success: true; data: T }
+  | { success: false; error: string };
+
 export async function POST(request: NextRequest, response: NextResponse) {
+
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
