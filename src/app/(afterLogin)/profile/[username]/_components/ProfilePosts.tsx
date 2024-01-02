@@ -1,26 +1,22 @@
 'use client';
-import { addPostLikeUser, getPosts, removePostLikeUser } from '@/api/posts';
+import { addPostLikeUser, removePostLikeUser } from '@/api/posts';
 import Loader from '@/app/_components/Loader';
 import { Post } from '@/typing/Post';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { AiOutlineLike, AiOutlineShareAlt, AiFillLike } from 'react-icons/ai';
 import { LiaCommentDots } from 'react-icons/lia';
-import styles from './list.module.scss';
+import styles from '@/app/(beforeLogin)/home/_components/list.module.scss';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
-import { getTimeAgo } from './getTimeAgo';
-import { useAuth } from '@/app/_components/AuthSession';
-
-export default function List() {
+import { getTimeAgo } from '@/app/(beforeLogin)/home/_components/getTimeAgo';
+type Props = {
+  postsData: Post[] | undefined;
+  isLoading: boolean;
+  displayName: string;
+};
+export default function ProfilePosts({ postsData, isLoading, displayName }: Props) {
   const queryClient = useQueryClient();
-  const { user } = useAuth();
-  const { isLoading, data: posts } = useQuery<Post[]>({
-    queryKey: ['posts'],
-    queryFn: getPosts
-  });
-  const [postsData, setPostsData] = useState<Post[]>([]);
 
   const likeMutation = useMutation({
     mutationFn: ({ psid, displayName }: { psid: string; displayName: string }) =>
@@ -82,14 +78,14 @@ export default function List() {
     }
   };
 
+  // 로그인 구현시 displayName 부분 displayName으로 변경 예정
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
-    if (!user) return;
     const { psid } = post;
-    if (post.likesUser.includes(user.displayName)) {
-      unLikeMutation.mutate({ psid, displayName: user.displayName });
+    if (post.likesUser.includes(displayName as unknown as string)) {
+      unLikeMutation.mutate({ psid, displayName: displayName as unknown as string });
     } else {
-      likeMutation.mutate({ psid, displayName: user.displayName });
+      likeMutation.mutate({ psid, displayName: displayName as unknown as string });
     }
   };
 
@@ -98,19 +94,13 @@ export default function List() {
     toast.success('클립보드에 복사되었습니다.');
   };
 
-  useEffect(() => {
-    if (posts) {
-      setPostsData([...posts]?.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds));
-    }
-  }, [posts]);
-
   if (isLoading) {
     return <Loader />;
   }
   return (
     <>
       <div className={styles.postBox}>
-        {postsData.map((post, index) => (
+        {postsData?.map((post, index) => (
           <div className={styles.post} key={index}>
             <Link href={`/posts/${post.psid}`}>
               <div className={styles.postHeader}>
@@ -120,6 +110,7 @@ export default function List() {
                   </div>
                   <div>
                     <div className={styles.postName}>{post.displayName}</div>
+                    {/** */}
                     <div className={styles.postDate}>{getTimeAgo(post)}</div>
                   </div>
                 </div>
@@ -133,6 +124,7 @@ export default function List() {
               <p className={styles.more}>... 더 보기</p>
               <div className={styles.openGraphBox}>
                 <div className={styles.imageContainer}>
+                  {/**dfaultimage */}
                   <img src={post.openGraph?.image} alt="Link Preview" />
                 </div>
                 <div className={styles.infoContainer}>
@@ -145,8 +137,9 @@ export default function List() {
             </Link>
             <div className={styles.postFooter}>
               <div>
+                {/* // 로그인 구현시 displayName 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
-                  {user && post.likesUser.includes(user?.displayName) ? (
+                  {post.likesUser.includes(displayName as unknown as string) ? (
                     <AiFillLike size={18} color="#4279e9" />
                   ) : (
                     <AiOutlineLike size={18} />

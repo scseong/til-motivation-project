@@ -12,10 +12,13 @@ import { useAuth } from '@/app/_components/AuthSession';
 import { useRouter } from 'next/navigation';
 import { FaPencilAlt, FaRegTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import copy from 'clipboard-copy';
+import { toast } from 'react-toastify';
 
-export default function Post() {
+export default function PostDetail() {
   const { id }: { id: string } = useParams();
   const router = useRouter();
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   const {
     isLoading,
@@ -25,7 +28,6 @@ export default function Post() {
     queryKey: ['posts', id],
     queryFn: () => getPostDetail(id)
   });
-  const { user } = useAuth();
 
   const deletePostMutation = useMutation({
     mutationFn: deletePost,
@@ -55,7 +57,23 @@ export default function Post() {
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
 
-  const { title, content, tags, displayName, photoUrl, openGraph, comments, createdAt } = post!;
+  const {
+    title,
+    content,
+    tags,
+    displayName,
+    photoUrl,
+    openGraph,
+    comments,
+    createdAt,
+    likesUser,
+    blogURL
+  } = post!;
+
+  const onClickShare = (post: string) => {
+    copy(blogURL);
+    toast.success('클립보드에 복사되었습니다.');
+  };
 
   return (
     <div className={styles.container}>
@@ -98,7 +116,7 @@ export default function Post() {
           <div>
             <button>
               <AiOutlineLike />
-              <span> 좋아요 3</span>
+              <span> 좋아요 {likesUser.length}</span>
             </button>
           </div>
           {user?.displayName === displayName ? (
@@ -110,12 +128,12 @@ export default function Post() {
                 <FaRegTrashAlt size="16" />
               </button>
               <button className={styles.btnShare}>
-                <AiOutlineShareAlt size="20" />
+                <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
               </button>
             </div>
           ) : (
             <button className={styles.btnShare}>
-              <AiOutlineShareAlt size="20" />
+              <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
             </button>
           )}
         </div>

@@ -8,10 +8,12 @@ import {
   getDocs,
   getDoc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  query,
+  where
 } from 'firebase/firestore';
 import { db } from '../shared/firebase';
-import { UserName } from '@/typing/User';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
 const postsRef = collection(db, 'posts');
 
@@ -25,18 +27,17 @@ export const getPosts = async (): Promise<Post[]> => {
 };
 
 export const addPosts = async (post: Omit<Post, 'psid'>) => {
-  const result = await addDoc(postsRef, post);
-  return result.id;
+  await addDoc(postsRef, post);
 };
 
-export const addPostLikeUser = async (psid: string, displayName: UserName) => {
+export const addPostLikeUser = async (psid: string, displayName: string) => {
   const postRef = doc(db, 'posts', psid);
   return updateDoc(postRef, {
     likesUser: arrayUnion(displayName)
   });
 };
 
-export const removePostLikeUser = async (psid: string, displayName: UserName) => {
+export const removePostLikeUser = async (psid: string, displayName: string) => {
   const postRef = doc(db, 'posts', psid);
   return updateDoc(postRef, {
     likesUser: arrayRemove(displayName)
@@ -53,7 +54,49 @@ export const deletePost = async (postId: string) => {
   await deleteDoc(doc(db, 'posts', postId));
 };
 
-export const updatePost = async ({postId, formData}:{postId: string,formData: Omit<Post, 'psid'>}) => {
+export const updatePost = async ({
+  postId,
+  formData
+}: {
+  postId: string;
+  formData: Omit<Post, 'psid'>;
+}) => {
   const postRef = doc(db, 'posts', postId);
   return updateDoc(postRef, formData);
+};
+const getMyPosts = async (displayName: string): Promise<Post[]> => {
+  const q = query(postsRef, where('displayName', '==', displayName));
+  //orderBy('createdAt', 'desc')) 적용시 에러발생
+  const querySnapshot = await getDocs(q);
+  const myPosts = querySnapshot.docs
+    .map((doc) => ({
+      psid: doc.id,
+      ...(doc.data() as Omit<Post, 'psid'>)
+    }))
+    .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+  return myPosts;
+};
+export const useProfilePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
+  return useQuery<Post[], Error>({
+    queryKey: ['myPosts', 0],
+    queryFn: () => getMyPosts(displayName)
+  });
+};
+
+const getLikePosts = async (displayName: string): Promise<Post[]> => {
+  const q = query(postsRef, where('likesUser', 'array-contains', displayName));
+  const querySnapshot = await getDocs(q);
+  const myPosts = querySnapshot.docs
+    .map((doc) => ({
+      psid: doc.id,
+      ...(doc.data() as Omit<Post, 'psid'>)
+    }))
+    .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
+  return myPosts;
+};
+export const useLikePostsQuery = (displayName: string): UseQueryResult<Post[], Error> => {
+  return useQuery<Post[], Error>({
+    queryKey: ['likePosts', 'profilePosts'],
+    queryFn: () => getLikePosts(displayName)
+  });
 };

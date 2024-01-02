@@ -1,4 +1,4 @@
-import Profile from './_components/Profile';
+import PageCompoent from './_components/PageCompoent';
 export default function Page() {
-  return <Profile />;
+  return <PageCompoent />;
 }

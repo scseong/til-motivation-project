@@ -28,7 +28,7 @@ export default function CommnetList() {
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
+      queryClient.invalidateQueries({ queryKey: ['comments',id] });
       queryClient.invalidateQueries({ queryKey: ['posts', id] });
       await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
@@ -53,7 +53,7 @@ export default function CommnetList() {
   const updateCommentMutation = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments'] });
+      queryClient.invalidateQueries({ queryKey: ['comments', id] });
     }
   });
 

@@ -56,6 +56,7 @@ export default function Update() {
       if (result.isConfirmed) {
         if (user) {
           const formData: Omit<Post, 'psid'> = {
+            uid: user.uid,
             displayName: user.displayName as string,
             photoUrl: user.photoURL as string,
             title,
@@ -76,6 +77,7 @@ export default function Update() {
   };
   return (
     <>
+      <Spacer y={30} />
       <div className={styles.container}>
         <form className={styles.postingForm} onSubmit={(e) => e.preventDefault()}>
           <div className={styles.titleBox}>

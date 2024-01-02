@@ -1,32 +1,39 @@
 'use client';
-import React, { useState } from 'react';
 import styles from './UserProfile.module.scss';
 import Spacer from '@/app/_components/Spacer';
 
-import editImage from '/public/images/profileEdit.png';
 import Image from 'next/image';
 import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
+import { UserProfile } from '@/typing/User';
+import Loader from '@/app/_components/Loader';
+import { Timestamp } from 'firebase/firestore';
+type Props = {
+  userProfile: UserProfile;
+  heatMapData: Timestamp[];
+};
 
-export default function UserProfile() {
-  const email = 'https://velog.io/@minseok0920/posts';
+export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
+  const { comment, displayName, blogURL, photoURL } = userProfile;
+  if (!userProfile) return <Loader />;
 
   return (
     <main className={styles.userProfileContainer}>
       <div className={styles.userInfoLeft}>
         <Spacer y={30} />
         <div className={styles.profileImage}>
-          <Image src={editImage} alt="" fill={true} />
+          <Image src={photoURL} alt="" fill={true} />
         </div>
         <Spacer y={20} />
         <div className={styles.commentBox}>
-          <p className={styles.comment}>우주최고 코딩개발자</p>
+          <p className={styles.comment}>{displayName}</p>
           <Spacer y={5} />
-          <p className={styles.comment}>안녕하세요! 프론트엔드 개발자를 꿈꾸는 코린이 입니다!</p>
+          <p className={styles.comment}>{comment}</p>
         </div>
         <Spacer y={10} />
-        <a href={email} className={styles.email} target="_blank">
-          {email}
+
+        <a href={blogURL} className={styles.email} target="_blank">
+          {blogURL}
         </a>
         <Spacer y={20} />
         <div className={styles.follow}>
@@ -38,17 +45,10 @@ export default function UserProfile() {
         <OpenProfileEdit />
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
-          <Calendar />
+          <Calendar heatMapData={heatMapData} />
         </div>
         <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
       </div>
     </main>
   );
 }
-//react-d3-calendar-heatmap 잔디밭
-//두개만들기...?
-/**
- * 팔롱우 팔로워 ?
- * 프로필설정 => 패러럴+인터셉터 / 모달?
- * 메인페이지 완성에 따라 TIL보여주기
- */
