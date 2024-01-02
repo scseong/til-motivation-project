@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import styles from './UserProfile.module.scss';
 import Spacer from '@/app/_components/Spacer';
 
@@ -9,6 +10,7 @@ import Calendar from './Calendar';
 
 export default function UserProfile() {
   const email = 'https://velog.io/@minseok0920/posts';
+
   return (
     <main className={styles.userProfileContainer}>
       <div className={styles.userInfoLeft}>

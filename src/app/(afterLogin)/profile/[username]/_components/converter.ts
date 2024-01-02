@@ -18,7 +18,7 @@ export const formatFirebaseTimestamp = (firebaseTimestamp: FirebaseTimestamp): f
 
   const formatDate = (date: Date): formatDate => {
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+    const month = date.getMonth(); // 월은 0부터 시작하므로 1을 더함
     const day = date.getDate();
 
     // 2023, 4, 8 형식으로 포맷팅
