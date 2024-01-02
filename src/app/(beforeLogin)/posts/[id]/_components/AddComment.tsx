@@ -60,7 +60,11 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
         <div className={styles.commentBox}>
           <div className={styles.userComment}>
             <img
-              src="https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png"
+              src={
+                user?.photoURL
+                  ? user.photoURL
+                  : 'https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png'
+              }
               alt="avatar"
             />
             <textarea
