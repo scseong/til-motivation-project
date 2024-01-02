@@ -2,7 +2,7 @@
 import styles from './profileTIL.module.scss';
 import { useState } from 'react';
 import Spacer from '@/app/_components/Spacer';
-import { useLikePostsQuery, useProfilePostsQuery } from '@/api/posts';
+import { useLikePostsQuery } from '@/api/posts';
 import ProfilePosts from './ProfilePosts';
 import { Post } from '@/typing/Post';
 type Props = {

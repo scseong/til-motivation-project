@@ -10,7 +10,6 @@ type Props = {
 };
 export default function Profile({ userProfile }: Props) {
   const displayName = userProfile.displayName;
-  console.log(displayName);
   const { isLoading, data: myPosts } = useProfilePostsQuery(displayName);
   if (isLoading) return <Loader />;
   const heatMapData = myPosts!.map((post) => post.createdAt);

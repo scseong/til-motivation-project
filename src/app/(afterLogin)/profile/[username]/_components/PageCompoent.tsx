@@ -16,7 +16,6 @@ export default function PageCompoent() {
     queryKey: ['userProfile'],
     queryFn: () => getUserProfile(userRef as string)
   });
-  console.log(userProfile);
   if (isLoading) return <Loader />;
   if (!userProfile) {
     return <div>User profile not found.</div>;

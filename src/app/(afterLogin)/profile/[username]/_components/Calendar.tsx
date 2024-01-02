@@ -16,9 +16,11 @@ export default function Calendar({ heatMapData }: Props) {
   //오늘 기준 -6개월 데이터 동적 생성필요
   const startDate = new Date(2023, 6, 3);
   const endDate = new Date(2024, 0, 3);
-  // const importantDates: Date[] = heatMapData.map((createdAt) => new Date(createdAt.seconds * 1000));
-  // console.log(importantDates);
-  const importantDates: Date[] = [new Date(1704164645 * 1000), new Date(24, 0, 1)];
+
+  const importantDates: Date[] = [];
+  heatMapData
+    .map((date) => formatFirebaseTimestamp(date))
+    .forEach((date) => importantDates.push(new Date(date.year, date.month, date.day)));
 
   const heatmapData: HeatmapData[] = Array.from({ length: 365 }, (_, index) => {
     const date = new Date(startDate);

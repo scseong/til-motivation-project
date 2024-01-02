@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './postCreatePage.module.scss';
 import { addPosts, getPosts } from '@/api/posts';
 import { Timestamp } from 'firebase/firestore';
@@ -21,12 +21,12 @@ export default function Create() {
   const { user } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
-  //맥이 아니라서
 
   const mutation = useMutation({
     mutationFn: addPosts,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['myPosts', 0] });
     }
   });
   const handleSubmit = async () => {

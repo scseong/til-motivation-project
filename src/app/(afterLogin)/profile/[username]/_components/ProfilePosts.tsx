@@ -54,6 +54,9 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
         const copiedPosts = [...posts];
         copiedPosts[index].likesUser = [...copiedPosts[index].likesUser, displayName];
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
+        queryClient.invalidateQueries({ queryKey: ['likePosts', 'profilePosts'] });
+        queryClient.invalidateQueries({ queryKey: ['myPosts', 'profilePosts'] });
       }
     }
   };
@@ -68,6 +71,9 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
           (likeUser) => likeUser !== displayName
         );
         queryClient.setQueryData(['posts'], copiedPosts);
+        queryClient.setQueryData(['post', psid], copiedPosts[index]);
+        queryClient.invalidateQueries({ queryKey: ['likePosts', 'profilePosts'] });
+        queryClient.invalidateQueries({ queryKey: ['myPosts', 'profilePosts'] });
       }
     }
   };
