@@ -77,68 +77,67 @@ export default function CommnetList() {
 
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
-
-  //const sortedComments = comments?.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
-
-  return (
-    <div className={styles.layout}>
-      {comments?.map((comment) => {
-        const { cid, psid, displayName, content, photoUrl, createdAt } = comment;
-        return (
-          <div key={cid}>
-            <div>
-              <Link href="/profile/1" className={styles.userInfo}>
-                <img src={photoUrl} alt="avatar" />
-                <div>
-                  <p className={styles.nickname}>{displayName}</p>
-                  <p className={styles.createdAt}>
-                    {createdAt.toDate().toLocaleDateString('ko', {
-                      year: '2-digit',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit'
-                    })}
-                  </p>
+  if (!comments?.length) return <></>;
+  
+    return (
+      <div className={styles.layout}>
+        {comments?.map((comment) => {
+          const { cid, psid, displayName, content, photoUrl, createdAt } = comment;
+          return (
+            <div key={cid}>
+              <div>
+                <Link href="/profile/1" className={styles.userInfo}>
+                  <img src={photoUrl} alt="avatar" />
+                  <div>
+                    <p className={styles.nickname}>{displayName}</p>
+                    <p className={styles.createdAt}>
+                      {createdAt.toDate().toLocaleDateString('ko', {
+                        year: '2-digit',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                </Link>
+                <div className={styles.buttons}>
+                  <button onClick={() => handleDelete(comment)}>
+                    <FaTrashAlt />
+                  </button>
+                  {editCommentId !== cid && (
+                    <button onClick={() => setEditCommentId(cid)}>
+                      <FaPencilAlt />
+                    </button>
+                  )}
                 </div>
-              </Link>
-              <div className={styles.buttons}>
-                <button onClick={() => handleDelete(comment)}>
-                  <FaTrashAlt />
-                </button>
-                {editCommentId !== cid && (
-                  <button onClick={() => setEditCommentId(cid)}>
-                    <FaPencilAlt />
-                  </button>
+              </div>
+              <div className={styles.content}>
+                {editCommentId === cid ? (
+                  <textarea defaultValue={content} onChange={(e) => setText(e.target.value)} />
+                ) : (
+                  <p>{content}</p>
                 )}
+                <div className={styles.buttons}>
+                  {editCommentId === cid && (
+                    <button onClick={() => setEditCommentId(null)}>
+                      <FaUndo />
+                    </button>
+                  )}
+                  {editCommentId === cid && (
+                    <button
+                      disabled={!text || text === content}
+                      onClick={() => handleUpdate(comment, text)}
+                    >
+                      <FaCheck />
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
-            <div className={styles.content}>
-              {editCommentId === cid ? (
-                <textarea defaultValue={content} onChange={(e) => setText(e.target.value)} />
-              ) : (
-                <p>{content}</p>
-              )}
-              <div className={styles.buttons}>
-                {editCommentId === cid && (
-                  <button onClick={() => setEditCommentId(null)}>
-                    <FaUndo />
-                  </button>
-                )}
-                {editCommentId === cid && (
-                  <button
-                    disabled={!text || text === content}
-                    onClick={() => handleUpdate(comment, text)}
-                  >
-                    <FaCheck />
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+          );
+        })}
+      </div>
+    );
 }
