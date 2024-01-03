@@ -46,7 +46,7 @@ export default function TargetUserProfile({ userProfile, heatMapData, userRef }:
         </div>
       </div>
       <div className={styles.userInfoRight}>
-        {user!.uid === userRef ? <OpenProfileUpdate /> : ''}
+        {user!.uid === userRef ? <OpenProfileUpdate userRef={userRef} /> : ''}
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
           <Calendar heatMapData={heatMapData} userRef={userRef} />
