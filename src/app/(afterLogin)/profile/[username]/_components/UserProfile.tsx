@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
 import { Timestamp } from 'firebase/firestore';
-import OpenProfileEdit from './OpenProfileEdit';
+import OpenProfileUpdate from './OpenProfileUpdate';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];
@@ -42,7 +42,7 @@ export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
         </div>
       </div>
       <div className={styles.userInfoRight}>
-        <OpenProfileEdit />
+        <OpenProfileUpdate />
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
           <Calendar heatMapData={heatMapData} />
