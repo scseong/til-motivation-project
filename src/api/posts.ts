@@ -8,11 +8,13 @@ import {
   getDocs,
   getDoc,
   updateDoc,
+  deleteDoc,
   query,
   where
 } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import { FormData } from '@/app/(afterLogin)/profile/[username]/_components/UpdateModal';
 
 const postsRef = collection(db, 'posts');
 
@@ -49,6 +51,20 @@ export const getPostDetail = async (postId: string): Promise<Post> => {
   return docSnap.data() as Post;
 };
 
+export const deletePost = async (postId: string) => {
+  await deleteDoc(doc(db, 'posts', postId));
+};
+
+export const updatePost = async ({
+  postId,
+  formData
+}: {
+  postId: string;
+  formData: Omit<Post, 'psid'>;
+}) => {
+  const postRef = doc(db, 'posts', postId);
+  return updateDoc(postRef, formData);
+};
 const getMyPosts = async (displayName: string): Promise<Post[]> => {
   const q = query(postsRef, where('displayName', '==', displayName));
   //orderBy('createdAt', 'desc')) 적용시 에러발생
@@ -83,5 +99,14 @@ export const useLikePostsQuery = (displayName: string): UseQueryResult<Post[], E
   return useQuery<Post[], Error>({
     queryKey: ['likePosts', 'profilePosts'],
     queryFn: () => getLikePosts(displayName)
+  });
+};
+
+export const updateUserProfile = async (data: FormData) => {
+  const userRef = doc(db, 'users', data.uid);
+  return await updateDoc(userRef, {
+    displayName: data.nickname,
+    comment: data.editComment,
+    blogURL: data.email
   });
 };

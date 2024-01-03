@@ -3,24 +3,56 @@ import { AiOutlineLike, AiOutlineShareAlt } from 'react-icons/ai';
 import { useParams } from 'next/navigation';
 import styles from './Post.module.scss';
 import AddComment from './AddComment';
-import { useQuery } from '@tanstack/react-query';
-import { getPostDetail } from '@/api/posts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deletePost, getPostDetail } from '@/api/posts';
 import Link from 'next/link';
 import { Post } from '@/typing/Post';
 import Loader from '@/app/_components/Loader';
+import { useAuth } from '@/app/_components/AuthSession';
+import { useRouter } from 'next/navigation';
+import { FaPencilAlt, FaRegTrashAlt } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
 
 export default function PostDetail() {
   const { id }: { id: string } = useParams();
+  const router = useRouter();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const {
     isLoading,
     error,
     data: post
   } = useQuery<Post>({
-    queryKey: ['post', id],
+    queryKey: ['posts', id],
     queryFn: () => getPostDetail(id)
   });
+
+  const deletePostMutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    }
+  });
+
+  const handleDelete = (postId: string) => {
+    Swal.fire({
+      title: '게시물을 삭제하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deletePostMutation.mutate(postId);
+        router.push('/');
+        Swal.fire({ icon: 'success', title: '게시물을 삭제했습니다' });
+      }
+    });
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
@@ -38,7 +70,6 @@ export default function PostDetail() {
     blogURL
   } = post!;
 
-  console.log(title);
   const onClickShare = (post: string) => {
     copy(blogURL);
     toast.success('클립보드에 복사되었습니다.');
@@ -88,9 +119,23 @@ export default function PostDetail() {
               <span> 좋아요 {likesUser.length}</span>
             </button>
           </div>
-          <button>
-            <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
-          </button>
+          {user?.displayName === displayName ? (
+            <div className={styles.btnWriter}>
+              <Link href={`update/${id}`}>
+                <FaPencilAlt size="16" />
+              </Link>
+              <button className={styles.btnDelete} onClick={() => handleDelete(id)}>
+                <FaRegTrashAlt size="16" />
+              </button>
+              <button className={styles.btnShare}>
+                <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
+              </button>
+            </div>
+          ) : (
+            <button className={styles.btnShare}>
+              <AiOutlineShareAlt size="20" onClick={() => onClickShare(blogURL)} />
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.div}>

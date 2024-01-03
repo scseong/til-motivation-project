@@ -6,9 +6,10 @@ import dynamic from 'next/dynamic';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 type Props = {
   setEditorContent: Dispatch<SetStateAction<string>>;
+  content?: string;
 };
-export default function Editor({ setEditorContent }: Props) {
-  const [value, setValue] = useState('');
+export default function Editor({ setEditorContent, content }: Props) {
+  const [value, setValue] = useState(content ? content : '');
   const handleChange = (content: string) => {
     setValue(content);
     setEditorContent(content);

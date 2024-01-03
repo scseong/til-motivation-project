@@ -11,7 +11,7 @@ export default function WriteBar() {
       <div className={styles.container}>
         <div className={styles.writeBox}>
           <div className={styles.avatar}>
-            <img src={user?.photoURL} alt="avatar" />
+            <img src={user?.photoURL ?? process.env.NEXT_PUBLIC_DEFAULT_IMG} alt="avatar" />
           </div>
           <div className={styles.write}>
             <div className={styles.writePlaceholder}>나누고 싶은 생각이 있으신가요?</div>
