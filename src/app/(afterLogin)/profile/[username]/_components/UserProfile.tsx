@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
-  const { comment, displayName, blogURL, photoURL } = userProfile;
+  const { comment, displayName, blogURL, photoURL, continueDays } = userProfile;
   if (!userProfile) return <Loader />;
 
   return (
@@ -47,7 +47,7 @@ export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
         <div className={styles.tilCalendar}>
           <Calendar heatMapData={heatMapData} />
         </div>
-        <p className={styles.record}>13일 연속 TIL 제출중 입니다!!!</p>
+        <p className={styles.record}>{continueDays}일 연속 TIL 제출중 입니다!!!</p>
       </div>
     </main>
   );
