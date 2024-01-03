@@ -12,7 +12,7 @@ import {
 } from '@/shared/auth';
 import { ERRORS } from '@/shared/error';
 import { useRouter } from 'next/navigation';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { signInWithPopup } from 'firebase/auth';
 import { auth } from '@/shared/firebase';
 
@@ -119,7 +119,11 @@ export default function Page() {
             </div>
           </div>
           <div className={styles.btnBox}>
-            <button className={isValidBtn ? styles.active : ''} type="submit">
+            <button
+              className={isValidBtn ? styles.active : ''}
+              disabled={!isValidBtn}
+              type="submit"
+            >
               이메일로 로그인
             </button>
           </div>
