@@ -13,7 +13,7 @@ export async function POST() {
     );
 
   cookies().delete('session');
-  await revokeAllSessions(sessionCookie);
+  // await revokeAllSessions(sessionCookie);
 
   return NextResponse.json<APIResponse<string>>({
     success: true,
