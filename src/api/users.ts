@@ -11,10 +11,10 @@ export const getUsers = async (): Promise<UserProfile[]> => {
   return users;
 };
 
-export const getUserProfile = async (uid: string): Promise<UserProfile | undefined> => {
+export const getUserProfile = async (uid: string): Promise<UserProfile> => {
   const docRef = doc(db, 'users', uid);
   const docSnap = await getDoc(docRef);
-  return docSnap.exists() ? (docSnap.data() as UserProfile) : undefined;
+  return docSnap.data() as UserProfile;
 };
 
 export const updateUserLastPostCreatedAt = async (uid: string) => {

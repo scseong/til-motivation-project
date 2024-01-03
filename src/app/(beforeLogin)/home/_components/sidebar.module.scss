@@ -46,6 +46,12 @@
   background-color: var(--card-bg);
   width: 80%;
   padding: 10px 0;
+
+  a {
+    text-decoration: none;
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 .rank {

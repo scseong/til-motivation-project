@@ -34,7 +34,7 @@ export default function UpdateModal() {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     await updateUserProfile(data);
-    router.replace(`http://localhost:3000/profile/${uid}`);
+    router.replace(`https://til-motivation-project.vercel.app/profile/${uid}`);
   };
   const handleNicknameChange = async (nickname: string) => {
     if (displayName === nickname) {
@@ -45,7 +45,7 @@ export default function UpdateModal() {
   };
 
   const onHandleCloseBtn = () => {
-    router.replace(`http://localhost:3000/profile/${uid}`);
+    router.replace(`https://til-motivation-project.vercel.app/profile/${uid}`);
   };
 
   return (
