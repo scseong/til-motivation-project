@@ -65,7 +65,7 @@ export const updatePost = async ({
   const postRef = doc(db, 'posts', postId);
   return updateDoc(postRef, formData);
 };
-const getMyPosts = async (displayName: string): Promise<Post[]> => {
+export const getMyPosts = async (displayName: string): Promise<Post[]> => {
   const q = query(postsRef, where('displayName', '==', displayName));
   //orderBy('createdAt', 'desc')) 적용시 에러발생
   const querySnapshot = await getDocs(q);
@@ -84,7 +84,7 @@ export const useProfilePostsQuery = (displayName: string): UseQueryResult<Post[]
   });
 };
 
-const getLikePosts = async (displayName: string): Promise<Post[]> => {
+export const getLikePosts = async (displayName: string): Promise<Post[]> => {
   const q = query(postsRef, where('likesUser', 'array-contains', displayName));
   const querySnapshot = await getDocs(q);
   const myPosts = querySnapshot.docs

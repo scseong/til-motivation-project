@@ -2,18 +2,23 @@
 import styles from './profileTIL.module.scss';
 import { useState } from 'react';
 import Spacer from '@/app/_components/Spacer';
-import { useLikePostsQuery } from '@/api/posts';
+import { getLikePosts, useLikePostsQuery } from '@/api/posts';
 import ProfilePosts from './ProfilePosts';
 import { Post } from '@/typing/Post';
+import { useQuery } from '@tanstack/react-query';
 type Props = {
   myPosts: Post[] | undefined;
   isLoading: boolean;
   displayName: string;
+  userRef: string;
 };
-export default function ProfileTIL({ myPosts, isLoading, displayName }: Props) {
+export default function ProfileTIL({ myPosts, isLoading, displayName, userRef }: Props) {
   const [switchBtn, setSwitchBtn] = useState('my');
 
-  const { data: likePosts } = useLikePostsQuery(displayName);
+  const { data: likePosts } = useQuery({
+    queryKey: ['likePosts', userRef],
+    queryFn: () => getLikePosts(displayName)
+  });
 
   return (
     <div className={styles.container}>

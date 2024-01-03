@@ -8,7 +8,6 @@ export type APIResponse<T = object> =
   | { success: false; error: string };
 
 export async function POST(request: NextRequest, response: NextResponse) {
-
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
@@ -34,7 +33,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
   return NextResponse.json<APIResponse<string>>({ success: true, data: 'Signed In' });
 }
 
-// 서버에서 사용자 인증
 export async function GET(request: NextRequest) {
   const session = cookies().get('session')?.value || '';
 

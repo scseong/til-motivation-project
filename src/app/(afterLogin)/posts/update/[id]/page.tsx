@@ -43,7 +43,6 @@ export default function Update() {
   });
 
   const handleUpdate = async (postId: string) => {
-    //들어갈 유저정보  displayname:
     Swal.fire({
       title: '게시물을 수정하겠습니까?',
       icon: 'warning',

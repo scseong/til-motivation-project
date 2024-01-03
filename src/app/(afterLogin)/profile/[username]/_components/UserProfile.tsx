@@ -8,13 +8,17 @@ import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
 import { Timestamp } from 'firebase/firestore';
 import OpenProfileUpdate from './OpenProfileUpdate';
+import { useAuth } from '@/app/_components/AuthSession';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];
+  userRef: string;
 };
 
-export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
+export default function TargetUserProfile({ userProfile, heatMapData, userRef }: Props) {
   const { comment, displayName, blogURL, photoURL, continueDays } = userProfile;
+  const { user } = useAuth();
+
   if (!userProfile) return <Loader />;
 
   return (
@@ -42,10 +46,10 @@ export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
         </div>
       </div>
       <div className={styles.userInfoRight}>
-        <OpenProfileUpdate />
+        {user!.uid === userRef ? <OpenProfileUpdate /> : ''}
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
-          <Calendar heatMapData={heatMapData} />
+          <Calendar heatMapData={heatMapData} userRef={userRef} />
         </div>
         <p className={styles.record}>{continueDays}일 연속 TIL 제출중 입니다!!!</p>
       </div>
