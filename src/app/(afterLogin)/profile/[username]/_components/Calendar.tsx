@@ -11,8 +11,9 @@ interface HeatmapData {
 }
 type Props = {
   heatMapData: Timestamp[];
+  userRef: string;
 };
-export default function Calendar({ heatMapData }: Props) {
+export default function Calendar({ heatMapData, userRef }: Props) {
   //오늘 기준 -6개월 데이터 동적 생성필요
   const startDate = new Date(2023, 6, 3);
   const endDate = new Date(2024, 0, 3);

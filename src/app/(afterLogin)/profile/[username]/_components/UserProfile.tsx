@@ -11,9 +11,10 @@ import OpenProfileUpdate from './OpenProfileUpdate';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];
+  userRef: string;
 };
 
-export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
+export default function TargetUserProfile({ userProfile, heatMapData, userRef }: Props) {
   const { comment, displayName, blogURL, photoURL, continueDays } = userProfile;
   if (!userProfile) return <Loader />;
 
@@ -45,7 +46,7 @@ export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
         <OpenProfileUpdate />
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
-          <Calendar heatMapData={heatMapData} />
+          <Calendar heatMapData={heatMapData} userRef={userRef} />
         </div>
         <p className={styles.record}>{continueDays}일 연속 TIL 제출중 입니다!!!</p>
       </div>
