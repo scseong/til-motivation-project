@@ -88,7 +88,7 @@ export default function CommnetList() {
         return (
           <div key={cid}>
             <div>
-              <Link href="/profile/1" className={styles.userInfo}>
+              <Link href='/profile/1' className={styles.userInfo}>
                 <img src={photoUrl} alt="avatar" />
                 <div>
                   <p className={styles.nickname}>{displayName}</p>

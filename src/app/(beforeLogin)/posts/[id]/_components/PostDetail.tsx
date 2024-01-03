@@ -58,6 +58,7 @@ export default function PostDetail() {
   if (error) return <p>{error.message}</p>;
 
   const {
+    uid,
     title,
     content,
     tags,
@@ -79,7 +80,7 @@ export default function PostDetail() {
     <div className={styles.container}>
       <div className={styles.layout}>
         <div className={styles.userInfo}>
-          <Link href="/profile/1">
+          <Link href={`/profile/${uid}`}>
             <img src={photoUrl} alt="avatar" />
             <div>
               <p className={styles.nickname}>{displayName}</p>
