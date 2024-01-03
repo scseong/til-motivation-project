@@ -1,24 +1,53 @@
 'use client';
-
-import Spacer from '@/app/_components/Spacer';
 import styles from './UpdateModal.module.scss';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import editImage from '/public/images/profileEdit.png';
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/app/_components/AuthSession';
+import { UserProfile } from '@/typing/User';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { checkDisplayNameExists } from '@/shared/auth';
+import { BLOG_REGEX } from '@/utils/regex';
 import Image from 'next/image';
+import { updateUserProfile } from '@/api/users';
+export interface FormData {
+  photoImg: string;
+  nickname: string;
+  editComment: string;
+  email: string;
+  uid: string;
+}
 
 export default function UpdateModal() {
-  const [nickname, setNickname] = useState('우주최고 코딩개발자');
-  const [comment, setComment] = useState('안녕하세요! 프론트엔드 개발자를 꿈꾸는 코린이 입니다!');
-  const [email, setEmail] = useState('https://velog.io/@minseok0920/posts');
+  const { user } = useAuth();
+  const userProfile = user as UserProfile;
+  const { photoURL, displayName, comment, blogURL, uid } = userProfile;
   const router = useRouter();
+
+  const { handleSubmit, control, setValue, getValues } = useForm<FormData>();
+  const [checkNickname, setCheckNickname] = useState(false);
+  useEffect(() => {
+    setValue('nickname', displayName);
+    setValue('editComment', comment);
+    setValue('email', blogURL);
+    setValue('uid', uid);
+  }, []);
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    await updateUserProfile(data);
+    router.replace(`http://localhost:3000/profile/${uid}`);
+  };
+  const handleNicknameChange = async (nickname: string) => {
+    if (displayName === nickname) {
+      return;
+    }
+    const res = await checkDisplayNameExists(nickname);
+    setCheckNickname(res);
+  };
+
   const onHandleCloseBtn = () => {
-    router.replace('http://localhost:3000/profile/aaa');
+    router.replace(`http://localhost:3000/profile/${uid}`);
   };
-  const onHandleStateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
-  };
-  const onHandleProfileEditSubmit = () => {};
+
   return (
     <div className={styles.modalBackground}>
       <div className={styles.modal}>
@@ -38,32 +67,63 @@ export default function UpdateModal() {
           <div>프로필 수정</div>
         </div>
 
-        <form className={styles.eidtBoxWrapper} onSubmit={(e) => e.preventDefault()}>
+        <form className={styles.eidtBoxWrapper} onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.editBox}>
             <div className={styles.profileImage}>
-              {/**input으로 받아서 바로 바꾸고싶긴함 */}
-              <Image src={editImage} alt="" fill={true} />
+              <Image src={photoURL} alt="" fill={true} />
             </div>
+
             <div className={styles.inputBox}>
-              <label htmlFor="nickname">닉네임</label>
-              <input id="nickname" value={nickname} onChange={(e) => onHandleStateChange(e)} />
-            </div>
-            <div className={styles.inputBox}>
-              <label htmlFor="comment">소개</label>
-              <input
-                className={styles.comment}
-                id="comment"
-                value={comment}
-                onChange={(e) => onHandleStateChange(e)}
+              <label>닉네임</label>
+              <Controller
+                name="nickname"
+                control={control}
+                defaultValue={displayName}
+                render={({ field }) => (
+                  <div>
+                    <input {...field} onBlur={(e) => handleNicknameChange(e.target.value)} />
+                    {checkNickname && (
+                      <span style={{ color: 'red' }}>이미 사용 중인 닉네임입니다.</span>
+                    )}
+                  </div>
+                )}
               />
             </div>
             <div className={styles.inputBox}>
-              <label htmlFor="email">블로그 주소</label>
-              <input id="email" value={email} onChange={(e) => onHandleStateChange(e)} />
+              <label>소개</label>
+              <Controller
+                name="editComment"
+                control={control}
+                defaultValue=""
+                render={({ field }) => <input {...field} />}
+              />
+            </div>
+
+            <div className={styles.inputBox}>
+              <label>블로그 주소</label>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: 'TIL 블로그를 입력해주세요.',
+                  pattern: {
+                    value: BLOG_REGEX,
+                    message: '사용가능한 블로그 주소 (tistory, medium, github, velog, notion).'
+                  }
+                }}
+                render={({ field, fieldState }) => (
+                  <>
+                    <input {...field} id="blog-url" placeholder="TIL 블로그 주소" />
+                    {fieldState.error && (
+                      <span style={{ color: 'red' }}>{fieldState.error.message}</span>
+                    )}
+                  </>
+                )}
+              />
             </div>
           </div>
           <div className={styles.editBtnWrapper}>
-            <button className={styles.editBtn} onClick={onHandleProfileEditSubmit}>
+            <button className={styles.editBtn} type="submit">
               수정완료
             </button>
           </div>

@@ -3,11 +3,11 @@ import styles from './UserProfile.module.scss';
 import Spacer from '@/app/_components/Spacer';
 
 import Image from 'next/image';
-import OpenProfileEdit from './OpenProfileEdit';
 import Calendar from './Calendar';
 import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
 import { Timestamp } from 'firebase/firestore';
+import OpenProfileEdit from './OpenProfileEdit';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];
@@ -15,6 +15,7 @@ type Props = {
 
 export default function TargetUserProfile({ userProfile, heatMapData }: Props) {
   const { comment, displayName, blogURL, photoURL } = userProfile;
+  console.log(userProfile);
   if (!userProfile) return <Loader />;
 
   return (
