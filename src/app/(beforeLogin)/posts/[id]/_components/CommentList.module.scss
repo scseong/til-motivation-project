@@ -4,13 +4,10 @@
   padding: 1rem 1rem 0 1rem;
   border: 1px solid var(--border-color);
 }
-
 .userInfo {
   display: flex;
-  justify-content:space-between;
   align-items: center;
-  gap: 0.7rem;
-
+  gap: 1rem;
   img {
     width: 2rem;
     height: 2rem;
@@ -23,26 +20,22 @@
     font-size: 0.8rem;
   }
 }
-
 .buttons {
   display: flex;
-  margin-left: 5.5rem;
+  justify-content: flex-end;
   gap: 0.5rem;
-
   button {
     outline: none;
     border: none;
     background-color: transparent;
   }
 }
-
 .content {
   margin: 0 0 1rem 3rem;
   padding: 0.5rem 0.7rem;
-  background-color: #e9ecef;
+  background-color: #E9ECEF;
   opacity: 0.7;
   border-radius: 0.25rem;
-
   textarea {
     width: 100%;
     resize: none;
