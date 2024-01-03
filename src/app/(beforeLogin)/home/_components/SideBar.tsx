@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './sidebar.module.scss';
-import { Fragment } from 'react';
 import { getUsers } from '@/api/users';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/_components/Loader';
@@ -24,8 +23,8 @@ export default function SideBar() {
       </div>
 
       {users?.map((user, index) => (
-            <Link className={styles.subcontainer}href={`/profile/${user.uid}`} key={index}>
-        <div className={styles.subcontainer}>
+        <Link className={styles.subcontainer} href={`/profile/${user.uid}`} key={index}>
+          <div className={styles.subcontainer}>
             <div className={styles.rank}>
               <div className={styles.number} style={index < 3 ? { color: 'red' } : undefined}>
                 {index + 1}

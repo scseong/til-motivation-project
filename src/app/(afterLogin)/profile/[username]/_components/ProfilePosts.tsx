@@ -78,7 +78,6 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
     }
   };
 
-  // 로그인 구현시 displayName 부분 displayName으로 변경 예정
   const onClickLike = (e: any, post: Post) => {
     e.stopPropagation();
     const { psid } = post;
@@ -124,7 +123,6 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
               <p className={styles.more}>... 더 보기</p>
               <div className={styles.openGraphBox}>
                 <div className={styles.imageContainer}>
-                  {/**dfaultimage */}
                   <img src={post.openGraph?.image} alt="Link Preview" />
                 </div>
                 <div className={styles.infoContainer}>
@@ -137,7 +135,6 @@ export default function ProfilePosts({ postsData, isLoading, displayName }: Prop
             </Link>
             <div className={styles.postFooter}>
               <div>
-                {/* // 로그인 구현시 displayName 부분 displayName으로 변경 예정 */}
                 <div className={styles.postLike} onClick={(e: any) => onClickLike(e, post)}>
                   {post.likesUser.includes(displayName as unknown as string) ? (
                     <AiFillLike size={18} color="#4279e9" />

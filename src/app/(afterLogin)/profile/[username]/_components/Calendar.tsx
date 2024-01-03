@@ -14,7 +14,6 @@ type Props = {
   userRef: string;
 };
 export default function Calendar({ heatMapData, userRef }: Props) {
-  //오늘 기준 -6개월 데이터 동적 생성필요
   const startDate = new Date(2023, 6, 3);
   const endDate = new Date(2024, 0, 3);
 
@@ -50,7 +49,7 @@ export default function Calendar({ heatMapData, userRef }: Props) {
           return 'color-empty';
         }}
         showWeekdayLabels={true}
-        // onClick={(value) => alert(`Clicked on value with count: ${value.count}`)}
+        onClick={() => alert('잘생겼다 갖고싶다 스윗챌린저 손.창.성')}
       />
     </>
   );

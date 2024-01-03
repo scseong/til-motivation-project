@@ -8,6 +8,7 @@ import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
 import { Timestamp } from 'firebase/firestore';
 import OpenProfileUpdate from './OpenProfileUpdate';
+import { useAuth } from '@/app/_components/AuthSession';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];
@@ -16,6 +17,8 @@ type Props = {
 
 export default function TargetUserProfile({ userProfile, heatMapData, userRef }: Props) {
   const { comment, displayName, blogURL, photoURL, continueDays } = userProfile;
+  const { user } = useAuth();
+
   if (!userProfile) return <Loader />;
 
   return (
@@ -43,7 +46,7 @@ export default function TargetUserProfile({ userProfile, heatMapData, userRef }:
         </div>
       </div>
       <div className={styles.userInfoRight}>
-        <OpenProfileUpdate />
+        {user!.uid === userRef ? <OpenProfileUpdate /> : ''}
         <Spacer y={100} />
         <div className={styles.tilCalendar}>
           <Calendar heatMapData={heatMapData} userRef={userRef} />

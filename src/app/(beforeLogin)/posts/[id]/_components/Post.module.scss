@@ -91,17 +91,17 @@
 .btnWriter {
   display: flex;
   align-items: center;
-  gap:1rem;
+  gap: 1rem;
   color: #59595a;
 }
 
 .btnDelete {
-  padding:0;
+  padding: 0;
   background-color: transparent;
 }
 
-.bthShare{
-  padding:0;
+.bthShare {
+  padding: 0;
 }
 
 .div {
@@ -121,6 +121,7 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+  cursor: pointer;
 }
 
 .imageContainer {
