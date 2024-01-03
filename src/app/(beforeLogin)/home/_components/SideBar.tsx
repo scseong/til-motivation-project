@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import { getUsers } from '@/api/users';
 import { useQuery } from '@tanstack/react-query';
 import Loader from '@/app/_components/Loader';
+import Link from 'next/link';
 
 export default function SideBar() {
   const { isLoading, data: users } = useQuery({
@@ -21,9 +22,10 @@ export default function SideBar() {
       <div className={styles.header}>
         <div className={styles.title}>TIL Top 10🏆</div>
       </div>
+
       {users?.map((user, index) => (
-        <Fragment key={index}>
-          <div className={styles.subcontainer}>
+            <Link className={styles.subcontainer}href={`/profile/${user.uid}`} key={index}>
+        <div className={styles.subcontainer}>
             <div className={styles.rank}>
               <div className={styles.number} style={index < 3 ? { color: 'red' } : undefined}>
                 {index + 1}
@@ -39,7 +41,7 @@ export default function SideBar() {
               </div>
             </div>
           </div>
-        </Fragment>
+        </Link>
       ))}
     </div>
   );
