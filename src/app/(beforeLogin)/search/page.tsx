@@ -37,27 +37,31 @@ export default function Page() {
         <div className={styles.searchTitle}>검색결과 : {keyword}</div>
         <div className={styles.searchSubTitle}>{allPosts.length}건의 TIL을 찾았습니다.</div>
         {allPosts.map((post, index) => (
-        <Link href={`/posts/${post.psid}`} key={index}>
-          <div className={styles.board}>
-            <div className={styles.imageBox}>
-              <img className={styles.images} src={post.photoUrl} alt="아바타" />
-              <div className={styles.contentBox}>
-                <div className={styles.title}>{post.title}</div>
-                <div className={styles.content} dangerouslySetInnerHTML={{ __html: post.content }} />
-                <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
+          <Link href={`/posts/${post.psid}`} key={index}>
+            <div className={styles.board}>
+              <div className={styles.imageBox}>
+                <img className={styles.images} src={post.photoUrl} alt="아바타" />
+                <div className={styles.contentBox}>
+                  <div className={styles.title}>{post.title}</div>
+                  <div
+                    className={styles.content}
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                  <div className={styles.tag}>{post.tags.map((tag) => `#${tag} `)}</div>
+                  <div className={styles.blog}>{post.blogURL}</div>
+                </div>
+              </div>
+              <div className={styles.userBox}>
+                <div className={styles.nickname}>{post.displayName}</div>
+                <div className={styles.date}>
+                  {post.createdAt.toDate().toLocaleDateString('ko', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </div>
               </div>
             </div>
-            <div className={styles.userBox}>
-              <div className={styles.nickname}>{post.displayName}</div>
-              <div className={styles.date}>
-                {post.createdAt.toDate().toLocaleDateString('ko', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </div>
-            </div>
-          </div>
           </Link>
         ))}
       </div>
