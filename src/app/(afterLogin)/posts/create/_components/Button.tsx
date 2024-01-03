@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import styles from './Button.module.scss';
+import styles from './button.module.scss';
 
 interface ButtonProps {
   btntype?: 'submit' | 'reset' | 'button' | undefined;
