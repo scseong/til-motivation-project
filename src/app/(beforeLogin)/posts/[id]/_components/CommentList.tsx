@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+
 import styles from './CommentList.module.scss';
 import Loader from '@/app/_components/Loader';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -87,8 +87,7 @@ export default function CommnetList() {
         const { cid, psid, displayName, content, photoUrl, createdAt } = comment;
         return (
           <div key={cid}>
-            <div>
-              <Link href='/profile/1' className={styles.userInfo}>
+            <div className={styles.userInfo}>
                 <img src={photoUrl} alt="avatar" />
                 <div>
                   <p className={styles.nickname}>{displayName}</p>
@@ -103,7 +102,6 @@ export default function CommnetList() {
                     })}
                   </p>
                 </div>
-              </Link>
               {user?.displayName === displayName && (
                 <div className={styles.buttons}>
                   <button onClick={() => handleDelete(comment)}>
