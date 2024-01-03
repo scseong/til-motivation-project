@@ -10,11 +10,13 @@ import { useState } from 'react';
 import { Comment } from '@/typing/Post';
 import { getPosts } from '@/api/posts';
 import Swal from 'sweetalert2';
+import { useAuth } from '@/app/_components/AuthSession';
 
 export default function CommnetList() {
   const { id }: { id: string } = useParams();
   const [editCommentId, setEditCommentId] = useState<string | null>(null);
   const [text, setText] = useState('');
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   const {
     isLoading,
@@ -28,7 +30,7 @@ export default function CommnetList() {
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['comments',id] });
+      queryClient.invalidateQueries({ queryKey: ['comments', id] });
       queryClient.invalidateQueries({ queryKey: ['posts', id] });
       await queryClient.prefetchQuery({ queryKey: ['posts'], queryFn: getPosts });
     }
@@ -102,17 +104,20 @@ export default function CommnetList() {
                   </p>
                 </div>
               </Link>
-              <div className={styles.buttons}>
-                <button onClick={() => handleDelete(comment)}>
-                  <FaTrashAlt />
-                </button>
-                {editCommentId !== cid && (
-                  <button onClick={() => setEditCommentId(cid)}>
-                    <FaPencilAlt />
+              {user?.displayName === displayName && (
+                <div className={styles.buttons}>
+                  <button onClick={() => handleDelete(comment)}>
+                    <FaTrashAlt />
                   </button>
-                )}
-              </div>
+                  {editCommentId !== cid && (
+                    <button onClick={() => setEditCommentId(cid)}>
+                      <FaPencilAlt />
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
+
             <div className={styles.content}>
               {editCommentId === cid ? (
                 <textarea defaultValue={content} onChange={(e) => setText(e.target.value)} />
