@@ -1,3 +1,4 @@
+import { FormData } from '@/app/(afterLogin)/profile/[username]/_components/UpdateModal';
 import { db } from '@/shared/firebase';
 import { UserProfile } from '@/typing/User';
 import { collection, getDocs, doc, getDoc, updateDoc, increment } from 'firebase/firestore';
@@ -27,5 +28,14 @@ export const increaseUserContinueDays = async (uid: string) => {
   const userRef = doc(db, 'users', uid);
   return updateDoc(userRef, {
     continueDays: increment(1)
+  });
+};
+
+export const updateUserProfile = async (data: FormData) => {
+  const userRef = doc(db, 'users', data.uid);
+  return await updateDoc(userRef, {
+    displayName: data.nickname,
+    comment: data.editComment,
+    blogURL: data.email
   });
 };
