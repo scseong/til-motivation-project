@@ -4,6 +4,7 @@ import styles from './AddComment.module.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '@/shared/comment';
 import { useParams } from 'next/navigation';
+import { useAuth } from '@/app/_components/AuthSession';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Timestamp } from 'firebase/firestore';
 import { getPosts } from '@/api/posts';
@@ -13,7 +14,7 @@ type Comment = { content: string };
 
 export default function AddComment({ commentCount }: { commentCount: number }) {
   const { id }: { id: string } = useParams();
-
+  const { user } = useAuth();
   const queryClient = useQueryClient();
   const {
     register,
@@ -33,14 +34,17 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
 
   const onSubmit: SubmitHandler<Comment> = (data) => {
     reset();
+    if (!user) {
+      Swal.fire({ icon: 'warning', title: '로그인 후 댓글을 입력하세요!' });
+      return;
+    }
     Swal.fire({ icon: 'success', title: '댓글 등록이 완료되었습니다' });
     const newComment = {
       cid: uuidv4(),
       psid: id,
       content: data.content,
-      displayName: '코코볼',
-      photoUrl:
-        'https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png',
+      displayName: user?.displayName as string,
+      photoUrl: user?.photoURL as string,
       createdAt: Timestamp.now()
     };
     addCommentMutation.mutate(newComment);
@@ -56,7 +60,11 @@ export default function AddComment({ commentCount }: { commentCount: number }) {
         <div className={styles.commentBox}>
           <div className={styles.userComment}>
             <img
-              src="https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png"
+              src={
+                user?.photoURL
+                  ? user.photoURL
+                  : 'https://careerly.co.kr/_next/static/images/img_profile-dummy-f39ccb87481ab4a70525a9d2d461307d.png'
+              }
               alt="avatar"
             />
             <textarea
