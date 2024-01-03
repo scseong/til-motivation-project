@@ -1,5 +1,4 @@
 'use client';
-
 import styles from './CommentList.module.scss';
 import Loader from '@/app/_components/Loader';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -11,7 +10,6 @@ import { Comment } from '@/typing/Post';
 import { getPosts } from '@/api/posts';
 import Swal from 'sweetalert2';
 import { useAuth } from '@/app/_components/AuthSession';
-
 export default function CommnetList() {
   const { id }: { id: string } = useParams();
   const [editCommentId, setEditCommentId] = useState<string | null>(null);
@@ -26,7 +24,6 @@ export default function CommnetList() {
     queryKey: ['comments', id],
     queryFn: () => getComments(id)
   });
-
   const deleteCommentMutation = useMutation({
     mutationFn: deleteComment,
     onSuccess: async () => {
@@ -40,7 +37,7 @@ export default function CommnetList() {
       title: '댓글을 삭제하겠습니까?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#3085D6',
       cancelButtonColor: '#d33',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
@@ -51,20 +48,18 @@ export default function CommnetList() {
       }
     });
   };
-
   const updateCommentMutation = useMutation({
     mutationFn: updateComment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', id] });
     }
   });
-
   const handleUpdate = (comment: Comment, text: string) => {
     Swal.fire({
       title: '댓글을 수정하겠습니까?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#3085D6',
       cancelButtonColor: '#d33',
       confirmButtonText: '확인',
       cancelButtonText: '취소'
@@ -76,11 +71,9 @@ export default function CommnetList() {
       }
     });
   };
-
   if (isLoading) return <Loader />;
   if (error) return <p>{error.message}</p>;
   if (!comments?.length) return <></>;
-
   return (
     <div className={styles.layout}>
       {comments?.map((comment) => {
@@ -88,20 +81,20 @@ export default function CommnetList() {
         return (
           <div key={cid}>
             <div className={styles.userInfo}>
-                <img src={photoUrl} alt="avatar" />
-                <div>
-                  <p className={styles.nickname}>{displayName}</p>
-                  <p className={styles.createdAt}>
-                    {createdAt.toDate().toLocaleDateString('ko', {
-                      year: '2-digit',
-                      month: '2-digit',
-                      day: '2-digit',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                      second: '2-digit'
-                    })}
-                  </p>
-                </div>
+              <img src={photoUrl} alt="avatar" />
+              <div>
+                <p className={styles.nickname}>{displayName}</p>
+                <p className={styles.createdAt}>
+                  {createdAt.toDate().toLocaleDateString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                  })}
+                </p>
+              </div>
               {user?.displayName === displayName && (
                 <div className={styles.buttons}>
                   <button onClick={() => handleDelete(comment)}>
@@ -115,7 +108,6 @@ export default function CommnetList() {
                 </div>
               )}
             </div>
-
             <div className={styles.content}>
               {editCommentId === cid ? (
                 <textarea defaultValue={content} onChange={(e) => setText(e.target.value)} />
@@ -125,7 +117,7 @@ export default function CommnetList() {
               <div className={styles.buttons}>
                 {editCommentId === cid && (
                   <button onClick={() => setEditCommentId(null)}>
-                    <FaUndo />
+                    <FaUndo size="16" />
                   </button>
                 )}
                 {editCommentId === cid && (
@@ -133,7 +125,7 @@ export default function CommnetList() {
                     disabled={!text || text === content}
                     onClick={() => handleUpdate(comment, text)}
                   >
-                    <FaCheck />
+                    <FaCheck size="16" />
                   </button>
                 )}
               </div>
