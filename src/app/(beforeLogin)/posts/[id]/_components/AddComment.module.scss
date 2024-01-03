@@ -1,0 +1,48 @@
+.h3 {
+  font-size: 1.2rem;
+  padding: 1.5rem 0;
+}
+.form {
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.commentBox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  button {
+    margin-left:1.5rem;
+    padding: 0.5rem 0.7rem;
+    background-color: var(--primary-color);
+    border-radius: 10%;
+    color: var(--btn-default-text-color);
+    cursor: pointer;
+  }
+  button:disabled {
+    background-color: var(--btn-disabled-color);
+    color: var(--btn-disabled-text-color);
+  }
+}
+
+.userComment {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+  textarea {
+    width: 100%;
+    padding: 0.4rem 0;
+    color: var(--text-placeholder-color);
+    border: none;
+    outline: none;
+    resize: none;
+  }
+
+}

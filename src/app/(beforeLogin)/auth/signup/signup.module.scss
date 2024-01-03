@@ -1,0 +1,58 @@
+.container {
+  margin: 0 auto;
+  max-width: var(--max-width);
+}
+.signup {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 384px;
+  h1 {
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    line-height: 2.4rem;
+    text-align: center;
+  }
+}
+.inputBox {
+  margin-bottom: 1rem;
+  label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+  input {
+    padding: 0.875rem;
+    display: block;
+    width: 100%;
+    border: 1px solid var(--btn-border-color);
+    border-radius: 0.25rem;
+    transition: border 0.1s ease-in-out;
+    &:focus {
+      border: 1px solid var(--btn-border-focus-color) !important;
+    }
+  }
+}
+.btnBox {
+  margin-bottom: 0.5rem;
+  button {
+    padding: 0.875rem;
+    width: 100%;
+    border: none;
+    border-radius: 0.25rem;
+  }
+  .active {
+    background-color: var(--btn-active-color);
+    color: white;
+    transition-delay: 600ms;
+  }
+}
+.link {
+  margin: 8px 0;
+  text-align: center;
+}
+.error {
+  margin: 8px 0 16px;
+  font-size: 0.875rem;
+  color: #e01e5a;
+}

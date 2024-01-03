@@ -1,0 +1,67 @@
+.userProfileContainer {
+  width: 1000px;
+  height: 450px;
+  display: flex;
+  flex-direction: row;
+}
+.userInfoLeft {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+}
+.profileImage {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+}
+.commentBox {
+  width: 280px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    font-size: 20px;
+    text-align: center;
+    overflow-wrap: break-word;
+  }
+}
+.email {
+  font-size: 8px;
+}
+.follow {
+  display: flex;
+  font-size: 20px;
+  width: 215px;
+  justify-content: space-between;
+}
+.userInfoRight {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  position: relative;
+  align-items: center;
+}
+.chageProfileBtn {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: -13px;
+  top: 44px;
+  border: 1px solid rgb(221, 219, 219);
+  border-radius: 15px;
+  cursor: pointer;
+}
+.icon {
+  color: var(--google);
+}
+.tilCalendar {
+  width: 700px;
+  height: 270px;
+  display: flex;
+}
+.record {
+  font-size: 35px;
+}

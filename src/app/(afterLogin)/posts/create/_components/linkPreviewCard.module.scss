@@ -1,0 +1,51 @@
+.linkPreviewCard {
+  display: flex;
+  max-width: 500px;
+  height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.imageContainer {
+  flex: 1;
+  width: 25%;
+  padding: 15px;
+}
+
+.imageContainer img {
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+}
+
+.infoContainer {
+  flex: 3;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.description {
+  width: 350px;
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.url {
+  margin-top: 13px;
+  font-size: 0.8em;
+  color: #909090;
+}
