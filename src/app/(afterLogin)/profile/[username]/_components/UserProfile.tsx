@@ -7,7 +7,7 @@ import Calendar from './Calendar';
 import { UserProfile } from '@/typing/User';
 import Loader from '@/app/_components/Loader';
 import { Timestamp } from 'firebase/firestore';
-import OpenProfileEdit from './OpenProfileEdit';
+import OpenProfileEdit from './openProfileEdit';
 type Props = {
   userProfile: UserProfile;
   heatMapData: Timestamp[];

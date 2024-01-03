@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import SideBar from '../home/_components/SideBar';
 import styles from './page.module.scss';
+import Link from 'next/link';
 
 export default function Page() {
   const keyword = useSearchParams().get('keyword');
@@ -36,7 +37,8 @@ export default function Page() {
         <div className={styles.searchTitle}>검색결과 : {keyword}</div>
         <div className={styles.searchSubTitle}>{allPosts.length}건의 TIL을 찾았습니다.</div>
         {allPosts.map((post, index) => (
-          <div className={styles.board} key={index}>
+        <Link href={`/posts/${post.psid}`} key={index}>
+          <div className={styles.board}>
             <div className={styles.imageBox}>
               <img className={styles.images} src={post.photoUrl} alt="아바타" />
               <div className={styles.contentBox}>
@@ -56,6 +58,7 @@ export default function Page() {
               </div>
             </div>
           </div>
+          </Link>
         ))}
       </div>
 
